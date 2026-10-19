@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FacturePro CI — Factures pro en 30 secondes</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0a0a0f;
+    color: #e8e8ec;
+    line-height: 1.6;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 16px; }
+  header { text-align: center; margin-bottom: 30px; }
+  h1 {
+    font-size: 2rem;
+    background: linear-gradient(135deg, #f59e0b, #ef4444, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+  }
+  .tagline { color: #9ca3af; font-size: 0.95rem; }
+  .badge {
+    display: inline-block;
+    background: #1f1f2e;
+    border: 1px solid #2e2e42;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: #f59e0b;
+    margin-bottom: 14px;
+  }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+  .card {
+    background: #14141c;
+    border: 1px solid #26263a;
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .card h2 {
+    font-size: 0.95rem;
+    margin-bottom: 14px;
+    color: #fbbf24;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  label {
+    display: block;
+    font-size: 0.78rem;
+    color: #9ca3af;
+    margin-bottom: 4px;
+    margin-top: 10px;
+  }
+  input, textarea, select {
+    width: 100%;
+    background: #0a0a0f;
+    border: 1px solid #2e2e42;
+    border-radius: 7px;
+    padding: 8px 10px;
+    color: #e8e8ec;
+    font-size: 0.88rem;
+    font-family: inherit;
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: #f59e0b;
+  }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  button {
+    background: linear-gradient(135deg, #f59e0b, #ef4444);
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 9px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 14px;
+  }
+  .btn-wave {
+    background: linear-gradient(135deg, #1DC8FF, #0091E0);
+    font-size: 1rem;
+    padding: 14px;
+  }
+  .btn-sec { background: #26263a; color: #e8e8ec; }
+  .btn-wa { background: #25D366; color: white; }
+  .line-item {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr auto;
+    gap: 5px;
+    margin-bottom: 5px;
+    align-items: center;
+  }
+  .remove {
+    background: #3a1e2e;
+    color: #f87171;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0;
+    margin: 0;
+  }
+  .add-line {
+    background: transparent;
+    border: 1px dashed #2e2e42;
+    color: #9ca3af;
+    padding: 7px;
+    margin-top: 5px;
+    font-size: 0.82rem;
+  }
+  .totals {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid #26263a;
+    text-align: right;
+    font-size: 0.88rem;
+  }
+  .totals div { margin-bottom: 4px; color: #9ca3af; }
+  .totals .total {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fbbf24;
+    margin-top: 6px;
+  }
+  .preview {
+    background: white;
+    color: #111;
+    padding: 30px;
+    border-radius: 10px;
+    min-height: 350px;
+  }
+  .preview h3 { font-size: 1.5rem; color: #ef4444; margin-bottom: 5px; }
+  .preview .meta { display: flex; justify-content: space-between; margin: 16px 0; font-size: 0.82rem; color: #555; gap: 16px; }
+  .preview table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+  .preview th, .preview td { padding: 8px; text-align: left; border-bottom: 1px solid #eee; font-size: 0.82rem; }
+  .preview th { background: #fef3c7; font-weight: 600; }
+  .preview .preview-total { text-align: right; margin-top: 16px; font-size: 1rem; font-weight: 700; color: #ef4444; }
+  .empty-state { color: #666; text-align: center; padding: 50px 20px; font-style: italic; }
+  .tabs { display: flex; gap: 5px; margin-bottom: 14px; }
+  .tab {
+    flex: 1;
+    padding: 7px;
+    background: #0a0a0f;
+    border: 1px solid #2e2e42;
+    border-radius: 7px;
+    color: #9ca3af;
+    cursor: pointer;
+    font-size: 0.78rem;
+    text-align: center;
+  }
+  .tab.active { background: #f59e0b; color: #0a0a0f; border-color: #f59e0b; font-weight: 600; }
+  .payment-box {
+    background: #1a1a26;
+    border: 1px solid #1DC8FF;
+    border-radius: 10px;
+    padding: 16px;
+    margin-top: 14px;
+    text-align: center;
+  }
+  .payment-box h3 { color: #1DC8FF; font-size: 0.95rem; margin-bottom: 8px; }
+  .payment-box p { color: #9ca3af; font-size: 0.82rem; margin-bottom: 10px; }
+  .payment-box .phone { font-size: 1.2rem; font-weight: 700; color: #fbbf24; letter-spacing: 1px; }
+  .log-item {
+    background: #0a0a0f;
+    border: 1px solid #26263a;
+    border-radius: 7px;
+    padding: 10px;
+    margin-bottom: 6px;
+    font-size: 0.78rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .log-status { padding: 2px 8px; border-radius: 10px; font-size: 0.7rem; font-weight: 600; }
+  .status-paid { background: #14532d; color: #86efac; }
+  @media print {
+    body * { visibility: hidden; }
+    .preview, .preview * { visibility: visible; }
+    .preview { position: absolute; top: 0; left: 0; width: 100%; padding: 20px; }
+  }
+  .admin-gate { text-align: center; padding: 30px; }
+  .admin-gate input { max-width: 200px; margin: 10px auto; text-align: center; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="badge">🇨🇮 0 FCFA • Wave Business • Paiement sécurisé</div>
+    <h1>FacturePro CI</h1>
+    <p class="tagline">Factures, devis et reçus pro en 30 secondes. Aucune inscription, aucune donnée envoyée.</p>
+  </header>
+
+  <div class="grid">
+    <div>
+      <div class="card">
+        <div class="tabs">
+          <div class="tab active" onclick="setType('facture', this)">📄 Facture</div>
+          <div class="tab" onclick="setType('devis', this)">📋 Devis</div>
+          <div class="tab" onclick="setType('recu', this)">🧾 Reçu</div>
+        </div>
+
+        <h2>📝 Tes informations</h2>
+        <label>Nom / Entreprise</label>
+        <input id="fromName" placeholder="Kouassi Design" oninput="render()">
+        <label>Téléphone / Email</label>
+        <input id="fromContact" placeholder="0708858816" oninput="render()">
+        <label>Adresse</label>
+        <textarea id="fromAddress" rows="2" placeholder="Cocody, Abidjan" oninput="render()"></textarea>
+        <label>Logo (upload)</label>
+        <input type="file" id="logoInput" accept="image/*" onchange="loadLogo(event)">
+        <img id="logoPreview" style="max-height:50px;margin-top:8px;display:none;">
+
+        <h2 style="margin-top:18px;">👤 Client</h2>
+        <label>Nom du client</label>
+        <input id="toName" placeholder="Société XYZ" oninput="render()">
+        <label>Contact client</label>
+        <input id="toContact" placeholder="+225 05 00 00 00 00" oninput="render()">
+        <label>Adresse client</label>
+        <textarea id="toAddress" rows="2" placeholder="Plateau, Abidjan" oninput="render()"></textarea>
+
+        <div class="row" style="margin-top:10px;">
+          <div>
+            <label>N° document</label>
+            <input id="invNumber" value="FAC-001" oninput="render()">
+          </div>
+          <div>
+            <label>Date</label>
+            <input id="invDate" type="date" oninput="render()">
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <label>Échéance</label>
+            <input id="invDue" type="date" oninput="render()">
+          </div>
+          <div>
+            <label>Devise</label>
+            <select id="currency" onchange="render()">
+              <option value="FCFA">FCFA (XOF)</option>
+              <option value="€">€ EUR</option>
+              <option value="$">$ USD</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:14px;">
+        <h2>💰 Prestations</h2>
+        <div id="items"></div>
+        <button class="add-line" onclick="addItem()">+ Ajouter une ligne</button>
+        <div class="row" style="margin-top:12px;">
+          <div>
+            <label>TVA (%)</label>
+            <input id="vat" type="number" value="18" min="0" max="100" oninput="render()">
+          </div>
+          <div>
+            <label>Remise (%)</label>
+            <input id="discount" type="number" value="0" min="0" max="100" oninput="render()">
+          </div>
+        </div>
+        <div class="totals" id="totals"></div>
+        <button onclick="window.print()">🖨️ Imprimer / PDF</button>
+        <button class="btn-wa" onclick="shareWhatsApp()">📱 Partager sur WhatsApp</button>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <h2>💳 Paiement Wave Business</h2>
+        <div class="payment-box">
+          <h3>📱 Paie en un clic</h3>
+          <p>Wave, Orange Money, MTN — paiement sécurisé</p>
+          <p class="phone">0708858816</p>
+          <button class="btn-wave" onclick="openWave()">💙 Payer maintenant par Wave</button>
+          <p style="font-size:0.72rem;color:#666;margin-top:10px;">Après paiement, envoie la capture sur WhatsApp.</p>
+        </div>
+        <label style="margin-top:12px;">Statut du paiement</label>
+        <select id="payStatus" onchange="updateStatus()">
+          <option value="pending">⏳ En attente</option>
+          <option value="paid">✅ Payé</option>
+        </select>
+      </div>
+
+      <div class="card" style="margin-top:14px;">
+        <h2>🔐 Accès administrateur</h2>
+        <div id="adminGate" class="admin-gate">
+          <p style="color:#9ca3af;font-size:0.82rem;">Entre ton code pour accéder au journal de bord.</p>
+          <input type="password" id="adminCode" placeholder="Code admin" onkeypress="if(event.key==='Enter')checkAdmin()">
+          <button class="btn-sec" onclick="checkAdmin()">Déverrouiller</button>
+        </div>
+        <div id="adminPanel" class="hidden">
+          <h2>📒 Journal de bord</h2>
+          <div id="journal"></div>
+          <button class="btn-sec" onclick="clearJournal()">🗑️ Effacer le journal</button>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:14px;">
+        <h2>❓ C'est quoi FacturePro CI ?</h2>
+        <p style="font-size:0.82rem;color:#9ca3af;line-height:1.7;">
+          FacturePro CI est un outil <strong>gratuit</strong> qui te permet de créer des factures, devis et reçus professionnels en quelques secondes, <strong>sans inscription et sans envoyer tes données sur Internet</strong>.
+        </p>
+        <p style="font-size:0.82rem;color:#9ca3af;line-height:1.7;margin-top:8px;">
+          Tu remplis le formulaire, l'aperçu se met à jour automatiquement. Tu peux ensuite <strong>imprimer en PDF</strong> ou <strong>partager sur WhatsApp</strong>.
+        </p>
+        <p style="font-size:0.82rem;color:#9ca3af;line-height:1.7;margin-top:8px;">
+          Le paiement se fait par <strong>Wave Business</strong>. Tu paies en un clic, le reçu est généré dès validation.
+        </p>
+        <p style="font-size:0.82rem;color:#9ca3af;line-height:1.7;margin-top:8px;">
+          🔒 <strong>Confidentialité totale</strong> : rien ne quitte ton téléphone.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:18px;">
+    <h2 id="previewTitle">👁️ Aperçu — Facture</h2>
+    <div class="preview" id="preview"></div>
+  </div>
+</div>
+
+<script>
+  // ============ CONFIGURATION ============
+  const ADMIN_CODE = "Amadcoul@";
+  const WAVE_LINK = "https://pay.wave.com/m/M_vIvj62rzp9b/c/ci/";
+  const PAYMENT_NUMBER = "0708858816";
+  const WHATSAPP_NUMBER = "2250708858816";
+
+  // ============ ÉTAT ============
+  let items = [{ desc: 'Prestation de service', qty: 1, price: 25000 }];
+  let docType = 'facture';
+  let counter = parseInt(localStorage.getItem('facturepro_counter') || '1');
+  let journal = JSON.parse(localStorage.getItem('facturepro_journal') || '[]');
+  let logoData = localStorage.getItem('facturepro_logo') || '';
+
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('invDate').value = today;
+  const due = new Date(); due.setDate(due.getDate() + 30);
+  document.getElementById('invDue').value = due.toISOString().split('T')[0];
+
+  const prefix = docType === 'facture' ? 'FAC' : docType === 'devis' ? 'DEV' : 'REC';
+  document.getElementById('invNumber').value = `${prefix}-${String(counter).padStart(3, '0')}`;
+
+  if (logoData) {
+    document.getElementById('logoPreview').src = logoData;
+    document.getElementById('logoPreview').style.display = 'block';
+  }
+
+  // ============ FONCTIONS ============
+  function setType(type, el) {
+    docType = type;
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    const prefix = type === 'facture' ? 'FAC' : type === 'devis' ? 'DEV' : 'REC';
+    document.getElementById('invNumber').value = `${prefix}-${String(counter).padStart(3, '0')}`;
+    document.getElementById('previewTitle').textContent = type === 'facture' ? '👁️ Aperçu — Facture' : type === 'devis' ? '👁️ Aperçu — Devis' : '👁️ Aperçu — Reçu';
+    render();
+  }
+
+  function addItem() { items.push({ desc: '', qty: 1, price: 0 }); renderItems(); render(); }
+  function removeItem(i) { items.splice(i, 1); renderItems(); render(); }
+  function updateItem(i, field, value) {
+    items[i][field] = field === 'desc' ? value : parseFloat(value) || 0;
+    render();
+  }
+
+  function renderItems() {
+    document.getElementById('items').innerHTML = items.map((it, i) => `
+      <div class="line-item">
+        <input placeholder="Description" value="${it.desc}" oninput="updateItem(${i}, 'desc', this.value)">
+        <input type="number" placeholder="Qté" value="${it.qty}" min="0" oninput="updateItem(${i}, 'qty', this.value)">
+        <input type="number" placeholder="Prix" value="${it.price}" min="0" step="100" oninput="updateItem(${i}, 'price', this.value)">
+        <button class="remove" onclick="removeItem(${i})">×</button>
+      </div>
+    `).join('');
+  }
+
+  function loadLogo(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      logoData = ev.target.result;
+      document.getElementById('logoPreview').src = logoData;
+      document.getElementById('logoPreview').style.display = 'block';
+      localStorage.setItem('facturepro_logo', logoData);
+      render();
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function openWave() {
+    window.open(WAVE_LINK, '_blank');
+  }
+
+  function updateStatus() {
+    const status = document.getElementById('payStatus').value;
+    if (status === 'paid') {
+      const v = (id) => document.getElementById(id).value;
+      const totalTxt = document.getElementById('totals').querySelector('.total')?.textContent || '—';
+      journal.unshift({
+        date: new Date().toISOString(),
+        number: v('invNumber'),
+        client: v('toName') || '—',
+        total: totalTxt,
+        status: 'paid'
+      });
+      localStorage.setItem('facturepro_journal', JSON.stringify(journal));
+      counter++;
+      localStorage.setItem('facturepro_counter', counter);
+      const prefix = docType === 'facture' ? 'FAC' : docType === 'devis' ? 'DEV' : 'REC';
+      document.getElementById('invNumber').value = `${prefix}-${String(counter).padStart(3, '0')}`;
+      renderJournal();
+      alert('✅ Paiement validé. Reçu généré. Journal mis à jour.');
+    }
+  }
+
+  function checkAdmin() {
+    if (document.getElementById('adminCode').value === ADMIN_CODE) {
+      document.getElementById('adminGate').classList.add('hidden');
+      document.getElementById('adminPanel').classList.remove('hidden');
+      renderJournal();
+    } else {
+      alert('❌ Code incorrect');
+    }
+  }
+
+  function renderJournal() {
+    const el = document.getElementById('journal');
+    if (journal.length === 0) {
+      el.innerHTML = '<p style="color:#9ca3af;font-size:0.8rem;">Aucune transaction enregistrée.</p>';
+      return;
+    }
+    el.innerHTML = journal.map(j => `
+      <div class="log-item">
+        <div>
+          <strong>${j.number}</strong> — ${j.client}<br>
+          <span style="color:#9ca3af;font-size:0.7rem;">${new Date(j.date).toLocaleString('fr-FR')}</span>
+        </div>
+        <div style="text-align:right;">
+          <div>${j.total}</div>
+          <span class="log-status status-paid">✅ Payé</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function clearJournal() {
+    if (confirm('Effacer tout le journal ?')) {
+      journal = []; localStorage.removeItem('facturepro_journal'); renderJournal();
+    }
+  }
+
+  function shareWhatsApp() {
+    const v = (id) => document.getElementById(id).value;
+    const total = document.getElementById('totals').querySelector('.total')?.textContent || '';
+    const msg = `*${v('invNumber')}* — ${docType === 'facture' ? 'Facture' : docType === 'devis' ? 'Devis' : 'Reçu'}\n\n` +
+      `Client : ${v('toName') || '—'}\n` +
+      `Total : ${total}\n` +
+      `Échéance : ${v('invDue')}\n\n` +
+      `💙 Payer par Wave : ${WAVE_LINK}\n` +
+      `Ou au ${PAYMENT_NUMBER}\n\n` +
+      `Merci de votre confiance 🙏`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+  }
+
+  function render() {
+    const v = (id) => document.getElementById(id).value;
+    const currency = v('currency');
+    const vat = parseFloat(v('vat')) || 0;
+    const discount = parseFloat(v('discount')) || 0;
+
+    const subtotal = items.reduce((s, it) => s + (it.qty * it.price), 0);
+    const discountAmt = subtotal * (discount / 100);
+    const afterDiscount = subtotal - discountAmt;
+    const vatAmt = afterDiscount * (vat / 100);
+    const total = afterDiscount + vatAmt;
+
+    const fmt = (n) => {
+      const rounded = currency === 'FCFA' ? Math.round(n) : Math.round(n * 100) / 100;
+      return `${rounded.toLocaleString('fr-FR')} ${currency}`;
+    };
+
+    document.getElementById('totals').innerHTML = `
+      <div>Sous-total : ${fmt(subtotal)}</div>
+      ${discount > 0 ? `<div>Remise (${discount}%) : -${fmt(discountAmt)}</div>` : ''}
+      <div>TVA (${vat}%) : ${fmt(vatAmt)}</div>
+      <div class="total">TOTAL : ${fmt(total)}</div>
+    `;
+
+    const preview = document.getElementById('preview');
+    const hasData = v('fromName') || v('toName');
+    if (!hasData) {
+      preview.innerHTML = `<div class="empty-state">Remplis le formulaire pour voir l'aperçu ✨</div>`;
+      return;
+    }
+
+    const rows = items.map(it => `
+      <tr>
+        <td>${it.desc || '—'}</td>
+        <td>${it.qty}</td>
+        <td>${fmt(it.price)}</td>
+        <td>${fmt(it.qty * it.price)}</td>
+      </tr>
+    `).join('');
+
+    const title = docType === 'facture' ? 'FACTURE' : docType === 'devis' ? 'DEVIS' : 'REÇU';
+    const footer = docType === 'facture'
+      ? `Paiement par Wave Business : ${WAVE_LINK} — ou au ${PAYMENT_NUMBER}`
+      : docType === 'devis'
+      ? 'Devis valable 30 jours. Bon pour accord (signature) : ____________________'
+      : `Reçu émis le ${v('invDate')}. Paiement confirmé.`;
+
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=${encodeURIComponent(WAVE_LINK)}`;
+
+    preview.innerHTML = `
+      ${logoData ? `<img src="${logoData}" style="max-height:60px;margin-bottom:12px;">` : ''}
+      <h3>${title}</h3>
+      <div style="color:#888;font-size:0.82rem;">N° ${v('invNumber')} • ${v('invDate')}</div>
+      <div class="meta">
+        <div>
+          <strong>Émetteur</strong><br>
+          ${v('fromName') || '—'}<br>
+          ${v('fromContact') || ''}<br>
+          ${v('fromAddress').replace(/\n/g, '<br>') || ''}
+        </div>
+        <div style="text-align:right;">
+          <strong>Client</strong><br>
+          ${v('toName') || '—'}<br>
+          ${v('toContact') || ''}<br>
+          ${v('toAddress').replace(/\n/g, '<br>') || ''}
+        </div>
+      </div>
+      <table>
+        <thead><tr><th>Description</th><th>Qté</th><th>Prix unit.</th><th>Total</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <div class="preview-total">
+        ${discount > 0 ? `Remise : -${fmt(discountAmt)}<br>` : ''}
+        TVA : ${fmt(vatAmt)}<br>
+        <span style="font-size:1.2rem;">TOTAL : ${fmt(total)}</span>
+      </div>
+      <div style="margin-top:20px;display:flex;gap:20px;align-items:center;border-top:1px solid #eee;padding-top:16px;">
+        <img src="${qrUrl}" style="width:100px;height:100px;">
+        <div style="font-size:0.78rem;color:#888;">
+          <strong style="color:#1DC8FF;">💙 Payer par Wave</strong><br>
+          Scanne ce QR ou clique sur le lien dans l'email.<br>
+          Ou envoie au <strong>${PAYMENT_NUMBER}</strong>
+        </div>
+      </div>
+      <div style="margin-top:16px;font-size:0.78rem;color:#888;">
+        Échéance : ${v('invDue')}<br>${footer}
+      </div>
+    `;
+  }
+
+  renderItems(); render(); renderJournal();
+</script>
+</body>
+</html>
