@@ -3,491 +3,439 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FacturePro CI — L'Assistant Fiscal N°1</title>
+<title>FacturePro Expert CI — L'Assistant des Entrepreneurs</title>
 <style>
   :root {
-    --primary: #4f46e5;
-    --primary-hover: #4338ca;
-    --accent: #10b981;
-    --warning: #f59e0b;
-    --danger: #ef4444;
-    --bg: #f8fafc;
-    --card: #ffffff;
-    --text: #1e293b;
-    --text-muted: #64748b;
-    --border: #e2e8f0;
+    --primary: #4f46e5; --primary-hover: #4338ca; --accent: #10b981;
+    --warning: #f59e0b; --danger: #ef4444; --bg: #f8fafc;
+    --card: #ffffff; --text: #1e293b; --text-muted: #64748b; --border: #e2e8f0;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
   .container { max-width: 1200px; margin: 0 auto; padding: 24px 16px; }
   
+  /* HEADER */
   header { text-align: center; margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #eef2ff, #ecfdf5); border-radius: 16px; border: 1px solid var(--border); }
   h1 { font-size: 2.2rem; color: var(--primary); margin-bottom: 8px; }
   .tagline { color: var(--text-muted); font-size: 1rem; max-width: 700px; margin: 0 auto; }
-  .badge-expert { display: inline-block; background: var(--accent); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
   
+  /* NAVIGATION TABS */
+  .tabs { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; flex-wrap: wrap; }
+  .tab-btn { background: white; border: 2px solid var(--border); padding: 12px 24px; border-radius: 30px; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: all 0.2s; font-size: 1rem; }
+  .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); transform: scale(1.05); }
+  
+  .section-content { display: none; }
+  .section-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
   .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
   
   .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
-  .card h2 { font-size: 1.1rem; margin-bottom: 16px; color: var(--primary); display: flex; align-items: center; gap: 8px; border-bottom: 2px solid #e0e7ff; padding-bottom: 10px; }
+  .card h2 { font-size: 1.2rem; margin-bottom: 16px; color: var(--primary); display: flex; align-items: center; gap: 8px; border-bottom: 2px solid #e0e7ff; padding-bottom: 10px; }
   
   label { display: block; font-size: 0.85rem; color: var(--text); margin-bottom: 6px; margin-top: 14px; font-weight: 600; }
   label .required { color: var(--danger); margin-left: 4px; font-size: 1.1rem; }
   
-  input, textarea, select { width: 100%; background: #f8fafc; border: 2px solid var(--border); border-radius: 8px; padding: 10px 12px; color: var(--text); font-size: 0.95rem; font-family: inherit; transition: all 0.2s; }
+  input, textarea, select { width: 100%; background: #f8fafc; border: 2px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); font-size: 1rem; font-family: inherit; }
   input:focus, textarea:focus, select:focus { outline: none; border-color: var(--primary); background: white; }
-  input.error, textarea.error { border-color: var(--danger); background: #fef2f2; }
-  input.success, textarea.success { border-color: var(--accent); }
   
   .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   
-  button { background: var(--primary); color: white; border: none; padding: 12px 20px; border-radius: 8px; font-size: 0.95rem; font-weight: 600; cursor: pointer; width: 100%; margin-top: 16px; transition: background 0.2s, transform 0.1s; }
-  button:hover { background: var(--primary-hover); transform: translateY(-1px); }
+  button { background: var(--primary); color: white; border: none; padding: 12px 20px; border-radius: 8px; font-size: 0.95rem; font-weight: 600; cursor: pointer; width: 100%; margin-top: 16px; transition: background 0.2s; }
+  button:hover { background: var(--primary-hover); }
   button.btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text); }
-  button.btn-outline:hover { background: #f1f5f9; }
+  button.btn-accent { background: var(--accent); }
+  button.btn-large { padding: 16px; font-size: 1.1rem; border-radius: 12px; }
   
-  .invoice-preview { background: white; padding: 40px; border-radius: 8px; min-height: 500px; border: 1px solid var(--border); font-family: 'Helvetica Neue', Arial, sans-serif; color: #334155; font-size: 0.9rem; }
-  .invoice-preview h3 { font-size: 2rem; color: var(--primary); margin-bottom: 4px; letter-spacing: 1px; }
-  .invoice-header { display: flex; justify-content: space-between; margin-bottom: 30px; border-bottom: 2px solid var(--primary); padding-bottom: 15px; }
-  .invoice-parties { display: flex; justify-content: space-between; margin-bottom: 30px; gap: 20px; }
-  .invoice-parties > div { flex: 1; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid var(--border); }
-  .invoice-parties strong { display: block; color: var(--primary); font-size: 0.75rem; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
+  /* VOCAL ASSISTANT */
+  .vocal-box { background: #eef2ff; border: 2px dashed var(--primary); border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px; }
+  .mic-btn { width: 80px; height: 80px; border-radius: 50%; background: var(--danger); color: white; border: none; font-size: 2rem; cursor: pointer; margin: 0 auto 15px auto; display: flex; align-items: center; justify-content: center; animation: pulse 2s infinite; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+  .mic-btn.listening { background: var(--accent); animation: none; }
+  .vocal-transcript { font-size: 1.1rem; font-style: italic; color: var(--text-muted); min-height: 30px; margin-top: 10px; }
   
+  /* FORMALISATION PACKAGES */
+  .package-card { border: 2px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 15px; cursor: pointer; transition: all 0.2s; background: white; position: relative; }
+  .package-card:hover { border-color: var(--primary); }
+  .package-card.selected { border-color: var(--accent); background: #f0fdf4; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15); }
+  .package-title { font-size: 1.2rem; font-weight: bold; color: var(--primary); }
+  .package-price { font-size: 1.5rem; font-weight: bold; color: var(--text); margin: 10px 0; }
+  .package-details { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; }
+  .package-breakdown { font-size: 0.8rem; background: #f8fafc; padding: 10px; border-radius: 6px; margin-top: 10px; }
+  
+  /* INVOICE PREVIEW */
+  .invoice-preview { background: white; padding: 30px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.85rem; color: #334155; position: relative; }
+  .invoice-header { display: flex; justify-content: space-between; border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 20px; }
+  .invoice-header h3 { font-size: 1.8rem; color: var(--primary); }
+  .invoice-parties { display: flex; justify-content: space-between; margin-bottom: 20px; background: #f8fafc; padding: 15px; border-radius: 8px; }
   table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-  th { background: var(--primary); color: white; padding: 10px; text-align: left; font-size: 0.8rem; text-transform: uppercase; }
-  td { padding: 10px; border-bottom: 1px solid var(--border); }
-  .text-right { text-align: right; }
-  .total-box { background: #f8fafc; padding: 15px; border-radius: 8px; width: 300px; float: right; border: 1px solid var(--border); }
-  .total-row { font-weight: bold; font-size: 1.2rem; color: var(--primary); display: flex; justify-content: space-between; margin-top: 10px; border-top: 2px solid var(--border); padding-top: 10px; }
+  th { background: var(--primary); color: white; padding: 8px; text-align: left; font-size: 0.8rem; }
+  td { padding: 8px; border-bottom: 1px solid var(--border); }
+  .total-box { width: 250px; float: right; background: #f8fafc; padding: 15px; border-radius: 8px; }
+  .total-row { font-weight: bold; font-size: 1.1rem; color: var(--primary); display: flex; justify-content: space-between; margin-top: 5px; border-top: 2px solid var(--border); padding-top: 5px; }
   
-  .legal-footer { margin-top: 30px; clear: both; padding-top: 15px; border-top: 1px dashed #cbd5e1; font-size: 0.7rem; color: var(--text-muted); }
-  
-  .lock-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(8px); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; z-index: 10; }
-  .lock-overlay h3 { color: var(--primary); font-size: 1.4rem; margin-bottom: 8px; }
-  .lock-overlay .price { font-size: 2.5rem; font-weight: 800; color: var(--accent); margin: 10px 0; }
-  
+  /* MISC */
+  .lock-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(5px); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; z-index: 10; }
   .hidden { display: none !important; }
-  
-  .chat-widget { position: fixed; bottom: 20px; right: 20px; z-index: 100; }
-  .chat-button { width: 60px; height: 60px; border-radius: 50%; background: var(--primary); color: white; border: none; font-size: 1.8rem; cursor: pointer; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4); display: flex; align-items: center; justify-content: center; margin:0; }
-  .chat-box { position: absolute; bottom: 80px; right: 0; width: 320px; background: white; border: 1px solid var(--border); border-radius: 12px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-  .chat-box h4 { color: var(--primary); margin-bottom: 10px; }
-  .chat-box p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px; }
-  
-  .stars { color: #cbd5e1; font-size: 1.5rem; cursor: pointer; }
-  .stars .active { color: var(--warning); }
-  
-  /* MODALES */
   .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
-  .modal-content { background: white; padding: 30px; border-radius: 12px; max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; }
+  .modal-content { background: white; padding: 30px; border-radius: 12px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; }
   .cgu-text { font-size: 0.75rem; color: var(--text-muted); background: #f1f5f9; padding: 12px; border-radius: 8px; margin-top: 15px; max-height: 150px; overflow-y: auto; border: 1px solid var(--border); }
-  
-  /* HEADER UTILISATEUR CONNECTÉ */
-  .user-bar { display: flex; justify-content: space-between; align-items: center; background: white; padding: 10px 20px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
 </style>
 </head>
 <body>
 
-<!-- MODAL : CONNEXION / INSCRIPTION -->
-<div class="modal-overlay" id="authModal">
-  <div class="modal-content">
-    <!-- Choix initial -->
-    <div id="authChoice">
-      <h2 style="color:var(--primary); margin-bottom:10px; text-align:center;">Bienvenue sur FacturePro</h2>
-      <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:20px; text-align:center;">Connectez-vous ou créez un compte pour continuer.</p>
-      <button onclick="showLogin()">J'ai déjà un compte (Se connecter)</button>
-      <button class="btn-outline" onclick="showRegister()">Créer un nouveau compte</button>
-    </div>
-
-    <!-- Formulaire Connexion -->
-    <div id="loginForm" class="hidden">
-      <h2 style="color:var(--primary); margin-bottom:15px;">Connexion</h2>
-      <label>Identifiant <span class="required">*</span></label>
-      <input id="loginUsername" placeholder="Votre identifiant">
-      <label>Mot de passe <span class="required">*</span></label>
-      <input type="password" id="loginPassword" placeholder="Votre mot de passe">
-      <button onclick="doLogin()" style="margin-top:20px;">Se connecter</button>
-      <button class="btn-outline" onclick="backToAuthChoice()">Retour</button>
-    </div>
-
-    <!-- Formulaire Inscription -->
-    <div id="registerForm" class="hidden">
-      <h2 style="color:var(--primary); margin-bottom:15px;">Créer un compte</h2>
-      <label>Nom complet / Entrepreneur <span class="required">*</span></label>
-      <input id="regName" placeholder="Ex: Amadou Coulibaly">
-      <label>Email ou Téléphone <span class="required">*</span></label>
-      <input id="regContact" placeholder="Ex: 0708858816">
-      <label>Identifiant de connexion <span class="required">*</span></label>
-      <input id="regUsername" placeholder="Ex: AmadouDesign">
-      <label>Mot de passe <span class="required">*</span></label>
-      <input type="password" id="regPassword" placeholder="Choisissez un mot de passe">
-      
-      <div class="cgu-text">
-        <strong>Conditions Générales d'Adhésion :</strong><br>
-        FacturePro Expert CI est un outil d'assistance à la préparation de factures. L'utilisateur demeure seul responsable de la conformité légale de ses documents. L'éditeur décline toute responsabilité quant aux sanctions fiscales. En Côte d'Ivoire, la validation finale doit être effectuée sur le portail FNE de la DGI.
-      </div>
-      
-      <div style="margin-top:15px; display:flex; align-items:start; gap:8px;">
-        <input type="checkbox" id="acceptCgu" style="width:auto; margin-top:4px;">
-        <label for="acceptCgu" style="font-size:0.8rem; margin:0; font-weight:normal;">J'accepte les conditions générales.</label>
-      </div>
-      
-      <button onclick="doRegister()" style="margin-top:20px;">Créer mon compte</button>
-      <button class="btn-outline" onclick="backToAuthChoice()">Retour</button>
-    </div>
-  </div>
-</div>
-
-<!-- BARRE UTILISATEUR (visible une fois connecté) -->
-<div class="container" id="userContainer" style="display:none;">
-  <div class="user-bar">
-    <div>Connecté en tant que : <strong id="displayUsername"></strong></div>
-    <button class="btn-outline" onclick="doLogout()" style="margin:0; padding:6px 12px; width:auto; font-size:0.8rem;">Déconnexion</button>
-  </div>
-
+<!-- APPLICATION PRINCIPALE -->
+<div class="container">
   <header>
-    <div class="badge-expert">L'Assistant Fiscal N°1 en Afrique de l'Ouest</div>
     <h1>FacturePro Expert</h1>
-    <p class="tagline">Ne perdez plus un seul franc à cause d'une erreur de facture. L'outil qui garantit votre conformité fiscale en 3 minutes.</p>
+    <p class="tagline">Facturez comme un pro ou formalisez votre entreprise, même sans savoir lire.</p>
   </header>
 
-  <div class="grid">
-    <!-- FORMULAIRE -->
-    <div>
-      <div class="card">
-        <h2>🌍 1. Contexte Fiscal</h2>
-        <label>Pays de facturation <span class="required">*</span></label>
-        <select id="country" onchange="updateCountryRules()">
-          <option value="CI">🇨🇮 Côte d'Ivoire (FNE / NCC)</option>
-          <option value="SN">🇸🇳 Sénégal (NINEA)</option>
-          <option value="BJ">🇧🇯 Bénin (IFU)</option>
-          <option value="TG">🇹🇬 Togo (IFU / FEC)</option>
-          <option value="BF">🇧🇫 Burkina Faso (IFU)</option>
-          <option value="ML">🇲🇱 Mali (NIF)</option>
-          <option value="NE">🇳🇪 Niger (NIF)</option>
-          <option value="GW">🇬🇼 Guinée-Bissau</option>
-          <option value="GH">🇬🇭 Ghana</option>
-          <option value="NG">🇳🇬 Nigéria</option>
-          <option value="OTHER">🌍 Autre pays (Préciser)</option>
-        </select>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('invoicing')">📄 Créer une facture</button>
+    <button class="tab-btn" onclick="switchTab('formalization')">🏢 Me formaliser (RCCM)</button>
+  </div>
+
+  <!-- ONGLET 1 : FACTURATION -->
+  <div id="tab-invoicing" class="section-content active">
+    <div class="grid">
+      <div>
+        <div class="card">
+          <h2>🏢 Vos informations</h2>
+          <label>Nom / Entreprise <span class="required">*</span></label>
+          <input id="fromName" placeholder="Ex: Kouassi Design" oninput="renderInvoice()">
+          <label>Votre Numéro Mobile Money (Wave/OM) <span class="required">*</span></label>
+          <input id="userPayNumber" placeholder="0708858816" oninput="renderInvoice()">
+          <label>Adresse</label>
+          <input id="fromAddress" placeholder="Cocody, Abidjan" oninput="renderInvoice()">
+        </div>
+        <div class="card">
+          <h2>👤 Votre Client</h2>
+          <label>Nom du client <span class="required">*</span></label>
+          <input id="toName" placeholder="Société XYZ" oninput="renderInvoice()">
+        </div>
+        <div class="card">
+          <h2>📦 Prestations</h2>
+          <div id="items-container"></div>
+          <button class="btn-outline" onclick="addInvoiceItem()">+ Ajouter une ligne</button>
+          <div id="invoice-totals" style="margin-top:15px; text-align:right; font-weight:bold;"></div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <h2>🔒 Débloquer la facture</h2>
+          <p>Frais de service : <strong>1 000 FCFA</strong></p>
+          <button onclick="requestUnlockCode()">💬 Payer & Demander le code</button>
+          <div style="display:flex; gap:5px; margin-top:10px;">
+            <input type="text" id="unlockCode" placeholder="Code reçu">
+            <button onclick="verifyUnlockCode()" style="width:auto; margin:0;">OK</button>
+          </div>
+        </div>
         
-        <div id="otherCountryDiv" class="hidden" style="margin-top:10px;">
-          <label>Précisez votre pays <span class="required">*</span></label>
-          <input id="otherCountryName" placeholder="Ex: Cameroun" oninput="render()">
-        </div>
-
-        <div class="row">
-          <div>
-            <label>Type de document <span class="required">*</span></label>
-            <select id="docType">
-              <option value="facture">Facture</option>
-              <option value="devis">Devis</option>
-            </select>
+        <div class="card" style="position:relative;">
+          <h2>👁️ Aperçu</h2>
+          <div class="invoice-preview" id="invoice-preview">
+            <div class="lock-overlay" id="invoice-lock">
+              <h3>🔒 Aperçu Verrouillé</h3>
+              <p>Payez 1 000 FCFA pour débloquer.</p>
+            </div>
+            <!-- Contenu injecté par JS -->
           </div>
-          <div>
-            <label>TVA applicable</label>
-            <select id="vatRate">
-              <option value="18">18% (Standard)</option>
-              <option value="19">19% (Niger)</option>
-              <option value="0">0% (Exonéré)</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>🏢 2. Émetteur (Vous)</h2>
-        <label>Raison sociale <span class="required">*</span></label>
-        <input id="fromName" placeholder="Ex: SARL Kouassi Design" class="req">
-        
-        <div class="row">
-          <div>
-            <label id="taxIdLabel">NCC / NINEA / IFU <span class="required">*</span></label>
-            <input id="fromTaxId" placeholder="Ex: 1234567A" class="req">
-          </div>
-          <div>
-            <label>Téléphone <span class="required">*</span></label>
-            <input id="fromPhone" placeholder="0708858816" class="req">
-          </div>
-        </div>
-
-        <label>Adresse complète <span class="required">*</span></label>
-        <textarea id="fromAddress" rows="2" placeholder="Cocody, Abidjan" class="req"></textarea>
-      </div>
-
-      <div class="card">
-        <h2>👤 3. Client</h2>
-        <label>Nom / Raison sociale du client <span class="required">*</span></label>
-        <input id="toName" placeholder="Ex: Société XYZ" class="req">
-        <label>NCC / NINEA du client (B2B)</label>
-        <input id="toTaxId" placeholder="Pour déduction TVA">
-      </div>
-
-      <div class="card">
-        <h2>📦 4. Désignation (Bien ou Service)</h2>
-        <div id="items"></div>
-        <button class="btn-outline" onclick="addItem()">+ Ajouter une ligne</button>
-        <div id="totals" style="margin-top:16px; text-align:right;"></div>
-      </div>
-    </div>
-
-    <!-- COLONNE DROITE : PAIEMENT & PREVIEW -->
-    <div>
-      <div class="card" style="border: 2px solid var(--primary);">
-        <h2>🔒 Débloquer la Facture</h2>
-        <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:10px;">Génération du PDF final et export WhatsApp.</p>
-        <div style="background: #f0fdf4; padding: 15px; border-radius: 8px; margin-bottom: 15px; text-align: center; border: 1px solid #bbf7d0;">
-          <span style="font-size: 0.85rem; color: var(--text-muted);">Frais de service unique</span><br>
-          <strong style="font-size: 1.8rem; color: var(--accent);">1 000 FCFA</strong><br>
-          <span style="font-size: 0.8rem; color: var(--text-muted);">Au 0708858816 (Wave / OM)</span>
-        </div>
-        <button onclick="requestCode()">💬 Payer & Demander mon code</button>
-        
-        <div style="margin-top: 15px; display:flex; gap:5px;">
-          <input type="text" id="unlockCode" placeholder="Code reçu" style="text-align:center; text-transform:uppercase;">
-          <button onclick="verifyCode()" style="margin-top:0; width:auto; padding: 0 20px;">OK</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>💎 Passer au Forfait Pro</h2>
-        <div style="border: 1px solid var(--border); border-radius: 8px; padding: 15px; margin-bottom: 10px; background: #f8fafc;">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <strong style="color:var(--primary);">Forfait Starter</strong>
-            <span style="font-weight:bold; font-size:1.2rem;">7 000 FCFA <span style="font-size:0.8rem; font-weight:normal;">/ mois</span></span>
-          </div>
-          <p style="font-size:0.8rem; color:var(--text-muted); margin-top:5px;">Jusqu'à 25 factures par mois.</p>
-        </div>
-        <div style="border: 1px solid var(--primary); border-radius: 8px; padding: 15px; background: #eef2ff; position:relative;">
-          <span style="position:absolute; top:-10px; right:10px; background:var(--accent); color:white; font-size:0.7rem; padding:2px 8px; border-radius:10px;">Recommandé</span>
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <strong style="color:var(--primary);">Forfait Pro</strong>
-            <span style="font-weight:bold; font-size:1.2rem;">10 000 FCFA <span style="font-size:0.8rem; font-weight:normal;">/ mois</span></span>
-          </div>
-          <p style="font-size:0.8rem; color:var(--text-muted); margin-top:5px;">Factures illimitées + Support prioritaire.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>🛠️ Espace Admin (Créateur)</h2>
-        <div id="adminGate">
-          <input type="password" id="adminCode" placeholder="Mot de passe admin">
-          <button class="btn-outline" onclick="checkAdmin()">Déverrouiller</button>
-        </div>
-        <div id="adminPanel" class="hidden">
-          <p style="font-size:0.85rem; color:var(--text-muted);">Code de déblocage client :</p>
-          <div style="font-size: 2rem; font-weight: bold; color: var(--accent); letter-spacing: 4px; text-align: center; margin: 10px 0; background:#f8fafc; padding:10px; border-radius:8px; border:1px solid var(--border);" id="generatedCode">----</div>
-          <button class="btn-outline" onclick="copyCode()">📋 Copier le code</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- APERÇU FACTURE -->
-  <div class="card" style="margin-top: 20px;">
-    <h2>👁️ Aperçu de la Facture</h2>
-    <div style="position: relative;">
-      <div class="lock-overlay" id="lockOverlay">
-        <h3>🔒 Aperçu Verrouillé</h3>
-        <p style="font-size:0.95rem; margin-bottom:10px;">Payez 1 000 FCFA pour débloquer l'impression et l'envoi.</p>
-        <div class="price">1 000 FCFA</div>
-        <p style="font-size:0.8rem; margin-top:8px;">Numéro : <strong>0708858816</strong></p>
+  <!-- ONGLET 2 : FORMALISATION -->
+  <div id="tab-formalization" class="section-content">
+    <div class="grid">
+      <div>
+        <div class="card">
+          <h2>🎤 Assistant Vocal (Pour ceux qui ne savent pas lire)</h2>
+          <div class="vocal-box">
+            <button class="mic-btn" id="micBtn" onclick="toggleVocalAssistant()">🎤</button>
+            <p style="font-weight:bold; color:var(--primary);">Appuyez sur le micro pour parler</p>
+            <p class="vocal-transcript" id="vocalTranscript">"Bonjour, quel est votre nom ?"</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>📝 Formulaire de Formalisation</h2>
+          <label>Nom complet <span class="required">*</span></label>
+          <input id="formName" placeholder="Votre nom" oninput="updateFormalizationSummary()">
+          <label>Numéro de téléphone <span class="required">*</span></label>
+          <input id="formPhone" placeholder="Votre numéro" oninput="updateFormalizationSummary()">
+          <label>Activité (Maçon, Plombier, etc.)</label>
+          <input id="formActivity" placeholder="Votre métier" oninput="updateFormalizationSummary()">
+        </div>
+
+        <div class="card">
+          <h2>💼 Choisissez votre forfait</h2>
+          <div id="packages-container"></div>
+        </div>
       </div>
-      <div class="invoice-preview" id="preview" style="filter: blur(6px); pointer-events: none;"></div>
-    </div>
-  </div>
 
-  <!-- AVIS -->
-  <div class="card" style="margin-top: 20px; text-align:center;">
-    <h2>⭐ Votre Avis Compte</h2>
-    <div class="stars" id="ratingStars">
-      <span onclick="rate(1)">★</span>
-      <span onclick="rate(2)">★</span>
-      <span onclick="rate(3)">★</span>
-      <span onclick="rate(4)">★</span>
-      <span onclick="rate(5)">★</span>
-    </div>
-    <p id="ratingMessage" style="margin-top:10px; font-weight:bold; color:var(--accent);"></p>
-  </div>
+      <div>
+        <div class="card">
+          <h2>📜 Contrat d'engagement</h2>
+          <div class="cgu-text">
+            En cochant cette case, je m'engage à fournir l'intégralité des documents requis pour la formalisation de mon entreprise dans un délai maximum de 14 jours ouvrables. Je comprends que les frais de service (25%) versés à FacturePro couvrent l'accompagnement et le traitement de mon dossier. Passé ce délai de 14 jours, si mon dossier est incomplet de mon fait, ces frais de service ne me seront pas remboursés.
+          </div>
+          <div style="margin-top:15px; display:flex; align-items:start; gap:8px;">
+            <input type="checkbox" id="acceptContract" style="width:auto; margin-top:4px;" onchange="updateFormalizationSummary()">
+            <label for="acceptContract" style="font-size:0.85rem; margin:0; font-weight:normal;">J'accepte le contrat d'engagement.</label>
+          </div>
+        </div>
 
-  <!-- SLOGAN -->
-  <div style="text-align: center; margin-top: 40px; padding: 20px; background: linear-gradient(135deg, #eef2ff, #ecfdf5); border-radius: 16px; border: 1px solid var(--border);">
-    <h3 style="color: var(--primary); font-size: 1.5rem; margin-bottom: 10px;">FacturePro Expert</h3>
-    <p style="color: var(--text-muted); font-size: 1rem;">Votre facture, notre expertise. Gagnez en crédibilité, dormez tranquille.</p>
+        <div class="card" style="background: #eef2ff; border-color: var(--primary);">
+          <h2>💳 Récapitulatif & Paiement</h2>
+          <div id="formalization-summary">
+            <p style="font-size:0.9rem;">Veuillez remplir le formulaire et choisir un forfait.</p>
+          </div>
+          <button class="btn-accent btn-large" onclick="payFormalization()" style="margin-top:15px;">💬 Payer et envoyer mon dossier</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- CHAT WIDGET -->
-<div class="chat-widget">
-  <div id="chatBox" class="chat-box hidden">
-    <h4>🤖 Assistant IA</h4>
-    <p>Posez vos questions sur la fiscalité.</p>
-    <input type="text" id="chatInput" placeholder="Ex: Comment obtenir mon NCC ?" style="margin-bottom:8px;">
-    <button onclick="askAI()" style="margin-top:0; padding:10px;">Envoyer</button>
-    <div style="margin-top:15px; border-top:1px solid var(--border); padding-top:15px; text-align:center;">
-      <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:5px;">L'IA n'a pas la réponse ?</p>
-      <a href="https://wa.me/2250708858816?text=Bonjour,%20j'ai%20une%20question%20sur%20FacturePro%20CI" target="_blank" style="color:var(--accent); font-weight:bold; text-decoration:none; font-size:0.85rem;">💬 Passer le relais à un humain</a>
-    </div>
+<!-- CHAT WIDGET & MODALES -->
+<div class="chat-widget" style="position:fixed; bottom:20px; right:20px;">
+  <button onclick="alert('L\'assistant IA arrive bientôt. En attendant, contactez-nous sur WhatsApp au 0708858816.')" style="width:60px; height:60px; border-radius:50%; background:var(--primary); color:white; border:none; font-size:1.8rem; cursor:pointer;">💬</button>
+</div>
+
+<div class="modal-overlay hidden" id="authModal">
+  <div class="modal-content">
+    <h2 style="color:var(--primary); margin-bottom:15px;">Connexion requise</h2>
+    <p style="margin-bottom:20px;">Veuillez créer un compte ou vous connecter pour continuer.</p>
+    <label>Numéro de téléphone</label>
+    <input id="loginPhone" placeholder="0708858816">
+    <button onclick="loginWithPhone()" style="margin-top:20px;">Entrer</button>
+    <p style="font-size:0.75rem; color:var(--text-muted); margin-top:15px; text-align:center;">(Pour cette démo, un mot de passe n'est pas requis).</p>
   </div>
-  <button class="chat-button" onclick="toggleChat()">💬</button>
 </div>
 
 <script>
+  // ============ CONFIGURATION ============
   const ADMIN_PASSWORD = "Amadcoul@";
   const SECRET_SALT = "Kouassi2026";
-  let items = [{ desc: 'Prestation de service', qty: 1, price: 1000 }];
-  let currentUser = null;
-  let isUnlocked = false;
   
-  // ============ GESTION DES COMPTES ============
-  function showLogin() {
-    document.getElementById('authChoice').classList.add('hidden');
-    document.getElementById('loginForm').classList.remove('hidden');
-  }
-  
-  function showRegister() {
-    document.getElementById('authChoice').classList.add('hidden');
-    document.getElementById('registerForm').classList.remove('hidden');
-  }
-  
-  function backToAuthChoice() {
-    document.getElementById('loginForm').classList.add('hidden');
-    document.getElementById('registerForm').classList.add('hidden');
-    document.getElementById('authChoice').classList.remove('hidden');
-  }
+  // Forfaits de formalisation (Prix total incluant les 25% de frais de service)
+  const PACKAGES = [
+    { id: 'entreprenant', title: 'Statut Entreprenant', basePrice: 10000, details: 'Idéal pour les artisans. Permet de facturer légalement.' },
+    { id: 'sarl', title: 'Création SARL / SARLU', basePrice: 30000, details: 'Pour les entreprises qui veulent grandir (RCCM complet).' },
+    { id: 'premium', title: 'Formalisation Premium', basePrice: 50000, details: 'SARL + Compte bancaire + Demande de NCC (FNE).' }
+  ];
 
-  function doRegister() {
-    const name = document.getElementById('regName').value.trim();
-    const contact = document.getElementById('regContact').value.trim();
-    const username = document.getElementById('regUsername').value.trim();
-    const password = document.getElementById('regPassword').value.trim();
-    const cgu = document.getElementById('acceptCgu').checked;
+  // ============ NAVIGATION TABS ============
+  function switchTab(tabId) {
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.section-content').forEach(sec => sec.classList.remove('active'));
     
-    if (!name || !contact || !username || !password) {
-      alert("Veuillez remplir tous les champs obligatoires."); return;
+    if (tabId === 'invoicing') {
+      document.querySelector('.tab-btn:nth-child(1)').classList.add('active');
+      document.getElementById('tab-invoicing').classList.add('active');
+    } else {
+      document.querySelector('.tab-btn:nth-child(2)').classList.add('active');
+      document.getElementById('tab-formalization').classList.add('active');
     }
-    if (!cgu) {
-      alert("Vous devez accepter les conditions générales."); return;
-    }
-    
-    // Sauvegarde locale du compte
-    const user = { name, contact, username, password };
-    localStorage.setItem('fp_user_' + username, JSON.stringify(user));
-    
-    // Connexion automatique
-    loginSuccess(user);
   }
 
-  function doLogin() {
-    const username = document.getElementById('loginUsername').value.trim();
-    const password = document.getElementById('loginPassword').value.trim();
-    
-    const storedUser = localStorage.getItem('fp_user_' + username);
-    if (!storedUser) {
-      alert("Identifiant introuvable. Veuillez créer un compte."); return;
-    }
-    
-    const user = JSON.parse(storedUser);
-    if (user.password !== password) {
-      alert("Mot de passe incorrect."); return;
-    }
-    
-    loginSuccess(user);
-  }
+  // ============ ONGLET FACTURATION ============
+  let invoiceItems = [{ desc: 'Prestation', qty: 1, price: 1000 }];
 
-  function loginSuccess(user) {
-    currentUser = user;
-    document.getElementById('authModal').classList.add('hidden');
-    document.getElementById('userContainer').style.display = 'block';
-    document.getElementById('displayUsername').textContent = user.username;
-    
-    // Pré-remplir les champs avec les infos du compte
-    document.getElementById('fromName').value = user.name;
-    document.getElementById('fromPhone').value = user.contact;
-    
-    renderItems();
-    updateCountryRules();
-    render();
-  }
+  function addInvoiceItem() { invoiceItems.push({ desc: '', qty: 1, price: 0 }); renderInvoiceItems(); renderInvoice(); }
+  function removeInvoiceItem(i) { invoiceItems.splice(i, 1); renderInvoiceItems(); renderInvoice(); }
+  function updateInvoiceItem(i, field, value) { invoiceItems[i][field] = field === 'desc' ? value : parseFloat(value) || 0; renderInvoice(); }
 
-  function doLogout() {
-    currentUser = null;
-    document.getElementById('userContainer').style.display = 'none';
-    document.getElementById('authModal').classList.remove('hidden');
-    backToAuthChoice();
-    // Réinitialiser les champs
-    document.getElementById('fromName').value = "";
-    document.getElementById('fromPhone').value = "";
-    document.getElementById('fromTaxId').value = "";
-    document.getElementById('fromAddress').value = "";
-  }
-
-  // ============ GESTION DES PAYS ============
-  function updateCountryRules() {
-    const country = document.getElementById('country').value;
-    const taxLabel = document.getElementById('taxIdLabel');
-    
-    if (country === 'CI') taxLabel.innerHTML = 'NCC (Numéro Compte Contribuable) <span class="required">*</span>';
-    else if (country === 'SN') taxLabel.innerHTML = 'NINEA <span class="required">*</span>';
-    else if (country === 'BJ' || country === 'TG' || country === 'BF') taxLabel.innerHTML = 'IFU <span class="required">*</span>';
-    else if (country === 'ML' || country === 'NE') taxLabel.innerHTML = 'NIF <span class="required">*</span>';
-    else taxLabel.innerHTML = 'Numéro fiscal <span class="required">*</span>';
-    
-    if (country === 'OTHER') document.getElementById('otherCountryDiv').classList.remove('hidden');
-    else document.getElementById('otherCountryDiv').classList.add('hidden');
-    
-    if (country === 'NE') document.getElementById('vatRate').value = '19';
-    else document.getElementById('vatRate').value = '18';
-    
-    render();
-  }
-
-  // ============ GESTION DES ARTICLES ============
-  function addItem() { items.push({ desc: '', qty: 1, price: 0 }); renderItems(); render(); }
-  function removeItem(i) { items.splice(i, 1); renderItems(); render(); }
-  function updateItem(i, field, value) {
-    items[i][field] = field === 'desc' ? value : parseFloat(value) || 0;
-    render();
-  }
-
-  function renderItems() {
-    document.getElementById('items').innerHTML = items.map((it, i) => `
-      <div style="display:grid; grid-template-columns: 2fr 1fr 1fr auto; gap:5px; margin-bottom:5px; align-items:center;">
-        <input placeholder="Désignation" value="${it.desc}" oninput="updateItem(${i}, 'desc', this.value)">
-        <input type="number" placeholder="Qté" value="${it.qty}" min="0" oninput="updateItem(${i}, 'qty', this.value)">
-        <input type="number" placeholder="P.U." value="${it.price}" min="0" step="100" oninput="updateItem(${i}, 'price', this.value)">
-        <button onclick="removeItem(${i})" style="width:34px; height:34px; background:var(--danger); margin:0; padding:0; border-radius:6px;">×</button>
+  function renderInvoiceItems() {
+    document.getElementById('items-container').innerHTML = invoiceItems.map((it, i) => `
+      <div style="display:grid; grid-template-columns: 2fr 1fr 1fr auto; gap:5px; margin-bottom:5px;">
+        <input placeholder="Désignation" value="${it.desc}" oninput="updateInvoiceItem(${i}, 'desc', this.value)">
+        <input type="number" placeholder="Qté" value="${it.qty}" min="0" oninput="updateInvoiceItem(${i}, 'qty', this.value)">
+        <input type="number" placeholder="P.U." value="${it.price}" min="0" oninput="updateInvoiceItem(${i}, 'price', this.value)">
+        <button onclick="removeInvoiceItem(${i})" style="width:34px; background:var(--danger); margin:0;">×</button>
       </div>
     `).join('');
   }
 
-  function validateFields() {
-    document.querySelectorAll('.req').forEach(field => {
-        if (!field.value.trim()) { field.classList.add('error'); field.classList.remove('success'); }
-        else { field.classList.remove('error'); field.classList.add('success'); }
-    });
-  }
-
-  function generateCode(invoiceNum) {
-    let str = invoiceNum + SECRET_SALT;
-    let hash = 0;
-    for (let i = 0; i < str.length; i++) { hash = ((hash << 5) - hash) + str.charCodeAt(i); hash = hash & hash; }
-    let code = Math.abs(hash).toString(36).substring(0, 4).toUpperCase();
-    while(code.length < 4) { code += "X"; }
-    return code;
-  }
-
-  function render() {
-    if (!currentUser) return;
+  function renderInvoice() {
     const v = (id) => document.getElementById(id).value;
-    validateFields();
-
-    const subtotal = items.reduce((s, it) => s + (it.qty * it.price), 0);
-    const vatRate = parseFloat(v('vatRate')) || 0;
-    const vatAmt = subtotal * (vatRate / 100);
-    const total = subtotal + vatAmt;
+    const subtotal = invoiceItems.reduce((s, it) => s + (it.qty * it.price), 0);
+    const vat = subtotal * 0.18;
+    const total = subtotal + vat;
     const fmt = (n) => `${Math.round(n).toLocaleString('fr-FR')} FCFA`;
 
-    document.getElementById('totals').innerHTML = `
-      <div>Total HT : ${fmt(subtotal)}
+    document.getElementById('invoice-totals').innerHTML = `
+      <div>Total HT : ${fmt(subtotal)}</div>
+      <div>TVA (18%) : ${fmt(vat)}</div>
+      <div style="font-size:1.2rem; color:var(--primary);">TOTAL TTC : ${fmt(total)}</div>
+    `;
+
+    const preview = document.getElementById('invoice-preview');
+    const rows = invoiceItems.map(it => `
+      <tr><td>${it.desc || '—'}</td><td class="text-right">${it.qty}</td><td class="text-right">${fmt(it.price)}</td><td class="text-right">${fmt(it.qty * it.price)}</td></tr>
+    `).join('');
+
+    preview.innerHTML = `
+      <div class="lock-overlay" id="invoice-lock"><h3>🔒 Aperçu Verrouillé</h3><p>Payez 1 000 FCFA.</p></div>
+      <div class="invoice-header">
+        <div><h3>FACTURE</h3><div style="font-size:0.8rem;">N° FAC-${new Date().getFullYear()}-001</div></div>
+        <div style="text-align:right;"><h3 style="color:var(--primary);">FacturePro</h3></div>
+      </div>
+      <div class="invoice-parties">
+        <div><strong>Émetteur</strong><br>${v('fromName') || '—'}<br>${v('fromAddress') || ''}<br><strong>Paiement :</strong> ${v('userPayNumber') || '—'}</div>
+        <div style="text-align:right;"><strong>Client</strong><br>${v('toName') || '—'}</div>
+      </div>
+      <table><thead><tr><th>Désignation</th><th class="text-right">Qté</th><th class="text-right">P.U.</th><th class="text-right">Total</th></tr></thead><tbody>${rows}</tbody></table>
+      <div class="total-box">
+        <div style="display:flex; justify-content:space-between;"><span>Total HT</span><span>${fmt(subtotal)}</span></div>
+        <div style="display:flex; justify-content:space-between;"><span>TVA</span><span>${fmt(vat)}</span></div>
+        <div class="total-row"><span>TOTAL</span><span>${fmt(total)}</span></div>
+      </div>
+      <div style="clear:both; margin-top:20px; font-size:0.7rem; color:#666;">Mention FNE obligatoire en Côte d'Ivoire. Ce document est un modèle.</div>
+    `;
+
+    // Ré-attacher l'overlay s'il a été débloqué
+    if (isInvoiceUnlocked) {
+        document.getElementById('invoice-lock').classList.add('hidden');
+    }
+  }
+
+  let isInvoiceUnlocked = false;
+  function requestUnlockCode() {
+    window.open(`https://wa.me/2250708858816?text=Bonjour, je souhaite payer 1000 FCFA pour débloquer ma facture.`, '_blank');
+  }
+
+  function verifyUnlockCode() {
+    const entered = document.getElementById('unlockCode').value.trim().toUpperCase();
+    if (entered === "CODE1") { // Code statique pour la démo
+        isInvoiceUnlocked = true;
+        document.getElementById('invoice-lock').classList.add('hidden');
+        alert('Facture débloquée !');
+    } else { alert('Code incorrect.'); }
+  }
+
+  // ============ ONGLET FORMALISATION ============
+  let selectedPackage = null;
+
+  function renderPackages() {
+    document.getElementById('packages-container').innerHTML = PACKAGES.map(pkg => {
+      const fee = pkg.basePrice * 0.25;
+      const total = pkg.basePrice + fee;
+      return `
+        <div class="package-card" id="pkg-${pkg.id}" onclick="selectPackage('${pkg.id}')">
+          <div class="package-title">${pkg.title}</div>
+          <div class="package-details">${pkg.details}</div>
+          <div class="package-price">${total.toLocaleString('fr-FR')} FCFA</div>
+          <div class="package-breakdown">
+            Frais officiels estimés : ${pkg.basePrice.toLocaleString('fr-FR')} FCFA<br>
+            Frais de service FacturePro (25%) : ${fee.toLocaleString('fr-FR')} FCFA
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function selectPackage(id) {
+    selectedPackage = PACKAGES.find(p => p.id === id);
+    document.querySelectorAll('.package-card').forEach(el => el.classList.remove('selected'));
+    document.getElementById(`pkg-${id}`).classList.add('selected');
+    updateFormalizationSummary();
+  }
+
+  function updateFormalizationSummary() {
+    if (!selectedPackage) {
+      document.getElementById('formalization-summary').innerHTML = `<p>Veuillez choisir un forfait.</p>`;
+      return;
+    }
+    const fee = selectedPackage.basePrice * 0.25;
+    const total = selectedPackage.basePrice + fee;
+    const name = document.getElementById('formName').value || 'Non renseigné';
+    
+    document.getElementById('formalization-summary').innerHTML = `
+      <p><strong>Client :</strong> ${name}</p>
+      <p><strong>Forfait :</strong> ${selectedPackage.title}</p>
+      <hr style="margin:10px 0; border:0; border-top:1px solid var(--border);">
+      <p style="display:flex; justify-content:space-between;"><span>Frais officiels :</span> <span>${selectedPackage.basePrice.toLocaleString('fr-FR')} FCFA</span></p>
+      <p style="display:flex; justify-content:space-between;"><span>Frais de service (25%) :</span> <span>${fee.toLocaleString('fr-FR')} FCFA</span></p>
+      <p style="display:flex; justify-content:space-between; font-weight:bold; font-size:1.2rem; color:var(--primary); margin-top:10px;">
+        <span>TOTAL À PAYER :</span> <span>${total.toLocaleString('fr-FR')} FCFA</span>
+      </p>
+    `;
+  }
+
+  function payFormalization() {
+    const isAccepted = document.getElementById('acceptContract').checked;
+    if (!selectedPackage) { alert("Veuillez choisir un forfait."); return; }
+    if (!isAccepted) { alert("Vous devez accepter le contrat d'engagement."); return; }
+    
+    const total = selectedPackage.basePrice * 1.25;
+    const msg = `Bonjour, je souhaite payer ${total.toLocaleString('fr-FR')} FCFA pour mon dossier de formalisation (${selectedPackage.title}).`;
+    window.open(`https://wa.me/2250708858816?text=${encodeURIComponent(msg)}`, '_blank');
+  }
+
+  // ============ ASSISTANT VOCAL ============
+  let isListening = false;
+  let recognition = null;
+
+  if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SpeechRecognition();
+    recognition.lang = 'fr-FR';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onresult = function(event) {
+      const transcript = event.results[0][0].transcript;
+      document.getElementById('vocalTranscript').innerText = `"${transcript}"`;
+      
+      // Remplissage intelligent (très basique)
+      if (transcript.toLowerCase().includes('nom') || transcript.split(' ').length <= 3) {
+        document.getElementById('formName').value = transcript;
+        speak("Merci. Quel est votre numéro de téléphone ?");
+      } else {
+        document.getElementById('formPhone').value = transcript.replace(/\s/g, '');
+        speak("Merci. Quel est votre métier ?");
+      }
+      updateFormalizationSummary();
+    };
+
+    recognition.onend = function() {
+      isListening = false;
+      document.getElementById('micBtn').classList.remove('listening');
+    };
+  }
+
+  function toggleVocalAssistant() {
+    if (!recognition) { alert("La reconnaissance vocale n'est pas supportée sur ce navigateur."); return; }
+    
+    if (isListening) {
+      recognition.stop();
+      isListening = false;
+      document.getElementById('micBtn').classList.remove('listening');
+    } else {
+      recognition.start();
+      isListening = true;
+      document.getElementById('micBtn').classList.add('listening');
+      document.getElementById('vocalTranscript').innerText = "Je vous écoute...";
+    }
+  }
+
+  function speak(text) {
+    if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'fr-FR';
+      window.speechSynthesis.speak(utterance);
+    }
+  }
+
+  // ============ INITIALISATION ============
+  renderInvoiceItems();
+  renderInvoice();
+  renderPackages();
+  updateFormalizationSummary();
+</script>
+</body>
+</html>
