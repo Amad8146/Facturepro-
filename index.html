@@ -97,7 +97,7 @@
 </head>
 <body>
 
-<!-- MODAL D'INSCRIPTION (Fiche de fidélisation) -->
+<!-- MODAL D'INSCRIPTION -->
 <div class="modal-overlay" id="signupModal">
   <div class="modal-content">
     <h2 style="color:var(--primary); margin-bottom:10px;">Bienvenue sur FacturePro</h2>
@@ -109,13 +109,13 @@
     <label>Email ou Numéro de téléphone <span class="required">*</span></label>
     <input id="regContact" placeholder="Ex: 0708858816" class="req-reg">
     
-    <label>Identifiant de connexion (sera affiché en haut de la facture) <span class="required">*</span></label>
+    <label>Identifiant de connexion <span class="required">*</span></label>
     <input id="regUsername" placeholder="Ex: AmadouDesign" class="req-reg">
     
     <div class="cgu-text">
       <strong>Conditions Générales d'Adhésion (Extrait) :</strong><br>
-      FacturePro Expert CI est un outil d'assistance à la préparation de factures. L'utilisateur demeure seul et entièrement responsable de la conformité légale et fiscale du contenu de chaque facture (exactitude des mentions obligatoires, calculs, taux de TVA applicables, respect des conditions d'exonération, etc.) [citation:18].<br><br>
-      L'éditeur ne fournit aucun conseil comptable, fiscal ou juridique et décline toute responsabilité quant aux sanctions fiscales qui pourraient résulter de l'utilisation des documents générés. En cas de doute, l'utilisateur doit consulter un expert-comptable ou un conseil fiscal habilité. En Côte d'Ivoire, la validation finale doit être effectuée sur le portail FNE de la DGI [citation:18].
+      FacturePro Expert CI est un outil d'assistance à la préparation de factures. L'utilisateur demeure seul et entièrement responsable de la conformité légale et fiscale du contenu de chaque facture (exactitude des mentions obligatoires, calculs, taux de TVA applicables, respect des conditions d'exonération, etc.).<br><br>
+      L'éditeur ne fournit aucun conseil comptable, fiscal ou juridique et décline toute responsabilité quant aux sanctions fiscales qui pourraient résulter de l'utilisation des documents générés. En cas de doute, l'utilisateur doit consulter un expert-comptable ou un conseil fiscal habilité. En Côte d'Ivoire, la validation finale doit être effectuée sur le portail FNE de la DGI.
     </div>
     
     <div style="margin-top:15px; display:flex; align-items:start; gap:8px;">
@@ -332,7 +332,10 @@
   // ============ CONFIGURATION ============
   const ADMIN_PASSWORD = "Amadcoul@";
   const SECRET_SALT = "Kouassi2026";
-  let items = [{ desc: 'Prestation de service', qty: 1, price: 25000 }];
+  
+  // ⚠️ C'EST ICI QUE LA VALEUR A ÉTÉ CHANGÉE (1000 au lieu de 25000) ⚠️
+  let items = [{ desc: 'Prestation de service', qty: 1, price: 1000 }];
+  
   let isRegistered = false;
   let currentUser = { name: "", contact: "", username: "" };
   
@@ -372,7 +375,6 @@
     if (country === 'OTHER') document.getElementById('otherCountryDiv').classList.remove('hidden');
     else document.getElementById('otherCountryDiv').classList.add('hidden');
     
-    // Ajuster TVA
     if (country === 'NE') document.getElementById('vatRate').value = '19';
     else document.getElementById('vatRate').value = '18';
     
@@ -398,7 +400,6 @@
     `).join('');
   }
 
-  // ============ VALIDATION VISUELLE ============
   function validateFields() {
     const reqs = document.querySelectorAll('.req');
     reqs.forEach(field => {
@@ -412,7 +413,6 @@
     });
   }
 
-  // ============ GÉNÉRATEUR DE CODE ============
   function generateCode(invoiceNum) {
     let str = invoiceNum + SECRET_SALT;
     let hash = 0;
@@ -426,7 +426,6 @@
     return code;
   }
 
-  // ============ RENDU ============
   function render() {
     if (!isRegistered) return;
     
@@ -461,7 +460,6 @@
     `).join('');
 
     const country = v('country');
-    const countryName = country === 'OTHER' ? v('otherCountryName') : document.getElementById('country').options[document.getElementById('country').selectedIndex].text;
     const taxIdLabel = document.getElementById('taxIdLabel').textContent.replace(' *', '');
     const payNum = "0708858816";
 
@@ -497,112 +495,4 @@
         <thead>
           <tr>
             <th>Désignation (Bien/Service)</th>
-            <th class="text-right">Qté</th>
-            <th class="text-right">P.U. HT</th>
-            <th class="text-right">Total HT</th>
-          </tr>
-        </thead>
-        <tbody>${rows}</tbody>
-      </table>
-
-      <div class="total-box">
-        <div style="display:flex; justify-content:space-between;"><span>Total HT</span> <span>${fmt(subtotal)}</span></div>
-        <div style="display:flex; justify-content:space-between;"><span>TVA (${vatRate}%)</span> <span>${fmt(vatAmt)}</span></div>
-        <div class="total-row"><span>TOTAL TTC</span> <span>${fmt(total)}</span></div>
-      </div>
-
-      <div style="clear:both;"></div>
-
-      <div class="legal-footer">
-        <strong style="color:var(--primary);">Règlement :</strong> Merci de régler au <strong>${payNum}</strong> (Wave / Orange Money).<br><br>
-        ${country === 'CI' ? '<strong>⚠️ Mention Légale FNE :</strong> Ce document est un modèle de préparation. Pour être valable fiscalement en Côte d\'Ivoire, la facture doit être certifiée sur le portail FNE de la DGI.' : ''}
-        ${country === 'SN' ? '<strong>Mention Légale :</strong> NINEA : ' + v('fromTaxId') + ' — Facture normalisée.' : ''}
-        ${country === 'BJ' ? '<strong>Mention Légale :</strong> IFU : ' + v('fromTaxId') + ' — Facture soumise au MECeF.' : ''}
-        ${country === 'TG' ? '<strong>Mention Légale :</strong> IFU : ' + v('fromTaxId') + ' — Facture électronique certifiée (FEC) requise.' : ''}
-        <br><br>
-        <em>Document généré par FacturePro Expert. L'utilisateur reste responsable de la certification officielle auprès de son administration fiscale.</em>
-      </div>
-    `;
-
-    if (document.getElementById('adminPanel') && !document.getElementById('adminPanel').classList.contains('hidden')) {
-        updateAdminCode();
-    }
-  }
-
-  // ============ ACTIONS ============
-  function requestCode() {
-    const msg = `Bonjour, je souhaite payer les 1000 FCFA pour débloquer ma facture sur FacturePro.`;
-    window.open(`https://wa.me/2250708858816?text=${encodeURIComponent(msg)}`, '_blank');
-  }
-
-  function verifyCode() {
-    const entered = document.getElementById('unlockCode').value.trim().toUpperCase();
-    const expected = generateCode('FAC-2026-001');
-    if (entered === expected) {
-        document.getElementById('lockOverlay').classList.add('hidden');
-        document.getElementById('preview').style.filter = 'none';
-        document.getElementById('preview').style.pointerEvents = 'auto';
-        alert('✅ Facture débloquée ! Vous pouvez imprimer (Ctrl+P) ou enregistrer en PDF.');
-    } else {
-        alert('❌ Code incorrect.');
-    }
-  }
-
-  function checkAdmin() {
-    if (document.getElementById('adminCode').value === ADMIN_PASSWORD) {
-        document.getElementById('adminGate').classList.add('hidden');
-        document.getElementById('adminPanel').classList.remove('hidden');
-        updateAdminCode();
-    } else {
-        alert('❌ Code admin incorrect');
-    }
-  }
-
-  function updateAdminCode() {
-    document.getElementById('generatedCode').textContent = generateCode('FAC-2026-001');
-  }
-
-  function copyCode() {
-    const code = document.getElementById('generatedCode').textContent;
-    navigator.clipboard.writeText(code).then(() => alert('📋 Code copié !'));
-  }
-
-  // ============ CHAT & IA ============
-  function toggleChat() { document.getElementById('chatBox').classList.toggle('hidden'); }
-  
-  function askAI() {
-    const input = document.getElementById('chatInput').value.toLowerCase();
-    if (!input) return;
-    let response = "";
-    
-    if (input.includes('ncc') || input.includes('contribuable')) {
-      response = "🤖 Pour obtenir votre NCC en Côte d'Ivoire, rendez-vous sur le site de la DGI (dgi.gouv.ci) avec votre RCCM. Le NCC comporte 7 chiffres suivis d'une lettre majuscule (ex: 1234567A).";
-    } else if (input.includes('fne') || input.includes('normalisée')) {
-      response = "🤖 La FNE est obligatoire depuis 2025. FacturePro vous aide à préparer les données, mais vous devez valider la facture finale sur le portail FNE de la DGI pour obtenir le QR Code officiel.";
-    } else if (input.includes('tva')) {
-      response = "🤖 La TVA est de 18% en Côte d'Ivoire, au Sénégal et au Bénin, et de 19% au Niger. Elle s'applique sur le total hors taxe.";
-    } else if (input.includes('togo') || input.includes('fec')) {
-      response = "🤖 Au Togo, depuis 2026, la facture électronique certifiée (FEC) est requise. Chaque facture doit porter un numéro unique, un QR code et une empreinte numérique.";
-    } else {
-      response = "🤖 Je n'ai pas la réponse exacte à cette question. Je vous invite à cliquer sur le lien WhatsApp ci-dessous pour parler à un expert humain qui vous répondra immédiatement.";
-    }
-    alert(response);
-    document.getElementById('chatInput').value = '';
-  }
-
-  // ============ AVIS ============
-  function rate(n) {
-    const stars = document.querySelectorAll('#ratingStars span');
-    stars.forEach((s, i) => {
-        if (i < n) s.classList.add('active');
-        else s.classList.remove('active');
-    });
-    document.getElementById('ratingMessage').textContent = `Merci ! Vous avez noté ${n}/5 étoiles.`;
-  }
-
-  // ============ INITIALISATION ============
-  renderItems();
-  updateCountryRules();
-</script>
-</body>
-</html>
+            <th class="text-right">Qt
