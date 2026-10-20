@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FacturePro CI — L'Assistant Fiscal N°1</title>
 <style>
-  /* COULEURS ATTRAYANTES ET PROFESSIONNELLES */
   :root {
     --primary: #4f46e5;
     --primary-hover: #4338ca;
@@ -19,12 +18,7 @@
     --border: #e2e8f0;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: 'Inter', -apple-system, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.6;
-  }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
   .container { max-width: 1200px; margin: 0 auto; padding: 24px 16px; }
   
   header { text-align: center; margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #eef2ff, #ecfdf5); border-radius: 16px; border: 1px solid var(--border); }
@@ -53,7 +47,6 @@
   button.btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text); }
   button.btn-outline:hover { background: #f1f5f9; }
   
-  /* FACTURE PREVIEW */
   .invoice-preview { background: white; padding: 40px; border-radius: 8px; min-height: 500px; border: 1px solid var(--border); font-family: 'Helvetica Neue', Arial, sans-serif; color: #334155; font-size: 0.9rem; }
   .invoice-preview h3 { font-size: 2rem; color: var(--primary); margin-bottom: 4px; letter-spacing: 1px; }
   .invoice-header { display: flex; justify-content: space-between; margin-bottom: 30px; border-bottom: 2px solid var(--primary); padding-bottom: 15px; }
@@ -70,64 +63,89 @@
   
   .legal-footer { margin-top: 30px; clear: both; padding-top: 15px; border-top: 1px dashed #cbd5e1; font-size: 0.7rem; color: var(--text-muted); }
   
-  /* OVERLAY & LOCK */
   .lock-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(8px); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; z-index: 10; }
   .lock-overlay h3 { color: var(--primary); font-size: 1.4rem; margin-bottom: 8px; }
   .lock-overlay .price { font-size: 2.5rem; font-weight: 800; color: var(--accent); margin: 10px 0; }
   
   .hidden { display: none !important; }
   
-  /* CHAT WIDGET */
   .chat-widget { position: fixed; bottom: 20px; right: 20px; z-index: 100; }
   .chat-button { width: 60px; height: 60px; border-radius: 50%; background: var(--primary); color: white; border: none; font-size: 1.8rem; cursor: pointer; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4); display: flex; align-items: center; justify-content: center; margin:0; }
   .chat-box { position: absolute; bottom: 80px; right: 0; width: 320px; background: white; border: 1px solid var(--border); border-radius: 12px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
   .chat-box h4 { color: var(--primary); margin-bottom: 10px; }
   .chat-box p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px; }
   
-  /* AVIS */
   .stars { color: #cbd5e1; font-size: 1.5rem; cursor: pointer; }
   .stars .active { color: var(--warning); }
   
-  /* FICHE INSCRIPTION */
+  /* MODALES */
   .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
   .modal-content { background: white; padding: 30px; border-radius: 12px; max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; }
-  
   .cgu-text { font-size: 0.75rem; color: var(--text-muted); background: #f1f5f9; padding: 12px; border-radius: 8px; margin-top: 15px; max-height: 150px; overflow-y: auto; border: 1px solid var(--border); }
+  
+  /* HEADER UTILISATEUR CONNECTÉ */
+  .user-bar { display: flex; justify-content: space-between; align-items: center; background: white; padding: 10px 20px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
 </style>
 </head>
 <body>
 
-<!-- MODAL D'INSCRIPTION -->
-<div class="modal-overlay" id="signupModal">
+<!-- MODAL : CONNEXION / INSCRIPTION -->
+<div class="modal-overlay" id="authModal">
   <div class="modal-content">
-    <h2 style="color:var(--primary); margin-bottom:10px;">Bienvenue sur FacturePro</h2>
-    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">Créez votre compte pour accéder à l'assistant fiscal.</p>
-    
-    <label>Nom complet / Entrepreneur <span class="required">*</span></label>
-    <input id="regName" placeholder="Ex: Amadou Coulibaly" class="req-reg">
-    
-    <label>Email ou Numéro de téléphone <span class="required">*</span></label>
-    <input id="regContact" placeholder="Ex: 0708858816" class="req-reg">
-    
-    <label>Identifiant de connexion <span class="required">*</span></label>
-    <input id="regUsername" placeholder="Ex: AmadouDesign" class="req-reg">
-    
-    <div class="cgu-text">
-      <strong>Conditions Générales d'Adhésion (Extrait) :</strong><br>
-      FacturePro Expert CI est un outil d'assistance à la préparation de factures. L'utilisateur demeure seul et entièrement responsable de la conformité légale et fiscale du contenu de chaque facture (exactitude des mentions obligatoires, calculs, taux de TVA applicables, respect des conditions d'exonération, etc.).<br><br>
-      L'éditeur ne fournit aucun conseil comptable, fiscal ou juridique et décline toute responsabilité quant aux sanctions fiscales qui pourraient résulter de l'utilisation des documents générés. En cas de doute, l'utilisateur doit consulter un expert-comptable ou un conseil fiscal habilité. En Côte d'Ivoire, la validation finale doit être effectuée sur le portail FNE de la DGI.
+    <!-- Choix initial -->
+    <div id="authChoice">
+      <h2 style="color:var(--primary); margin-bottom:10px; text-align:center;">Bienvenue sur FacturePro</h2>
+      <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:20px; text-align:center;">Connectez-vous ou créez un compte pour continuer.</p>
+      <button onclick="showLogin()">J'ai déjà un compte (Se connecter)</button>
+      <button class="btn-outline" onclick="showRegister()">Créer un nouveau compte</button>
     </div>
-    
-    <div style="margin-top:15px; display:flex; align-items:start; gap:8px;">
-      <input type="checkbox" id="acceptCgu" style="width:auto; margin-top:4px;">
-      <label for="acceptCgu" style="font-size:0.8rem; margin:0; font-weight:normal;">J'accepte les conditions générales d'adhésion et je comprends que je reste responsable de la conformité de mes factures.</label>
+
+    <!-- Formulaire Connexion -->
+    <div id="loginForm" class="hidden">
+      <h2 style="color:var(--primary); margin-bottom:15px;">Connexion</h2>
+      <label>Identifiant <span class="required">*</span></label>
+      <input id="loginUsername" placeholder="Votre identifiant">
+      <label>Mot de passe <span class="required">*</span></label>
+      <input type="password" id="loginPassword" placeholder="Votre mot de passe">
+      <button onclick="doLogin()" style="margin-top:20px;">Se connecter</button>
+      <button class="btn-outline" onclick="backToAuthChoice()">Retour</button>
     </div>
-    
-    <button onclick="registerUser()" style="margin-top:20px;">Créer mon compte et commencer</button>
+
+    <!-- Formulaire Inscription -->
+    <div id="registerForm" class="hidden">
+      <h2 style="color:var(--primary); margin-bottom:15px;">Créer un compte</h2>
+      <label>Nom complet / Entrepreneur <span class="required">*</span></label>
+      <input id="regName" placeholder="Ex: Amadou Coulibaly">
+      <label>Email ou Téléphone <span class="required">*</span></label>
+      <input id="regContact" placeholder="Ex: 0708858816">
+      <label>Identifiant de connexion <span class="required">*</span></label>
+      <input id="regUsername" placeholder="Ex: AmadouDesign">
+      <label>Mot de passe <span class="required">*</span></label>
+      <input type="password" id="regPassword" placeholder="Choisissez un mot de passe">
+      
+      <div class="cgu-text">
+        <strong>Conditions Générales d'Adhésion :</strong><br>
+        FacturePro Expert CI est un outil d'assistance à la préparation de factures. L'utilisateur demeure seul responsable de la conformité légale de ses documents. L'éditeur décline toute responsabilité quant aux sanctions fiscales. En Côte d'Ivoire, la validation finale doit être effectuée sur le portail FNE de la DGI.
+      </div>
+      
+      <div style="margin-top:15px; display:flex; align-items:start; gap:8px;">
+        <input type="checkbox" id="acceptCgu" style="width:auto; margin-top:4px;">
+        <label for="acceptCgu" style="font-size:0.8rem; margin:0; font-weight:normal;">J'accepte les conditions générales.</label>
+      </div>
+      
+      <button onclick="doRegister()" style="margin-top:20px;">Créer mon compte</button>
+      <button class="btn-outline" onclick="backToAuthChoice()">Retour</button>
+    </div>
   </div>
 </div>
 
-<div class="container">
+<!-- BARRE UTILISATEUR (visible une fois connecté) -->
+<div class="container" id="userContainer" style="display:none;">
+  <div class="user-bar">
+    <div>Connecté en tant que : <strong id="displayUsername"></strong></div>
+    <button class="btn-outline" onclick="doLogout()" style="margin:0; padding:6px 12px; width:auto; font-size:0.8rem;">Déconnexion</button>
+  </div>
+
   <header>
     <div class="badge-expert">L'Assistant Fiscal N°1 en Afrique de l'Ouest</div>
     <h1>FacturePro Expert</h1>
@@ -202,7 +220,6 @@
         <h2>👤 3. Client</h2>
         <label>Nom / Raison sociale du client <span class="required">*</span></label>
         <input id="toName" placeholder="Ex: Société XYZ" class="req">
-        
         <label>NCC / NINEA du client (B2B)</label>
         <input id="toTaxId" placeholder="Pour déduction TVA">
       </div>
@@ -219,9 +236,7 @@
     <div>
       <div class="card" style="border: 2px solid var(--primary);">
         <h2>🔒 Débloquer la Facture</h2>
-        <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:10px;">
-          Génération du PDF final et export WhatsApp.
-        </p>
+        <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:10px;">Génération du PDF final et export WhatsApp.</p>
         <div style="background: #f0fdf4; padding: 15px; border-radius: 8px; margin-bottom: 15px; text-align: center; border: 1px solid #bbf7d0;">
           <span style="font-size: 0.85rem; color: var(--text-muted);">Frais de service unique</span><br>
           <strong style="font-size: 1.8rem; color: var(--accent);">1 000 FCFA</strong><br>
@@ -235,11 +250,8 @@
         </div>
       </div>
 
-      <!-- ABONNEMENTS -->
       <div class="card">
         <h2>💎 Passer au Forfait Pro</h2>
-        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">Pour les entreprises qui facturent régulièrement.</p>
-        
         <div style="border: 1px solid var(--border); border-radius: 8px; padding: 15px; margin-bottom: 10px; background: #f8fafc;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <strong style="color:var(--primary);">Forfait Starter</strong>
@@ -247,7 +259,6 @@
           </div>
           <p style="font-size:0.8rem; color:var(--text-muted); margin-top:5px;">Jusqu'à 25 factures par mois.</p>
         </div>
-        
         <div style="border: 1px solid var(--primary); border-radius: 8px; padding: 15px; background: #eef2ff; position:relative;">
           <span style="position:absolute; top:-10px; right:10px; background:var(--accent); color:white; font-size:0.7rem; padding:2px 8px; border-radius:10px;">Recommandé</span>
           <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -283,16 +294,13 @@
         <div class="price">1 000 FCFA</div>
         <p style="font-size:0.8rem; margin-top:8px;">Numéro : <strong>0708858816</strong></p>
       </div>
-      <div class="invoice-preview" id="preview" style="filter: blur(6px); pointer-events: none;">
-        <!-- Rempli par JS -->
-      </div>
+      <div class="invoice-preview" id="preview" style="filter: blur(6px); pointer-events: none;"></div>
     </div>
   </div>
 
-  <!-- SYSTÈME D'AVIS -->
+  <!-- AVIS -->
   <div class="card" style="margin-top: 20px; text-align:center;">
     <h2>⭐ Votre Avis Compte</h2>
-    <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:15px;">Aidez-nous à améliorer FacturePro pour tous les entrepreneurs.</p>
     <div class="stars" id="ratingStars">
       <span onclick="rate(1)">★</span>
       <span onclick="rate(2)">★</span>
@@ -303,11 +311,10 @@
     <p id="ratingMessage" style="margin-top:10px; font-weight:bold; color:var(--accent);"></p>
   </div>
 
-  <!-- SLOGAN FINAL -->
+  <!-- SLOGAN -->
   <div style="text-align: center; margin-top: 40px; padding: 20px; background: linear-gradient(135deg, #eef2ff, #ecfdf5); border-radius: 16px; border: 1px solid var(--border);">
     <h3 style="color: var(--primary); font-size: 1.5rem; margin-bottom: 10px;">FacturePro Expert</h3>
     <p style="color: var(--text-muted); font-size: 1rem;">Votre facture, notre expertise. Gagnez en crédibilité, dormez tranquille.</p>
-    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 10px;">Un outil conçu pour les entrepreneurs d'Afrique de l'Ouest.</p>
   </div>
 </div>
 
@@ -315,50 +322,105 @@
 <div class="chat-widget">
   <div id="chatBox" class="chat-box hidden">
     <h4>🤖 Assistant IA</h4>
-    <p>Posez toutes vos questions sur la fiscalité ou l'utilisation de l'outil.</p>
+    <p>Posez vos questions sur la fiscalité.</p>
     <input type="text" id="chatInput" placeholder="Ex: Comment obtenir mon NCC ?" style="margin-bottom:8px;">
     <button onclick="askAI()" style="margin-top:0; padding:10px;">Envoyer</button>
-    
-    <!-- RELAIS WHATSAPP -->
     <div style="margin-top:15px; border-top:1px solid var(--border); padding-top:15px; text-align:center;">
       <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:5px;">L'IA n'a pas la réponse ?</p>
-      <a href="https://wa.me/2250708858816?text=Bonjour,%20j'ai%20une%20question%20sur%20FacturePro%20CI" target="_blank" style="color:var(--accent); font-weight:bold; text-decoration:none; font-size:0.85rem;">💬 Passer le relais à un expert humain</a>
+      <a href="https://wa.me/2250708858816?text=Bonjour,%20j'ai%20une%20question%20sur%20FacturePro%20CI" target="_blank" style="color:var(--accent); font-weight:bold; text-decoration:none; font-size:0.85rem;">💬 Passer le relais à un humain</a>
     </div>
   </div>
   <button class="chat-button" onclick="toggleChat()">💬</button>
 </div>
 
 <script>
-  // ============ CONFIGURATION ============
   const ADMIN_PASSWORD = "Amadcoul@";
   const SECRET_SALT = "Kouassi2026";
-  
-  // ⚠️ C'EST ICI QUE LA VALEUR A ÉTÉ CHANGÉE (1000 au lieu de 25000) ⚠️
   let items = [{ desc: 'Prestation de service', qty: 1, price: 1000 }];
+  let currentUser = null;
+  let isUnlocked = false;
   
-  let isRegistered = false;
-  let currentUser = { name: "", contact: "", username: "" };
+  // ============ GESTION DES COMPTES ============
+  function showLogin() {
+    document.getElementById('authChoice').classList.add('hidden');
+    document.getElementById('loginForm').classList.remove('hidden');
+  }
   
-  // ============ INSCRIPTION ============
-  function registerUser() {
+  function showRegister() {
+    document.getElementById('authChoice').classList.add('hidden');
+    document.getElementById('registerForm').classList.remove('hidden');
+  }
+  
+  function backToAuthChoice() {
+    document.getElementById('loginForm').classList.add('hidden');
+    document.getElementById('registerForm').classList.add('hidden');
+    document.getElementById('authChoice').classList.remove('hidden');
+  }
+
+  function doRegister() {
     const name = document.getElementById('regName').value.trim();
     const contact = document.getElementById('regContact').value.trim();
     const username = document.getElementById('regUsername').value.trim();
+    const password = document.getElementById('regPassword').value.trim();
     const cgu = document.getElementById('acceptCgu').checked;
     
-    if (!name || !contact || !username) {
-      alert("Veuillez remplir tous les champs obligatoires.");
-      return;
+    if (!name || !contact || !username || !password) {
+      alert("Veuillez remplir tous les champs obligatoires."); return;
     }
     if (!cgu) {
-      alert("Vous devez accepter les conditions générales.");
-      return;
+      alert("Vous devez accepter les conditions générales."); return;
     }
     
-    currentUser = { name, contact, username };
-    isRegistered = true;
-    document.getElementById('signupModal').classList.add('hidden');
+    // Sauvegarde locale du compte
+    const user = { name, contact, username, password };
+    localStorage.setItem('fp_user_' + username, JSON.stringify(user));
+    
+    // Connexion automatique
+    loginSuccess(user);
+  }
+
+  function doLogin() {
+    const username = document.getElementById('loginUsername').value.trim();
+    const password = document.getElementById('loginPassword').value.trim();
+    
+    const storedUser = localStorage.getItem('fp_user_' + username);
+    if (!storedUser) {
+      alert("Identifiant introuvable. Veuillez créer un compte."); return;
+    }
+    
+    const user = JSON.parse(storedUser);
+    if (user.password !== password) {
+      alert("Mot de passe incorrect."); return;
+    }
+    
+    loginSuccess(user);
+  }
+
+  function loginSuccess(user) {
+    currentUser = user;
+    document.getElementById('authModal').classList.add('hidden');
+    document.getElementById('userContainer').style.display = 'block';
+    document.getElementById('displayUsername').textContent = user.username;
+    
+    // Pré-remplir les champs avec les infos du compte
+    document.getElementById('fromName').value = user.name;
+    document.getElementById('fromPhone').value = user.contact;
+    
+    renderItems();
+    updateCountryRules();
     render();
+  }
+
+  function doLogout() {
+    currentUser = null;
+    document.getElementById('userContainer').style.display = 'none';
+    document.getElementById('authModal').classList.remove('hidden');
+    backToAuthChoice();
+    // Réinitialiser les champs
+    document.getElementById('fromName').value = "";
+    document.getElementById('fromPhone').value = "";
+    document.getElementById('fromTaxId').value = "";
+    document.getElementById('fromAddress').value = "";
   }
 
   // ============ GESTION DES PAYS ============
@@ -392,7 +454,7 @@
   function renderItems() {
     document.getElementById('items').innerHTML = items.map((it, i) => `
       <div style="display:grid; grid-template-columns: 2fr 1fr 1fr auto; gap:5px; margin-bottom:5px; align-items:center;">
-        <input placeholder="Désignation (Bien/Service)" value="${it.desc}" oninput="updateItem(${i}, 'desc', this.value)">
+        <input placeholder="Désignation" value="${it.desc}" oninput="updateItem(${i}, 'desc', this.value)">
         <input type="number" placeholder="Qté" value="${it.qty}" min="0" oninput="updateItem(${i}, 'qty', this.value)">
         <input type="number" placeholder="P.U." value="${it.price}" min="0" step="100" oninput="updateItem(${i}, 'price', this.value)">
         <button onclick="removeItem(${i})" style="width:34px; height:34px; background:var(--danger); margin:0; padding:0; border-radius:6px;">×</button>
@@ -401,34 +463,23 @@
   }
 
   function validateFields() {
-    const reqs = document.querySelectorAll('.req');
-    reqs.forEach(field => {
-        if (!field.value.trim()) {
-            field.classList.add('error');
-            field.classList.remove('success');
-        } else {
-            field.classList.remove('error');
-            field.classList.add('success');
-        }
+    document.querySelectorAll('.req').forEach(field => {
+        if (!field.value.trim()) { field.classList.add('error'); field.classList.remove('success'); }
+        else { field.classList.remove('error'); field.classList.add('success'); }
     });
   }
 
   function generateCode(invoiceNum) {
     let str = invoiceNum + SECRET_SALT;
     let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-        let char = str.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash = hash & hash;
-    }
+    for (let i = 0; i < str.length; i++) { hash = ((hash << 5) - hash) + str.charCodeAt(i); hash = hash & hash; }
     let code = Math.abs(hash).toString(36).substring(0, 4).toUpperCase();
     while(code.length < 4) { code += "X"; }
     return code;
   }
 
   function render() {
-    if (!isRegistered) return;
-    
+    if (!currentUser) return;
     const v = (id) => document.getElementById(id).value;
     validateFields();
 
@@ -439,60 +490,4 @@
     const fmt = (n) => `${Math.round(n).toLocaleString('fr-FR')} FCFA`;
 
     document.getElementById('totals').innerHTML = `
-      <div>Total HT : ${fmt(subtotal)}</div>
-      <div>TVA (${vatRate}%) : ${fmt(vatAmt)}</div>
-      <div style="font-size:1.2rem; font-weight:bold; color:var(--primary); margin-top:5px;">TOTAL TTC : ${fmt(total)}</div>
-    `;
-
-    const preview = document.getElementById('preview');
-    if (!v('fromName') || !v('toName')) {
-        preview.innerHTML = `<div style="text-align:center; padding:50px; color:#999;">Remplissez le formulaire pour voir l'aperçu</div>`;
-        return;
-    }
-
-    const rows = items.map(it => `
-      <tr>
-        <td>${it.desc || '—'}</td>
-        <td class="text-right">${it.qty}</td>
-        <td class="text-right">${fmt(it.price)}</td>
-        <td class="text-right">${fmt(it.qty * it.price)}</td>
-      </tr>
-    `).join('');
-
-    const country = v('country');
-    const taxIdLabel = document.getElementById('taxIdLabel').textContent.replace(' *', '');
-    const payNum = "0708858816";
-
-    preview.innerHTML = `
-      <div class="invoice-header">
-        <div>
-          <h3>${v('docType') === 'facture' ? 'FACTURE' : 'DEVIS'}</h3>
-          <div style="color:#666; font-size:0.8rem;">N° FAC-${new Date().getFullYear()}-001</div>
-          <div style="color:#666; font-size:0.8rem;">Date : ${new Date().toLocaleDateString('fr-FR')}</div>
-        </div>
-        <div style="text-align:right;">
-          <h3 style="color:var(--primary);">FacturePro</h3>
-          <div style="font-size:0.75rem; color:#666;">ID: ${currentUser.username}</div>
-        </div>
-      </div>
-
-      <div class="invoice-parties">
-        <div>
-          <strong>Émetteur</strong>
-          <div style="font-size:1.1rem; font-weight:bold;">${v('fromName') || '—'}</div>
-          ${v('fromAddress').replace(/\n/g, '<br>') || ''}<br>
-          ${v('fromPhone') || ''}<br>
-          <strong style="margin-top:8px; display:block;">${taxIdLabel} :</strong> ${v('fromTaxId') || '—'}
-        </div>
-        <div style="text-align:right;">
-          <strong>Client</strong>
-          <div style="font-size:1.1rem; font-weight:bold;">${v('toName') || '—'}</div>
-          ${v('toTaxId') ? `<strong>${taxIdLabel} :</strong> ${v('toTaxId')}` : ''}
-        </div>
-      </div>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Désignation (Bien/Service)</th>
-            <th class="text-right">Qt
+      <div>Total HT : ${fmt(subtotal)}
