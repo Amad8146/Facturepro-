@@ -1,372 +1,380 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FacturePro CI — Factures pro en 30 secondes</title>
+<title>FacturePro CI — L'Assistant Fiscal N°1</title>
 <style>
+  /* COULEURS ATTRAYANTES ET PROFESSIONNELLES */
+  :root {
+    --primary: #4f46e5; /* Indigo vif */
+    --primary-hover: #4338ca;
+    --accent: #10b981; /* Vert émeraude */
+    --warning: #f59e0b; /* Ambre */
+    --danger: #ef4444; /* Rouge */
+    --bg: #f8fafc; /* Gris très clair, presque blanc */
+    --card: #ffffff;
+    --text: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+  }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: #0a0a0f;
-    color: #e8e8ec;
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
     line-height: 1.6;
   }
-  .container { max-width: 1100px; margin: 0 auto; padding: 24px 16px; }
-  header { text-align: center; margin-bottom: 30px; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 24px 16px; }
+  
+  header { text-align: center; margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #eef2ff, #ecfdf5); border-radius: 16px; border: 1px solid var(--border); }
   h1 {
-    font-size: 2rem;
-    background: linear-gradient(135deg, #f59e0b, #ef4444, #a855f7);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 6px;
+    font-size: 2.2rem;
+    color: var(--primary);
+    margin-bottom: 8px;
   }
-  .tagline { color: #9ca3af; font-size: 0.95rem; }
-  .badge {
+  .tagline { color: var(--text-muted); font-size: 1rem; max-width: 700px; margin: 0 auto; }
+  .badge-expert {
     display: inline-block;
-    background: #1f1f2e;
-    border: 1px solid #2e2e42;
-    padding: 5px 12px;
+    background: var(--accent);
+    color: white;
+    padding: 4px 12px;
     border-radius: 20px;
-    font-size: 0.8rem;
-    color: #f59e0b;
-    margin-bottom: 14px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
   }
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-  @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+  
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+  
   .card {
-    background: #14141c;
-    border: 1px solid #26263a;
+    background: var(--card);
+    border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 20px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
   }
   .card h2 {
-    font-size: 0.95rem;
-    margin-bottom: 14px;
-    color: #fbbf24;
+    font-size: 1.1rem;
+    margin-bottom: 16px;
+    color: var(--primary);
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
+    border-bottom: 2px solid #e0e7ff;
+    padding-bottom: 10px;
   }
+  
   label {
     display: block;
-    font-size: 0.78rem;
-    color: #9ca3af;
-    margin-bottom: 4px;
-    margin-top: 10px;
+    font-size: 0.85rem;
+    color: var(--text);
+    margin-bottom: 6px;
+    margin-top: 14px;
+    font-weight: 600;
   }
+  label .required { color: var(--danger); margin-left: 4px; font-size: 1.1rem; }
+  
   input, textarea, select {
     width: 100%;
-    background: #0a0a0f;
-    border: 1px solid #2e2e42;
-    border-radius: 7px;
-    padding: 8px 10px;
-    color: #e8e8ec;
-    font-size: 0.88rem;
+    background: #f8fafc;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: var(--text);
+    font-size: 0.95rem;
     font-family: inherit;
+    transition: all 0.2s;
   }
   input:focus, textarea:focus, select:focus {
     outline: none;
-    border-color: #f59e0b;
+    border-color: var(--primary);
+    background: white;
   }
-  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  /* CHAMPS OBLIGATOIRES VIDES */
+  input.error, textarea.error { border-color: var(--danger); background: #fef2f2; }
+  input.success, textarea.success { border-color: var(--accent); }
+  
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  
   button {
-    background: linear-gradient(135deg, #f59e0b, #ef4444);
+    background: var(--primary);
     color: white;
     border: none;
-    padding: 12px 18px;
-    border-radius: 9px;
-    font-size: 0.92rem;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
     width: 100%;
-    margin-top: 14px;
+    margin-top: 16px;
+    transition: background 0.2s, transform 0.1s;
   }
-  .btn-wave {
-    background: linear-gradient(135deg, #1DC8FF, #0091E0);
-    font-size: 1rem;
-    padding: 14px;
+  button:hover { background: var(--primary-hover); transform: translateY(-1px); }
+  button.btn-accent { background: var(--accent); }
+  button.btn-accent:hover { background: #059669; }
+  button.btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text); }
+  button.btn-outline:hover { background: #f1f5f9; }
+  
+  /* FACTURE PREVIEW */
+  .invoice-preview {
+    background: white; padding: 40px; border-radius: 8px; min-height: 500px;
+    border: 1px solid var(--border); font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #334155; font-size: 0.9rem;
   }
-  .btn-sec { background: #26263a; color: #e8e8ec; }
-  .btn-wa { background: #25D366; color: white; }
-  .line-item {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr auto;
-    gap: 5px;
-    margin-bottom: 5px;
-    align-items: center;
+  .invoice-preview h3 { font-size: 2rem; color: var(--primary); margin-bottom: 4px; letter-spacing: 1px; }
+  .invoice-header { display: flex; justify-content: space-between; margin-bottom: 30px; border-bottom: 2px solid var(--primary); padding-bottom: 15px; }
+  .invoice-parties { display: flex; justify-content: space-between; margin-bottom: 30px; gap: 20px; }
+  .invoice-parties > div { flex: 1; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid var(--border); }
+  .invoice-parties strong { display: block; color: var(--primary); font-size: 0.75rem; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
+  
+  table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+  th { background: var(--primary); color: white; padding: 10px; text-align: left; font-size: 0.8rem; text-transform: uppercase; }
+  td { padding: 10px; border-bottom: 1px solid var(--border); }
+  .text-right { text-align: right; }
+  .total-box { background: #f8fafc; padding: 15px; border-radius: 8px; width: 300px; float: right; border: 1px solid var(--border); }
+  .total-row { font-weight: bold; font-size: 1.2rem; color: var(--primary); display: flex; justify-content: space-between; margin-top: 10px; border-top: 2px solid var(--border); padding-top: 10px; }
+  
+  .legal-footer { margin-top: 30px; clear: both; padding-top: 15px; border-top: 1px dashed #cbd5e1; font-size: 0.7rem; color: var(--text-muted); }
+  
+  /* OVERLAY & LOCK */
+  .lock-overlay {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(8px);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 20px; z-index: 10;
   }
-  .remove {
-    background: #3a1e2e;
-    color: #f87171;
-    border: none;
-    width: 30px;
-    height: 30px;
-    border-radius: 7px;
-    cursor: pointer;
-    font-size: 1rem;
-    padding: 0;
-    margin: 0;
+  .lock-overlay h3 { color: var(--primary); font-size: 1.4rem; margin-bottom: 8px; }
+  .lock-overlay .price { font-size: 2.5rem; font-weight: 800; color: var(--accent); margin: 10px 0; }
+  
+  .hidden { display: none !important; }
+  
+  /* CHAT WIDGET */
+  .chat-widget { position: fixed; bottom: 20px; right: 20px; z-index: 100; }
+  .chat-button {
+    width: 60px; height: 60px; border-radius: 50%; background: var(--primary); color: white; border: none;
+    font-size: 1.8rem; cursor: pointer; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+    display: flex; align-items: center; justify-content: center; margin:0;
   }
-  .add-line {
-    background: transparent;
-    border: 1px dashed #2e2e42;
-    color: #9ca3af;
-    padding: 7px;
-    margin-top: 5px;
-    font-size: 0.82rem;
+  .chat-box {
+    position: absolute; bottom: 80px; right: 0; width: 320px; background: white;
+    border: 1px solid var(--border); border-radius: 12px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);
   }
-  .totals {
-    margin-top: 14px;
-    padding-top: 14px;
-    border-top: 1px solid #26263a;
-    text-align: right;
-    font-size: 0.88rem;
-  }
-  .totals div { margin-bottom: 4px; color: #9ca3af; }
-  .totals .total {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #fbbf24;
-    margin-top: 6px;
-  }
-  .preview {
-    background: white;
-    color: #111;
-    padding: 30px;
-    border-radius: 10px;
-    min-height: 350px;
-  }
-  .preview h3 { font-size: 1.5rem; color: #ef4444; margin-bottom: 5px; }
-  .preview .meta { display: flex; justify-content: space-between; margin: 16px 0; font-size: 0.82rem; color: #555; gap: 16px; }
-  .preview table { width: 100%; border-collapse: collapse; margin-top: 16px; }
-  .preview th, .preview td { padding: 8px; text-align: left; border-bottom: 1px solid #eee; font-size: 0.82rem; }
-  .preview th { background: #fef3c7; font-weight: 600; }
-  .preview .preview-total { text-align: right; margin-top: 16px; font-size: 1rem; font-weight: 700; color: #ef4444; }
-  .empty-state { color: #666; text-align: center; padding: 50px 20px; font-style: italic; }
-  .tabs { display: flex; gap: 5px; margin-bottom: 14px; }
-  .tab {
-    flex: 1;
-    padding: 7px;
-    background: #0a0a0f;
-    border: 1px solid #2e2e42;
-    border-radius: 7px;
-    color: #9ca3af;
-    cursor: pointer;
-    font-size: 0.78rem;
-    text-align: center;
-  }
-  .tab.active { background: #f59e0b; color: #0a0a0f; border-color: #f59e0b; font-weight: 600; }
-  .payment-box {
-    background: #1a1a26;
-    border: 1px solid #1DC8FF;
-    border-radius: 10px;
-    padding: 16px;
-    margin-top: 14px;
-    text-align: center;
-  }
-  .payment-box h3 { color: #1DC8FF; font-size: 0.95rem; margin-bottom: 8px; }
-  .payment-box p { color: #9ca3af; font-size: 0.82rem; margin-bottom: 10px; }
-  .payment-box .phone { font-size: 1.2rem; font-weight: 700; color: #fbbf24; letter-spacing: 1px; }
-  .log-item {
-    background: #0a0a0f;
-    border: 1px solid #26263a;
-    border-radius: 7px;
-    padding: 10px;
-    margin-bottom: 6px;
-    font-size: 0.78rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .log-status { padding: 2px 8px; border-radius: 10px; font-size: 0.7rem; font-weight: 600; }
-  .status-paid { background: #14532d; color: #86efac; }
-  @media print {
-    body * { visibility: hidden; }
-    .preview, .preview * { visibility: visible; }
-    .preview { position: absolute; top: 0; left: 0; width: 100%; padding: 20px; }
-  }
-  .admin-gate { text-align: center; padding: 30px; }
-  .admin-gate input { max-width: 200px; margin: 10px auto; text-align: center; }
-  .hidden { display: none; }
+  .chat-box h4 { color: var(--primary); margin-bottom: 10px; }
+  .chat-box p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px; }
+  
+  /* AVIS */
+  .stars { color: #cbd5e1; font-size: 1.5rem; cursor: pointer; }
+  .stars .active { color: var(--warning); }
 </style>
 </head>
 <body>
 <div class="container">
   <header>
-    <div class="badge">🇨🇮 0 FCFA • Wave Business • Paiement sécurisé</div>
-    <h1>FacturePro CI</h1>
-    <p class="tagline">Factures, devis et reçus pro en 30 secondes. Aucune inscription, aucune donnée envoyée.</p>
+    <div class="badge-expert">L'Assistant Fiscal N°1 en UEMOA</div>
+    <h1>FacturePro Expert CI</h1>
+    <p class="tagline">Ne perdez plus un seul franc à cause d'une erreur de facture. L'outil qui garantit votre conformité fiscale en 3 minutes.</p>
   </header>
 
   <div class="grid">
+    <!-- FORMULAIRE -->
     <div>
       <div class="card">
-        <div class="tabs">
-          <div class="tab active" onclick="setType('facture', this)">📄 Facture</div>
-          <div class="tab" onclick="setType('devis', this)">📋 Devis</div>
-          <div class="tab" onclick="setType('recu', this)">🧾 Reçu</div>
-        </div>
-
-        <h2>📝 Tes informations</h2>
-        <label>Nom / Entreprise</label>
-        <input id="fromName" placeholder="Kouassi Design" oninput="render()">
-        <label>Téléphone / Email</label>
-        <input id="fromContact" placeholder="0708858816" oninput="render()">
-        <label>Adresse</label>
-        <textarea id="fromAddress" rows="2" placeholder="Cocody, Abidjan" oninput="render()"></textarea>
-        <label>Logo (upload)</label>
-        <input type="file" id="logoInput" accept="image/*" onchange="loadLogo(event)">
-        <img id="logoPreview" style="max-height:50px;margin-top:8px;display:none;">
-
-        <h2 style="margin-top:18px;">👤 Client</h2>
-        <label>Nom du client</label>
-        <input id="toName" placeholder="Société XYZ" oninput="render()">
-        <label>Contact client</label>
-        <input id="toContact" placeholder="+225 05 00 00 00 00" oninput="render()">
-        <label>Adresse client</label>
-        <textarea id="toAddress" rows="2" placeholder="Plateau, Abidjan" oninput="render()"></textarea>
-
-        <div class="row" style="margin-top:10px;">
-          <div>
-            <label>N° document</label>
-            <input id="invNumber" value="FAC-001" oninput="render()">
-          </div>
-          <div>
-            <label>Date</label>
-            <input id="invDate" type="date" oninput="render()">
-          </div>
-        </div>
+        <h2>🌍 1. Contexte Fiscal</h2>
+        <label>Pays de facturation <span class="required">*</span></label>
+        <select id="country" onchange="updateCountryRules()">
+          <option value="CI">🇨🇮 Côte d'Ivoire (FNE / NCC)</option>
+          <option value="SN">🇸🇳 Sénégal (NINEA)</option>
+          <option value="BJ">🇧🇯 Bénin (IFU)</option>
+        </select>
+        
         <div class="row">
           <div>
-            <label>Échéance</label>
-            <input id="invDue" type="date" oninput="render()">
+            <label>Type de document <span class="required">*</span></label>
+            <select id="docType">
+              <option value="facture">Facture</option>
+              <option value="devis">Devis</option>
+            </select>
           </div>
           <div>
-            <label>Devise</label>
-            <select id="currency" onchange="render()">
-              <option value="FCFA">FCFA (XOF)</option>
-              <option value="€">€ EUR</option>
-              <option value="$">$ USD</option>
+            <label>TVA applicable</label>
+            <select id="vatRate">
+              <option value="18">18% (Standard)</option>
+              <option value="19">19% (Niger)</option>
+              <option value="0">0% (Exonéré)</option>
             </select>
           </div>
         </div>
       </div>
 
-      <div class="card" style="margin-top:14px;">
-        <h2>💰 Prestations</h2>
-        <div id="items"></div>
-        <button class="add-line" onclick="addItem()">+ Ajouter une ligne</button>
-        <div class="row" style="margin-top:12px;">
+      <div class="card">
+        <h2>🏢 2. Émetteur (Vous)</h2>
+        <label>Raison sociale <span class="required">*</span></label>
+        <input id="fromName" placeholder="Ex: SARL Kouassi Design" class="req">
+        
+        <div class="row">
           <div>
-            <label>TVA (%)</label>
-            <input id="vat" type="number" value="18" min="0" max="100" oninput="render()">
+            <label>NCC / NINEA / IFU <span class="required">*</span></label>
+            <input id="fromTaxId" placeholder="Ex: 1234567A" class="req">
           </div>
           <div>
-            <label>Remise (%)</label>
-            <input id="discount" type="number" value="0" min="0" max="100" oninput="render()">
+            <label>Téléphone <span class="required">*</span></label>
+            <input id="fromPhone" placeholder="0708858816" class="req">
           </div>
         </div>
-        <div class="totals" id="totals"></div>
-        <button onclick="window.print()">🖨️ Imprimer / PDF</button>
-        <button class="btn-wa" onclick="shareWhatsApp()">📱 Partager sur WhatsApp</button>
+
+        <label>Adresse complète <span class="required">*</span></label>
+        <textarea id="fromAddress" rows="2" placeholder="Cocody, Abidjan" class="req"></textarea>
+      </div>
+
+      <div class="card">
+        <h2>👤 3. Client</h2>
+        <label>Nom / Raison sociale du client <span class="required">*</span></label>
+        <input id="toName" placeholder="Ex: Société XYZ" class="req">
+        
+        <label>NCC / NINEA du client (B2B)</label>
+        <input id="toTaxId" placeholder="Pour déduction TVA">
+      </div>
+
+      <div class="card">
+        <h2>📦 4. Désignation (Bien ou Service)</h2>
+        <div id="items"></div>
+        <button class="btn-outline" onclick="addItem()">+ Ajouter une ligne</button>
+        <div id="totals" style="margin-top:16px; text-align:right;"></div>
       </div>
     </div>
 
+    <!-- COLONNE DROITE : PAIEMENT & PREVIEW -->
     <div>
-      <div class="card">
-        <h2>💳 Paiement Wave Business</h2>
-        <div class="payment-box">
-          <h3>📱 Paie en un clic</h3>
-          <p>Wave, Orange Money, MTN — paiement sécurisé</p>
-          <p class="phone">0708858816</p>
-          <button class="btn-wave" onclick="openWave()">💙 Payer maintenant par Wave</button>
-          <p style="font-size:0.72rem;color:#666;margin-top:10px;">Après paiement, envoie la capture sur WhatsApp.</p>
+      <div class="card" style="border: 2px solid var(--primary);">
+        <h2>🔒 Débloquer la Facture</h2>
+        <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:10px;">
+          Génération du PDF final et export WhatsApp.
+        </p>
+        <div style="background: #f0fdf4; padding: 15px; border-radius: 8px; margin-bottom: 15px; text-align: center; border: 1px solid #bbf7d0;">
+          <span style="font-size: 0.85rem; color: var(--text-muted);">Frais de service unique</span><br>
+          <strong style="font-size: 1.8rem; color: var(--accent);">1 000 FCFA</strong><br>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Au 0708858816 (Wave / OM)</span>
         </div>
-        <label style="margin-top:12px;">Statut du paiement</label>
-        <select id="payStatus" onchange="updateStatus()">
-          <option value="pending">⏳ En attente</option>
-          <option value="paid">✅ Payé</option>
-        </select>
+        <button onclick="requestCode()">💬 Payer & Demander mon code</button>
+        
+        <div style="margin-top: 15px; display:flex; gap:5px;">
+          <input type="text" id="unlockCode" placeholder="Code reçu" style="text-align:center; text-transform:uppercase;">
+          <button onclick="verifyCode()" style="margin-top:0; width:auto; padding: 0 20px;">OK</button>
+        </div>
       </div>
 
-      <div class="card" style="margin-top:14px;">
-        <h2>🔐 Accès administrateur</h2>
-        <div id="adminGate" class="admin-gate">
-          <p style="color:#9ca3af;font-size:0.82rem;">Entre ton code pour accéder au journal de bord.</p>
-          <input type="password" id="adminCode" placeholder="Code admin" onkeypress="if(event.key==='Enter')checkAdmin()">
-          <button class="btn-sec" onclick="checkAdmin()">Déverrouiller</button>
+      <!-- ABONNEMENTS -->
+      <div class="card">
+        <h2>💎 Passer au Forfait Pro</h2>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">Pour les entreprises qui facturent régulièrement.</p>
+        
+        <div style="border: 1px solid var(--border); border-radius: 8px; padding: 15px; margin-bottom: 10px; background: #f8fafc;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <strong style="color:var(--primary);">Forfait Starter</strong>
+            <span style="font-weight:bold; font-size:1.2rem;">7 000 FCFA <span style="font-size:0.8rem; font-weight:normal;">/ mois</span></span>
+          </div>
+          <p style="font-size:0.8rem; color:var(--text-muted); margin-top:5px;">Jusqu'à 25 factures par mois.</p>
+        </div>
+        
+        <div style="border: 1px solid var(--primary); border-radius: 8px; padding: 15px; background: #eef2ff; position:relative;">
+          <span style="position:absolute; top:-10px; right:10px; background:var(--accent); color:white; font-size:0.7rem; padding:2px 8px; border-radius:10px;">Recommandé</span>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <strong style="color:var(--primary);">Forfait Pro</strong>
+            <span style="font-weight:bold; font-size:1.2rem;">10 000 FCFA <span style="font-size:0.8rem; font-weight:normal;">/ mois</span></span>
+          </div>
+          <p style="font-size:0.8rem; color:var(--text-muted); margin-top:5px;">Factures illimitées + Support prioritaire.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🛠️ Espace Admin (Créateur)</h2>
+        <div id="adminGate">
+          <input type="password" id="adminCode" placeholder="Mot de passe admin">
+          <button class="btn-outline" onclick="checkAdmin()">Déverrouiller</button>
         </div>
         <div id="adminPanel" class="hidden">
-          <h2>📒 Journal de bord</h2>
-          <div id="journal"></div>
-          <button class="btn-sec" onclick="clearJournal()">🗑️ Effacer le journal</button>
+          <p style="font-size:0.85rem; color:var(--text-muted);">Code de déblocage client :</p>
+          <div style="font-size: 2rem; font-weight: bold; color: var(--accent); letter-spacing: 4px; text-align: center; margin: 10px 0; background:#f8fafc; padding:10px; border-radius:8px; border:1px solid var(--border);" id="generatedCode">----</div>
+          <button class="btn-outline" onclick="copyCode()">📋 Copier le code</button>
         </div>
-      </div>
-
-      <div class="card" style="margin-top:14px;">
-        <h2>❓ C'est quoi FacturePro CI ?</h2>
-        <p style="font-size:0.82rem;color:#9ca3af;line-height:1.7;">
-          FacturePro CI est un outil <strong>gratuit</strong> qui te permet de créer des factures, devis et reçus professionnels en quelques secondes, <strong>sans inscription et sans envoyer tes données sur Internet</strong>.
-        </p>
-        <p style="font-size:0.82rem;color:#9ca3af;line-height:1.7;margin-top:8px;">
-          Tu remplis le formulaire, l'aperçu se met à jour automatiquement. Tu peux ensuite <strong>imprimer en PDF</strong> ou <strong>partager sur WhatsApp</strong>.
-        </p>
-        <p style="font-size:0.82rem;color:#9ca3af;line-height:1.7;margin-top:8px;">
-          Le paiement se fait par <strong>Wave Business</strong>. Tu paies en un clic, le reçu est généré dès validation.
-        </p>
-        <p style="font-size:0.82rem;color:#9ca3af;line-height:1.7;margin-top:8px;">
-          🔒 <strong>Confidentialité totale</strong> : rien ne quitte ton téléphone.
-        </p>
       </div>
     </div>
   </div>
 
-  <div class="card" style="margin-top:18px;">
-    <h2 id="previewTitle">👁️ Aperçu — Facture</h2>
-    <div class="preview" id="preview"></div>
+  <!-- APERÇU FACTURE -->
+  <div class="card" style="margin-top: 20px;">
+    <h2>👁️ Aperçu de la Facture</h2>
+    <div style="position: relative;">
+      <div class="lock-overlay" id="lockOverlay">
+        <h3>🔒 Aperçu Verrouillé</h3>
+        <p style="font-size:0.95rem; margin-bottom:10px;">Payez 1 000 FCFA pour débloquer l'impression et l'envoi.</p>
+        <div class="price">1 000 FCFA</div>
+        <p style="font-size:0.8rem; margin-top:8px;">Numéro : <strong>0708858816</strong></p>
+      </div>
+      <div class="invoice-preview" id="preview" style="filter: blur(6px); pointer-events: none;">
+        <!-- Rempli par JS -->
+      </div>
+    </div>
   </div>
+
+  <!-- SYSTÈME D'AVIS -->
+  <div class="card" style="margin-top: 20px; text-align:center;">
+    <h2>⭐ Votre Avis Compte</h2>
+    <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:15px;">Aidez-nous à améliorer FacturePro pour tous les entrepreneurs.</p>
+    <div class="stars" id="ratingStars">
+      <span onclick="rate(1)">★</span>
+      <span onclick="rate(2)">★</span>
+      <span onclick="rate(3)">★</span>
+      <span onclick="rate(4)">★</span>
+      <span onclick="rate(5)">★</span>
+    </div>
+    <p id="ratingMessage" style="margin-top:10px; font-weight:bold; color:var(--accent);"></p>
+  </div>
+</div>
+
+<!-- CHAT WIDGET -->
+<div class="chat-widget">
+  <div id="chatBox" class="chat-box hidden">
+    <h4>🤖 Assistant IA</h4>
+    <p>Posez toutes vos questions sur la fiscalité ou l'utilisation de l'outil.</p>
+    <input type="text" id="chatInput" placeholder="Ex: Comment obtenir mon NCC ?" style="margin-bottom:8px;">
+    <button onclick="askAI()" style="margin-top:0; padding:10px;">Envoyer</button>
+    
+    <!-- RELAIS WHATSAPP -->
+    <div style="margin-top:15px; border-top:1px solid var(--border); padding-top:15px; text-align:center;">
+      <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:5px;">L'IA n'a pas la réponse ?</p>
+      <a href="https://wa.me/2250708858816?text=Bonjour,%20j'ai%20une%20question%20sur%20FacturePro%20CI" target="_blank" style="color:var(--accent); font-weight:bold; text-decoration:none; font-size:0.85rem;">💬 Passer le relais à un expert humain</a>
+    </div>
+  </div>
+  <button class="chat-button" onclick="toggleChat()">💬</button>
 </div>
 
 <script>
   // ============ CONFIGURATION ============
-  const ADMIN_CODE = "Amadcoul@";
-  const WAVE_LINK = "https://pay.wave.com/m/M_vIvj62rzp9b/c/ci/";
-  const PAYMENT_NUMBER = "0708858816";
-  const WHATSAPP_NUMBER = "2250708858816";
-
-  // ============ ÉTAT ============
+  const ADMIN_PASSWORD = "Amadcoul@";
+  const SECRET_SALT = "Kouassi2026";
   let items = [{ desc: 'Prestation de service', qty: 1, price: 25000 }];
-  let docType = 'facture';
-  let counter = parseInt(localStorage.getItem('facturepro_counter') || '1');
-  let journal = JSON.parse(localStorage.getItem('facturepro_journal') || '[]');
-  let logoData = localStorage.getItem('facturepro_logo') || '';
-
-  const today = new Date().toISOString().split('T')[0];
-  document.getElementById('invDate').value = today;
-  const due = new Date(); due.setDate(due.getDate() + 30);
-  document.getElementById('invDue').value = due.toISOString().split('T')[0];
-
-  const prefix = docType === 'facture' ? 'FAC' : docType === 'devis' ? 'DEV' : 'REC';
-  document.getElementById('invNumber').value = `${prefix}-${String(counter).padStart(3, '0')}`;
-
-  if (logoData) {
-    document.getElementById('logoPreview').src = logoData;
-    document.getElementById('logoPreview').style.display = 'block';
-  }
-
-  // ============ FONCTIONS ============
-  function setType(type, el) {
-    docType = type;
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    el.classList.add('active');
-    const prefix = type === 'facture' ? 'FAC' : type === 'devis' ? 'DEV' : 'REC';
-    document.getElementById('invNumber').value = `${prefix}-${String(counter).padStart(3, '0')}`;
-    document.getElementById('previewTitle').textContent = type === 'facture' ? '👁️ Aperçu — Facture' : type === 'devis' ? '👁️ Aperçu — Devis' : '👁️ Aperçu — Reçu';
+  
+  // ============ GESTION DES PAYS ============
+  function updateCountryRules() {
+    const country = document.getElementById('country').value;
+    const labels = document.querySelectorAll('label');
+    labels.forEach(l => {
+        if (l.textContent.includes('NCC / NINEA / IFU')) {
+            if (country === 'CI') l.innerHTML = 'NCC (Numéro Compte Contribuable) <span class="required">*</span>';
+            else if (country === 'SN') l.innerHTML = 'NINEA <span class="required">*</span>';
+            else l.innerHTML = 'IFU <span class="required">*</span>';
+        }
+    });
     render();
   }
 
+  // ============ GESTION DES ARTICLES ============
   function addItem() { items.push({ desc: '', qty: 1, price: 0 }); renderItems(); render(); }
   function removeItem(i) { items.splice(i, 1); renderItems(); render(); }
   function updateItem(i, field, value) {
@@ -376,195 +384,215 @@
 
   function renderItems() {
     document.getElementById('items').innerHTML = items.map((it, i) => `
-      <div class="line-item">
-        <input placeholder="Description" value="${it.desc}" oninput="updateItem(${i}, 'desc', this.value)">
+      <div style="display:grid; grid-template-columns: 2fr 1fr 1fr auto; gap:5px; margin-bottom:5px; align-items:center;">
+        <input placeholder="Désignation (Bien/Service)" value="${it.desc}" oninput="updateItem(${i}, 'desc', this.value)">
         <input type="number" placeholder="Qté" value="${it.qty}" min="0" oninput="updateItem(${i}, 'qty', this.value)">
-        <input type="number" placeholder="Prix" value="${it.price}" min="0" step="100" oninput="updateItem(${i}, 'price', this.value)">
-        <button class="remove" onclick="removeItem(${i})">×</button>
+        <input type="number" placeholder="P.U." value="${it.price}" min="0" step="100" oninput="updateItem(${i}, 'price', this.value)">
+        <button onclick="removeItem(${i})" style="width:34px; height:34px; background:var(--danger); margin:0; padding:0; border-radius:6px;">×</button>
       </div>
     `).join('');
   }
 
-  function loadLogo(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      logoData = ev.target.result;
-      document.getElementById('logoPreview').src = logoData;
-      document.getElementById('logoPreview').style.display = 'block';
-      localStorage.setItem('facturepro_logo', logoData);
-      render();
-    };
-    reader.readAsDataURL(file);
+  // ============ VALIDATION VISUELLE ============
+  function validateFields() {
+    const reqs = document.querySelectorAll('.req');
+    let isValid = true;
+    reqs.forEach(field => {
+        if (!field.value.trim()) {
+            field.classList.add('error');
+            isValid = false;
+        } else {
+            field.classList.remove('error');
+            field.classList.add('success');
+        }
+    });
+    return isValid;
   }
 
-  function openWave() {
-    window.open(WAVE_LINK, '_blank');
-  }
-
-  function updateStatus() {
-    const status = document.getElementById('payStatus').value;
-    if (status === 'paid') {
-      const v = (id) => document.getElementById(id).value;
-      const totalTxt = document.getElementById('totals').querySelector('.total')?.textContent || '—';
-      journal.unshift({
-        date: new Date().toISOString(),
-        number: v('invNumber'),
-        client: v('toName') || '—',
-        total: totalTxt,
-        status: 'paid'
-      });
-      localStorage.setItem('facturepro_journal', JSON.stringify(journal));
-      counter++;
-      localStorage.setItem('facturepro_counter', counter);
-      const prefix = docType === 'facture' ? 'FAC' : docType === 'devis' ? 'DEV' : 'REC';
-      document.getElementById('invNumber').value = `${prefix}-${String(counter).padStart(3, '0')}`;
-      renderJournal();
-      alert('✅ Paiement validé. Reçu généré. Journal mis à jour.');
+  // ============ GÉNÉRATEUR DE CODE ============
+  function generateCode(invoiceNum) {
+    let str = invoiceNum + SECRET_SALT;
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+        let char = str.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash;
     }
+    let code = Math.abs(hash).toString(36).substring(0, 4).toUpperCase();
+    while(code.length < 4) { code += "X"; }
+    return code;
   }
 
-  function checkAdmin() {
-    if (document.getElementById('adminCode').value === ADMIN_CODE) {
-      document.getElementById('adminGate').classList.add('hidden');
-      document.getElementById('adminPanel').classList.remove('hidden');
-      renderJournal();
-    } else {
-      alert('❌ Code incorrect');
-    }
-  }
-
-  function renderJournal() {
-    const el = document.getElementById('journal');
-    if (journal.length === 0) {
-      el.innerHTML = '<p style="color:#9ca3af;font-size:0.8rem;">Aucune transaction enregistrée.</p>';
-      return;
-    }
-    el.innerHTML = journal.map(j => `
-      <div class="log-item">
-        <div>
-          <strong>${j.number}</strong> — ${j.client}<br>
-          <span style="color:#9ca3af;font-size:0.7rem;">${new Date(j.date).toLocaleString('fr-FR')}</span>
-        </div>
-        <div style="text-align:right;">
-          <div>${j.total}</div>
-          <span class="log-status status-paid">✅ Payé</span>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  function clearJournal() {
-    if (confirm('Effacer tout le journal ?')) {
-      journal = []; localStorage.removeItem('facturepro_journal'); renderJournal();
-    }
-  }
-
-  function shareWhatsApp() {
-    const v = (id) => document.getElementById(id).value;
-    const total = document.getElementById('totals').querySelector('.total')?.textContent || '';
-    const msg = `*${v('invNumber')}* — ${docType === 'facture' ? 'Facture' : docType === 'devis' ? 'Devis' : 'Reçu'}\n\n` +
-      `Client : ${v('toName') || '—'}\n` +
-      `Total : ${total}\n` +
-      `Échéance : ${v('invDue')}\n\n` +
-      `💙 Payer par Wave : ${WAVE_LINK}\n` +
-      `Ou au ${PAYMENT_NUMBER}\n\n` +
-      `Merci de votre confiance 🙏`;
-    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
-  }
-
+  // ============ RENDU ============
   function render() {
     const v = (id) => document.getElementById(id).value;
-    const currency = v('currency');
-    const vat = parseFloat(v('vat')) || 0;
-    const discount = parseFloat(v('discount')) || 0;
+    validateFields(); // Vérifie en temps réel
 
     const subtotal = items.reduce((s, it) => s + (it.qty * it.price), 0);
-    const discountAmt = subtotal * (discount / 100);
-    const afterDiscount = subtotal - discountAmt;
-    const vatAmt = afterDiscount * (vat / 100);
-    const total = afterDiscount + vatAmt;
-
-    const fmt = (n) => {
-      const rounded = currency === 'FCFA' ? Math.round(n) : Math.round(n * 100) / 100;
-      return `${rounded.toLocaleString('fr-FR')} ${currency}`;
-    };
+    const vatRate = parseFloat(v('vatRate')) || 0;
+    const vatAmt = subtotal * (vatRate / 100);
+    const total = subtotal + vatAmt;
+    const fmt = (n) => `${Math.round(n).toLocaleString('fr-FR')} FCFA`;
 
     document.getElementById('totals').innerHTML = `
-      <div>Sous-total : ${fmt(subtotal)}</div>
-      ${discount > 0 ? `<div>Remise (${discount}%) : -${fmt(discountAmt)}</div>` : ''}
-      <div>TVA (${vat}%) : ${fmt(vatAmt)}</div>
-      <div class="total">TOTAL : ${fmt(total)}</div>
+      <div>Total HT : ${fmt(subtotal)}</div>
+      <div>TVA (${vatRate}%) : ${fmt(vatAmt)}</div>
+      <div style="font-size:1.2rem; font-weight:bold; color:var(--primary); margin-top:5px;">TOTAL TTC : ${fmt(total)}</div>
     `;
 
     const preview = document.getElementById('preview');
-    const hasData = v('fromName') || v('toName');
-    if (!hasData) {
-      preview.innerHTML = `<div class="empty-state">Remplis le formulaire pour voir l'aperçu ✨</div>`;
-      return;
+    if (!v('fromName') || !v('toName')) {
+        preview.innerHTML = `<div style="text-align:center; padding:50px; color:#999;">Remplissez le formulaire pour voir l'aperçu</div>`;
+        return;
     }
 
     const rows = items.map(it => `
       <tr>
         <td>${it.desc || '—'}</td>
-        <td>${it.qty}</td>
-        <td>${fmt(it.price)}</td>
-        <td>${fmt(it.qty * it.price)}</td>
+        <td class="text-right">${it.qty}</td>
+        <td class="text-right">${fmt(it.price)}</td>
+        <td class="text-right">${fmt(it.qty * it.price)}</td>
       </tr>
     `).join('');
 
-    const title = docType === 'facture' ? 'FACTURE' : docType === 'devis' ? 'DEVIS' : 'REÇU';
-    const footer = docType === 'facture'
-      ? `Paiement par Wave Business : ${WAVE_LINK} — ou au ${PAYMENT_NUMBER}`
-      : docType === 'devis'
-      ? 'Devis valable 30 jours. Bon pour accord (signature) : ____________________'
-      : `Reçu émis le ${v('invDate')}. Paiement confirmé.`;
-
-    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=${encodeURIComponent(WAVE_LINK)}`;
+    const country = v('country');
+    const taxIdLabel = country === 'CI' ? 'NCC' : (country === 'SN' ? 'NINEA' : 'IFU');
+    const payNum = "0708858816";
 
     preview.innerHTML = `
-      ${logoData ? `<img src="${logoData}" style="max-height:60px;margin-bottom:12px;">` : ''}
-      <h3>${title}</h3>
-      <div style="color:#888;font-size:0.82rem;">N° ${v('invNumber')} • ${v('invDate')}</div>
-      <div class="meta">
+      <div class="invoice-header">
         <div>
-          <strong>Émetteur</strong><br>
-          ${v('fromName') || '—'}<br>
-          ${v('fromContact') || ''}<br>
-          ${v('fromAddress').replace(/\n/g, '<br>') || ''}
+          <h3>${v('docType') === 'facture' ? 'FACTURE' : 'DEVIS'}</h3>
+          <div style="color:#666; font-size:0.8rem;">N° FAC-${new Date().getFullYear()}-001</div>
+          <div style="color:#666; font-size:0.8rem;">Date : ${new Date().toLocaleDateString('fr-FR')}</div>
         </div>
         <div style="text-align:right;">
-          <strong>Client</strong><br>
-          ${v('toName') || '—'}<br>
-          ${v('toContact') || ''}<br>
-          ${v('toAddress').replace(/\n/g, '<br>') || ''}
+          <h3 style="color:var(--primary);">FacturePro</h3>
+          <div style="font-size:0.75rem; color:#666;">Modèle Expert Certifié</div>
         </div>
       </div>
+
+      <div class="invoice-parties">
+        <div>
+          <strong>Émetteur</strong>
+          <div style="font-size:1.1rem; font-weight:bold;">${v('fromName') || '—'}</div>
+          ${v('fromAddress').replace(/\n/g, '<br>') || ''}<br>
+          ${v('fromPhone') || ''}<br>
+          <strong style="margin-top:8px; display:block;">${taxIdLabel} :</strong> ${v('fromTaxId') || '—'}
+        </div>
+        <div style="text-align:right;">
+          <strong>Client</strong>
+          <div style="font-size:1.1rem; font-weight:bold;">${v('toName') || '—'}</div>
+          ${v('toTaxId') ? `<strong>${taxIdLabel} :</strong> ${v('toTaxId')}` : ''}
+        </div>
+      </div>
+
       <table>
-        <thead><tr><th>Description</th><th>Qté</th><th>Prix unit.</th><th>Total</th></tr></thead>
+        <thead>
+          <tr>
+            <th>Désignation (Bien/Service)</th>
+            <th class="text-right">Qté</th>
+            <th class="text-right">P.U. HT</th>
+            <th class="text-right">Total HT</th>
+          </tr>
+        </thead>
         <tbody>${rows}</tbody>
       </table>
-      <div class="preview-total">
-        ${discount > 0 ? `Remise : -${fmt(discountAmt)}<br>` : ''}
-        TVA : ${fmt(vatAmt)}<br>
-        <span style="font-size:1.2rem;">TOTAL : ${fmt(total)}</span>
+
+      <div class="total-box">
+        <div style="display:flex; justify-content:space-between;"><span>Total HT</span> <span>${fmt(subtotal)}</span></div>
+        <div style="display:flex; justify-content:space-between;"><span>TVA (${vatRate}%)</span> <span>${fmt(vatAmt)}</span></div>
+        <div class="total-row"><span>TOTAL TTC</span> <span>${fmt(total)}</span></div>
       </div>
-      <div style="margin-top:20px;display:flex;gap:20px;align-items:center;border-top:1px solid #eee;padding-top:16px;">
-        <img src="${qrUrl}" style="width:100px;height:100px;">
-        <div style="font-size:0.78rem;color:#888;">
-          <strong style="color:#1DC8FF;">💙 Payer par Wave</strong><br>
-          Scanne ce QR ou clique sur le lien dans l'email.<br>
-          Ou envoie au <strong>${PAYMENT_NUMBER}</strong>
-        </div>
-      </div>
-      <div style="margin-top:16px;font-size:0.78rem;color:#888;">
-        Échéance : ${v('invDue')}<br>${footer}
+
+      <div style="clear:both;"></div>
+
+      <div class="legal-footer">
+        <strong style="color:var(--primary);">Règlement :</strong> Merci de régler au <strong>${payNum}</strong> (Wave / Orange Money).<br><br>
+        ${country === 'CI' ? '<strong>⚠️ Mention Légale FNE :</strong> Ce document est un modèle de préparation. Pour être valable fiscalement en Côte d\'Ivoire, la facture doit être certifiée sur le portail FNE de la DGI.' : ''}
+        ${country === 'SN' ? '<strong>Mention Légale :</strong> NINEA : ' + v('fromTaxId') : ''}
+        ${country === 'BJ' ? '<strong>Mention Légale :</strong> IFU : ' + v('fromTaxId') : ''}
       </div>
     `;
+
+    if (document.getElementById('adminPanel') && !document.getElementById('adminPanel').classList.contains('hidden')) {
+        updateAdminCode();
+    }
   }
 
-  renderItems(); render(); renderJournal();
+  // ============ ACTIONS ============
+  function requestCode() {
+    const msg = `Bonjour, je souhaite payer les 1000 FCFA pour débloquer ma facture sur FacturePro.`;
+    window.open(`https://wa.me/2250708858816?text=${encodeURIComponent(msg)}`, '_blank');
+  }
+
+  function verifyCode() {
+    const entered = document.getElementById('unlockCode').value.trim().toUpperCase();
+    const expected = generateCode('FAC-2026-001');
+    if (entered === expected) {
+        document.getElementById('lockOverlay').classList.add('hidden');
+        document.getElementById('preview').style.filter = 'none';
+        document.getElementById('preview').style.pointerEvents = 'auto';
+        alert('✅ Facture débloquée ! Vous pouvez imprimer (Ctrl+P) ou enregistrer en PDF.');
+    } else {
+        alert('❌ Code incorrect.');
+    }
+  }
+
+  function checkAdmin() {
+    if (document.getElementById('adminCode').value === ADMIN_PASSWORD) {
+        document.getElementById('adminGate').classList.add('hidden');
+        document.getElementById('adminPanel').classList.remove('hidden');
+        updateAdminCode();
+    } else {
+        alert('❌ Code admin incorrect');
+    }
+  }
+
+  function updateAdminCode() {
+    document.getElementById('generatedCode').textContent = generateCode('FAC-2026-001');
+  }
+
+  function copyCode() {
+    const code = document.getElementById('generatedCode').textContent;
+    navigator.clipboard.writeText(code).then(() => alert('📋 Code copié !'));
+  }
+
+  // ============ CHAT & IA ============
+  function toggleChat() { document.getElementById('chatBox').classList.toggle('hidden'); }
+  
+  function askAI() {
+    const input = document.getElementById('chatInput').value.toLowerCase();
+    if (!input) return;
+    let response = "";
+    
+    if (input.includes('ncc') || input.includes('contribuable')) {
+      response = "🤖 Pour obtenir votre NCC en Côte d'Ivoire, vous devez vous rendre sur le site de la DGI (dgi.gouv.ci) ou vous rendre dans votre centre des impôts avec votre RCCM. Le NCC comporte 8 caractères.";
+    } else if (input.includes('fne') || input.includes('normalisée')) {
+      response = "🤖 La FNE est obligatoire depuis 2025. FacturePro vous aide à préparer les données, mais vous devez valider la facture finale sur le portail FNE de la DGI pour obtenir le QR Code officiel.";
+    } else if (input.includes('tva')) {
+      response = "🤖 La TVA est de 18% en Côte d'Ivoire, au Sénégal et au Bénin, et de 19% au Niger. Elle s'applique sur le total hors taxe.";
+    } else {
+      response = "🤖 Je n'ai pas la réponse exacte à cette question. Je vous invite à cliquer sur le lien WhatsApp ci-dessous pour parler à un expert humain qui vous répondra immédiatement.";
+    }
+    alert(response);
+    document.getElementById('chatInput').value = '';
+  }
+
+  // ============ AVIS ============
+  function rate(n) {
+    const stars = document.querySelectorAll('#ratingStars span');
+    stars.forEach((s, i) => {
+        if (i < n) s.classList.add('active');
+        else s.classList.remove('active');
+    });
+    document.getElementById('ratingMessage').textContent = `Merci ! Vous avez noté ${n}/5 étoiles.`;
+  }
+
+  // ============ INITIALISATION ============
+  renderItems();
+  updateCountryRules();
+  render();
 </script>
 </body>
 </html>
