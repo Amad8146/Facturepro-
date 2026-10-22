@@ -14,10 +14,21 @@
   body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
   .container { max-width: 1200px; margin: 0 auto; padding: 24px 16px; }
   
-  header { text-align: center; margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #eef2ff, #ecfdf5); border-radius: 16px; border: 1px solid var(--border); }
+  header { text-align: center; margin-bottom: 20px; padding: 20px; background: linear-gradient(135deg, #eef2ff, #ecfdf5); border-radius: 16px; border: 1px solid var(--border); }
   h1 { font-size: 2.2rem; color: var(--primary); margin-bottom: 8px; }
   .tagline { color: var(--text-muted); font-size: 1rem; max-width: 700px; margin: 0 auto; }
   
+  /* BOUTON D'EXPLICATION VOCALE */
+  .listen-btn {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    background: #fffbeb; color: #b45309; border: 2px dashed #f59e0b;
+    padding: 12px 20px; border-radius: 12px; font-weight: bold; font-size: 1.1rem;
+    cursor: pointer; margin: 15px auto 25px auto; max-width: 400px; width: 100%;
+    transition: all 0.2s;
+  }
+  .listen-btn:hover { background: #fef3c7; transform: scale(1.02); }
+  .listen-btn.playing { background: #f59e0b; color: white; border-style: solid; }
+
   .tabs { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; flex-wrap: wrap; }
   .tab-btn { background: white; border: 2px solid var(--border); padding: 12px 24px; border-radius: 30px; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: all 0.2s; font-size: 1rem; }
   .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); transform: scale(1.05); }
@@ -46,12 +57,14 @@
   button.btn-accent { background: var(--accent); }
   button.btn-large { padding: 16px; font-size: 1.1rem; border-radius: 12px; }
   
+  /* VOCAL ASSISTANT */
   .vocal-box { background: #eef2ff; border: 2px dashed var(--primary); border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px; }
   .mic-btn { width: 80px; height: 80px; border-radius: 50%; background: var(--danger); color: white; border: none; font-size: 2rem; cursor: pointer; margin: 0 auto 15px auto; display: flex; align-items: center; justify-content: center; animation: pulse 2s infinite; }
   @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
   .mic-btn.listening { background: var(--accent); animation: none; }
-  .vocal-transcript { font-size: 1.1rem; font-style: italic; color: var(--text-muted); min-height: 30px; margin-top: 10px; }
+  .vocal-transcript { font-size: 1.1rem; font-style: italic; color: var(--text-muted); min-height: 30px; margin-top: 10px; font-weight: bold; color: var(--primary); }
   
+  /* PACKAGES */
   .package-card { border: 2px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 15px; cursor: pointer; transition: all 0.2s; background: white; position: relative; }
   .package-card:hover { border-color: var(--primary); }
   .package-card.selected { border-color: var(--accent); background: #f0fdf4; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15); }
@@ -60,6 +73,10 @@
   .package-details { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; }
   .package-breakdown { font-size: 0.8rem; background: #f8fafc; padding: 10px; border-radius: 6px; margin-top: 10px; }
   
+  .doc-list { font-size: 0.85rem; color: var(--text-muted); margin-top: 10px; padding-left: 20px; }
+  .doc-list li { margin-bottom: 5px; }
+
+  /* INVOICE PREVIEW */
   .invoice-preview { background: white; padding: 30px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.85rem; color: #334155; position: relative; }
   .invoice-header { display: flex; justify-content: space-between; border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 20px; }
   .invoice-header h3 { font-size: 1.8rem; color: var(--primary); }
@@ -75,6 +92,9 @@
   .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
   .modal-content { background: white; padding: 30px; border-radius: 12px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; }
   .cgu-text { font-size: 0.75rem; color: var(--text-muted); background: #f1f5f9; padding: 12px; border-radius: 8px; margin-top: 15px; max-height: 150px; overflow-y: auto; border: 1px solid var(--border); }
+  
+  .help-box { background: #fffbeb; border-left: 4px solid var(--warning); padding: 15px; border-radius: 8px; margin-top: 15px; font-size: 0.9rem; }
+  .help-box a { color: var(--primary); font-weight: bold; text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -138,6 +158,11 @@
     <p class="tagline">Facturez comme un pro ou formalisez votre entreprise, même sans savoir lire.</p>
   </header>
 
+  <!-- BOUTON D'EXPLICATION VOCALE -->
+  <button class="listen-btn" id="listenBtn" onclick="playAppExplanation()">
+    <span>🎧</span> Écouter la présentation de l'application
+  </button>
+
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('invoicing')">📄 Créer une facture</button>
     <button class="tab-btn" onclick="switchTab('formalization')">🏢 Me formaliser (RCCM)</button>
@@ -192,11 +217,11 @@
     <div class="grid">
       <div>
         <div class="card">
-          <h2>🎤 Assistant Vocal (Pour ceux qui ne savent pas lire)</h2>
+          <h2>🎤 Assistant Vocal Guidé (Sans savoir lire)</h2>
           <div class="vocal-box">
-            <button class="mic-btn" id="micBtn" onclick="toggleVocalAssistant()">🎤</button>
-            <p style="font-weight:bold; color:var(--primary);">Appuyez sur le micro pour parler</p>
-            <p class="vocal-transcript" id="vocalTranscript">"Bonjour, quel est votre nom ?"</p>
+            <button class="mic-btn" id="micBtn" onclick="startVocalFlow()">🎤</button>
+            <p style="font-weight:bold; color:var(--primary);">Appuyez sur le micro pour commencer</p>
+            <p class="vocal-transcript" id="vocalTranscript">L'assistant va vous poser des questions.</p>
           </div>
         </div>
 
@@ -218,13 +243,30 @@
 
       <div>
         <div class="card">
-          <h2>📜 Contrat d'engagement</h2>
-          <div class="cgu-text">
-            En cochant cette case, je m'engage à fournir l'intégralité des documents requis pour la formalisation de mon entreprise dans un délai maximum de 14 jours ouvrables. Je comprends que les frais de service (25%) versés à FacturePro couvrent l'accompagnement et le traitement de mon dossier. Passé ce délai de 14 jours, si mon dossier est incomplet de mon fait, ces frais de service ne me seront pas remboursés.
+          <h2>📋 Documents à fournir (Sous 14 jours)</h2>
+          <div id="documents-list" class="doc-list">
+            <!-- Rempli par JS -->
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>📜 Procuration et Engagement</h2>
+          <div class="cgu-text" style="max-height: 250px;">
+            <strong>PROCURATION SPÉCIALE ET MANDAT DE FORMALISATION</strong><br><br>
+            <strong>Article 1 – Objet du Mandat</strong><br>
+            Conformément à l'article 1984 du Code civil ivoirien, le Mandant donne par la présente procuration spéciale au Mandataire (FacturePro Expert CI) le pouvoir d'accomplir en son nom et pour son compte toutes les démarches nécessaires à la création de son entreprise.<br><br>
+            <strong>Article 2 – Étendue des Pouvoirs</strong><br>
+            Le Mandataire est autorisé à déposer le dossier au CEPICI, signer les statuts, immatriculer au RCCM et demander le NCC à la DGI.<br><br>
+            <strong>Article 3 – Obligations et Délai</strong><br>
+            Le Mandant s'engage à fournir les pièces justificatives sous 14 jours.<br><br>
+            <strong>Article 4 – Clause Financière</strong><br>
+            En cas de défaillance du Mandant, les frais de service (25%) sont définitivement acquis. Les frais de constitution officiels seront remboursés à hauteur de 50%.<br><br>
+            <strong>Article 5 – Valeur Juridique</strong><br>
+            La validation de ce formulaire vaut signature électronique.
           </div>
           <div style="margin-top:15px; display:flex; align-items:start; gap:8px;">
             <input type="checkbox" id="acceptContract" style="width:auto; margin-top:4px;" onchange="updateFormalizationSummary()">
-            <label for="acceptContract" style="font-size:0.85rem; margin:0; font-weight:normal;">J'accepte le contrat d'engagement.</label>
+            <label for="acceptContract" style="font-size:0.85rem; margin:0; font-weight:normal;">Je donne procuration et j'accepte les clauses de délai et de remboursement.</label>
           </div>
         </div>
 
@@ -233,6 +275,12 @@
           <div id="formalization-summary">
             <p style="font-size:0.9rem;">Veuillez remplir le formulaire et choisir un forfait.</p>
           </div>
+          
+          <div class="help-box">
+            <strong>Besoin d'aide pour remplir votre dossier ?</strong><br>
+            Si vous ne savez pas comment faire, contactez notre service client au <a href="https://wa.me/2250708858816" target="_blank">0708858816</a> (WhatsApp) ou par email à <a href="mailto:ecoptco@gmail.com">ecoptco@gmail.com</a>. Nous sommes là pour vous accompagner.
+          </div>
+
           <button class="btn-accent btn-large" onclick="payFormalization()" style="margin-top:15px;">💬 Payer et envoyer mon dossier</button>
         </div>
       </div>
@@ -241,22 +289,49 @@
 </div>
 
 <script>
-  // ============ GESTION DES COMPTES AVEC FORMSPREE ============
-  function showLogin() {
-    document.getElementById('authChoice').classList.add('hidden');
-    document.getElementById('loginForm').classList.remove('hidden');
+  // ============ EXPLICATION VOCALE DE L'APPLICATION ============
+  function playAppExplanation() {
+    const btn = document.getElementById('listenBtn');
+    
+    // Si l'assistant est déjà en train de parler, on l'arrête
+    if (window.speechSynthesis.speaking) {
+      window.speechSynthesis.cancel();
+      btn.classList.remove('playing');
+      btn.innerHTML = '<span>🎧</span> Écouter la présentation de l\'application';
+      return;
+    }
+
+    // Texte de présentation
+    const texteExplication = "Bienvenue sur FacturePro Expert CI. Cette application a deux fonctions principales. " +
+    "Premièrement, l'onglet Créer une facture vous permet de générer des factures professionnelles en quelques secondes, même sans savoir lire, grâce à un assistant vocal. " +
+    "Deuxièmement, l'onglet Me formaliser est conçu pour les artisans et entrepreneurs de l'informel. " +
+    "Nous vous accompagnons dans la création officielle de votre entreprise, que ce soit pour le statut d'Entreprenant, la SUARL ou la SARL. " +
+    "Nous nous occupons de toutes les démarches administratives pour vous. " +
+    "Choisissez l'un des deux onglets en haut de l'écran pour commencer. Nous sommes là pour vous accompagner.";
+
+    const utterance = new SpeechSynthesisUtterance(texteExplication);
+    utterance.lang = 'fr-FR';
+    utterance.rate = 0.9; // Parle un peu moins vite pour être bien compris
+
+    // Quand la voix commence
+    utterance.onstart = function() {
+      btn.classList.add('playing');
+      btn.innerHTML = '<span>🔊</span> Arrêter la lecture';
+    };
+
+    // Quand la voix a fini
+    utterance.onend = function() {
+      btn.classList.remove('playing');
+      btn.innerHTML = '<span>🎧</span> Écouter la présentation de l\'application';
+    };
+
+    window.speechSynthesis.speak(utterance);
   }
-  
-  function showRegister() {
-    document.getElementById('authChoice').classList.add('hidden');
-    document.getElementById('registerForm').classList.remove('hidden');
-  }
-  
-  function backToAuthChoice() {
-    document.getElementById('loginForm').classList.add('hidden');
-    document.getElementById('registerForm').classList.add('hidden');
-    document.getElementById('authChoice').classList.remove('hidden');
-  }
+
+  // ============ GESTION DES COMPTES ============
+  function showLogin() { document.getElementById('authChoice').classList.add('hidden'); document.getElementById('loginForm').classList.remove('hidden'); }
+  function showRegister() { document.getElementById('authChoice').classList.add('hidden'); document.getElementById('registerForm').classList.remove('hidden'); }
+  function backToAuthChoice() { document.getElementById('loginForm').classList.add('hidden'); document.getElementById('registerForm').classList.add('hidden'); document.getElementById('authChoice').classList.remove('hidden'); }
 
   function doRegister() {
     const name = document.getElementById('regName').value.trim();
@@ -265,42 +340,25 @@
     const password = document.getElementById('regPassword').value.trim();
     const cgu = document.getElementById('acceptCgu').checked;
     
-    if (!name || !contact || !username || !password) {
-      alert("Veuillez remplir tous les champs obligatoires."); return;
-    }
-    if (!cgu) {
-      alert("Vous devez accepter les conditions générales."); return;
-    }
+    if (!name || !contact || !username || !password) { alert("Veuillez remplir tous les champs obligatoires."); return; }
+    if (!cgu) { alert("Vous devez accepter les conditions générales."); return; }
     
     const user = { name, contact, username, password };
     localStorage.setItem('fp_user_' + username, JSON.stringify(user));
     
-    // --- TON LIEN FORMSPREE EST ICI ---
     const url = "https://formspree.io/f/xjygnqyg"; 
-    
     fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({
-        nom: name,
-        contact: contact,
-        username: username
-      })
-    }).then(() => {
-      loginSuccess(user);
-    }).catch((err) => {
-      console.error("Erreur d'envoi", err);
-      loginSuccess(user);
-    });
+      body: JSON.stringify({ nom: name, contact: contact, username: username })
+    }).then(() => { loginSuccess(user); }).catch((err) => { console.error(err); loginSuccess(user); });
   }
 
   function doLogin() {
     const username = document.getElementById('loginUsername').value.trim();
     const password = document.getElementById('loginPassword').value.trim();
     const storedUser = localStorage.getItem('fp_user_' + username);
-    
     if (!storedUser) { alert("Identifiant introuvable. Veuillez créer un compte."); return; }
-    
     const user = JSON.parse(storedUser);
     if (user.password !== password) { alert("Mot de passe incorrect."); return; }
     loginSuccess(user);
@@ -313,32 +371,24 @@
     document.getElementById('fromName').value = user.name;
     document.getElementById('userPayNumber').value = user.contact;
     
-    renderInvoiceItems();
-    renderInvoice();
-    renderPackages();
-    updateFormalizationSummary();
+    renderInvoiceItems(); renderInvoice(); renderPackages(); updateFormalizationSummary();
   }
 
   function doLogout() {
     document.getElementById('userContainer').classList.add('hidden');
     document.getElementById('authModal').classList.remove('hidden');
     backToAuthChoice();
-    document.getElementById('fromName').value = "";
-    document.getElementById('userPayNumber').value = "";
-    document.getElementById('fromAddress').value = "";
+    document.getElementById('fromName').value = ""; document.getElementById('userPayNumber').value = ""; document.getElementById('fromAddress').value = "";
   }
 
   // ============ ONGLET FACTURATION ============
   function switchTab(tabId) {
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.section-content').forEach(sec => sec.classList.remove('active'));
-    
     if (tabId === 'invoicing') {
-      document.querySelector('.tab-btn:nth-child(1)').classList.add('active');
-      document.getElementById('tab-invoicing').classList.add('active');
+      document.querySelector('.tab-btn:nth-child(1)').classList.add('active'); document.getElementById('tab-invoicing').classList.add('active');
     } else {
-      document.querySelector('.tab-btn:nth-child(2)').classList.add('active');
-      document.getElementById('tab-formalization').classList.add('active');
+      document.querySelector('.tab-btn:nth-child(2)').classList.add('active'); document.getElementById('tab-formalization').classList.add('active');
     }
   }
 
@@ -363,9 +413,7 @@
   function renderInvoice() {
     const v = (id) => document.getElementById(id).value;
     const subtotal = invoiceItems.reduce((s, it) => s + (it.qty * it.price), 0);
-    const vat = subtotal * 0.18;
-    const total = subtotal + vat;
-    const fmt = (n) => `${Math.round(n).toLocaleString('fr-FR')} FCFA`;
+    const vat = subtotal * 0.18; const total = subtotal + vat; const fmt = (n) => `${Math.round(n).toLocaleString('fr-FR')} FCFA`;
 
     document.getElementById('invoice-totals').innerHTML = `
       <div>Total HT : ${fmt(subtotal)}</div>
@@ -397,43 +445,36 @@
       <div style="clear:both; margin-top:20px; font-size:0.7rem; color:#666;">Mention FNE obligatoire en Côte d'Ivoire. Ce document est un modèle.</div>
     `;
 
-    if (isInvoiceUnlocked) {
-        document.getElementById('invoice-lock').classList.add('hidden');
-    }
+    if (isInvoiceUnlocked) { document.getElementById('invoice-lock').classList.add('hidden'); }
   }
 
-  function requestUnlockCode() {
-    window.open(`https://wa.me/2250708858816?text=Bonjour, je souhaite payer 1000 FCFA pour débloquer ma facture.`, '_blank');
-  }
-
+  function requestUnlockCode() { window.open(`https://wa.me/2250708858816?text=Bonjour, je souhaite payer 1000 FCFA pour débloquer ma facture.`, '_blank'); }
   function verifyUnlockCode() {
     const entered = document.getElementById('unlockCode').value.trim().toUpperCase();
-    if (entered === "CODE1") { // Code statique pour la démo
-        isInvoiceUnlocked = true;
-        document.getElementById('invoice-lock').classList.add('hidden');
-        alert('Facture débloquée !');
-    } else { alert('Code incorrect.'); }
+    const CODE_SECRET = "FAC1000"; 
+    if (entered === CODE_SECRET) { 
+        isInvoiceUnlocked = true; document.getElementById('invoice-lock').classList.add('hidden'); alert('✅ Facture débloquée !');
+    } else { alert('❌ Code incorrect.'); }
   }
 
   // ============ ONGLET FORMALISATION ============
   const PACKAGES = [
-    { id: 'entreprenant', title: 'Statut Entreprenant', basePrice: 10000, details: 'Idéal pour les artisans. Permet de facturer légalement.' },
-    { id: 'sarl', title: 'Création SARL / SARLU', basePrice: 30000, details: 'Pour les entreprises qui veulent grandir (RCCM complet).' },
-    { id: 'premium', title: 'Formalisation Premium', basePrice: 50000, details: 'SARL + Compte bancaire + Demande de NCC (FNE).' }
+    { id: 'entreprenant', title: 'Statut Entreprenant', basePrice: 40000, details: 'Idéal pour les artisans. Permet de facturer légalement.', docs: ['CNI', 'Extrait d\'acte de naissance', 'Casier judiciaire (-3 mois)', 'Certificat de résidence', 'Contrat de bail enregistré', 'Plan de localisation'] },
+    { id: 'suarl', title: 'Création SUARL', basePrice: 115000, details: 'Pour protéger vos biens personnels. Un seul associé.', docs: ['Statuts de la société', 'Déclaration de Souscription (DSV)', 'Casier judiciaire du gérant', 'Contrat de bail enregistré', 'CNI du gérant', 'Plan de localisation'] },
+    { id: 'sarl', title: 'Création SARL', basePrice: 150000, details: 'Pour s\'associer à plusieurs et grandir.', docs: ['Statuts de la société', 'Déclaration de Souscription (DSV)', 'Casier judiciaire des gérants', 'Contrat de bail enregistré', 'CNI des associés', 'Plan de localisation'] }
   ];
   let selectedPackage = null;
 
   function renderPackages() {
     document.getElementById('packages-container').innerHTML = PACKAGES.map(pkg => {
-      const fee = pkg.basePrice * 0.25;
-      const total = pkg.basePrice + fee;
+      const fee = pkg.basePrice * 0.25; const total = pkg.basePrice + fee;
       return `
         <div class="package-card" id="pkg-${pkg.id}" onclick="selectPackage('${pkg.id}')">
           <div class="package-title">${pkg.title}</div>
           <div class="package-details">${pkg.details}</div>
           <div class="package-price">${total.toLocaleString('fr-FR')} FCFA</div>
           <div class="package-breakdown">
-            Frais officiels estimés : ${pkg.basePrice.toLocaleString('fr-FR')} FCFA<br>
+            Frais de constitution : ${pkg.basePrice.toLocaleString('fr-FR')} FCFA<br>
             Frais de service FacturePro (25%) : ${fee.toLocaleString('fr-FR')} FCFA
           </div>
         </div>
@@ -445,6 +486,9 @@
     selectedPackage = PACKAGES.find(p => p.id === id);
     document.querySelectorAll('.package-card').forEach(el => el.classList.remove('selected'));
     document.getElementById(`pkg-${id}`).classList.add('selected');
+    
+    document.getElementById('documents-list').innerHTML = selectedPackage.docs.map(d => `<li>${d}</li>`).join('');
+    
     updateFormalizationSummary();
   }
 
@@ -453,15 +497,14 @@
       document.getElementById('formalization-summary').innerHTML = `<p>Veuillez choisir un forfait.</p>`;
       return;
     }
-    const fee = selectedPackage.basePrice * 0.25;
-    const total = selectedPackage.basePrice + fee;
+    const fee = selectedPackage.basePrice * 0.25; const total = selectedPackage.basePrice + fee;
     const name = document.getElementById('formName').value || 'Non renseigné';
     
     document.getElementById('formalization-summary').innerHTML = `
       <p><strong>Client :</strong> ${name}</p>
       <p><strong>Forfait :</strong> ${selectedPackage.title}</p>
       <hr style="margin:10px 0; border:0; border-top:1px solid var(--border);">
-      <p style="display:flex; justify-content:space-between;"><span>Frais officiels :</span> <span>${selectedPackage.basePrice.toLocaleString('fr-FR')} FCFA</span></p>
+      <p style="display:flex; justify-content:space-between;"><span>Frais de constitution :</span> <span>${selectedPackage.basePrice.toLocaleString('fr-FR')} FCFA</span></p>
       <p style="display:flex; justify-content:space-between;"><span>Frais de service (25%) :</span> <span>${fee.toLocaleString('fr-FR')} FCFA</span></p>
       <p style="display:flex; justify-content:space-between; font-weight:bold; font-size:1.2rem; color:var(--primary); margin-top:10px;">
         <span>TOTAL À PAYER :</span> <span>${total.toLocaleString('fr-FR')} FCFA</span>
@@ -472,63 +515,123 @@
   function payFormalization() {
     const isAccepted = document.getElementById('acceptContract').checked;
     if (!selectedPackage) { alert("Veuillez choisir un forfait."); return; }
-    if (!isAccepted) { alert("Vous devez accepter le contrat d'engagement."); return; }
+    if (!isAccepted) { alert("Vous devez accepter la procuration et le contrat d'engagement."); return; }
     
+    const name = document.getElementById('formName').value || 'Non renseigné';
+    const phone = document.getElementById('formPhone').value || 'Non renseigné';
+    const activity = document.getElementById('formActivity').value || 'Non renseigné';
     const total = selectedPackage.basePrice * 1.25;
-    const msg = `Bonjour, je souhaite payer ${total.toLocaleString('fr-FR')} FCFA pour mon dossier de formalisation (${selectedPackage.title}).`;
+
+    const url = "https://formspree.io/f/xjygnqyg"; 
+    fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        type: "NOUVEAU DOSSIER DE FORMALISATION",
+        nom: name,
+        contact: phone,
+        activite: activity,
+        forfait: selectedPackage.title,
+        montant: total + " FCFA"
+      })
+    });
+
+    const msg = `Bonjour, je souhaite payer ${total.toLocaleString('fr-FR')} FCFA pour mon dossier de formalisation (${selectedPackage.title}). Mon nom est ${name}.`;
     window.open(`https://wa.me/2250708858816?text=${encodeURIComponent(msg)}`, '_blank');
+    
+    alert("✅ Votre demande est enregistrée.\n\nN'oubliez pas d'envoyer vos documents (CNI, casier judiciaire, bail...) par WhatsApp au 0708858816 ou par email à ecoptco@gmail.com sous 14 jours.");
   }
 
-  // ============ ASSISTANT VOCAL ============
-  let isListening = false;
+  // ============ ASSISTANT VOCAL SÉQUENTIEL ============
+  let isListening = false; 
   let recognition = null;
+  let vocalStep = 0; 
 
   if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    recognition = new SpeechRecognition();
-    recognition.lang = 'fr-FR';
-    recognition.continuous = false;
+    recognition = new SpeechRecognition(); 
+    recognition.lang = 'fr-FR'; 
+    recognition.continuous = false; 
     recognition.interimResults = false;
-
+    
     recognition.onresult = function(event) {
       const transcript = event.results[0][0].transcript;
-      document.getElementById('vocalTranscript').innerText = `"${transcript}"`;
+      document.getElementById('vocalTranscript').innerText = `Vous avez dit : "${transcript}"`;
       
-      if (transcript.toLowerCase().includes('nom') || transcript.split(' ').length <= 3) {
+      if (vocalStep === 1) {
         document.getElementById('formName').value = transcript;
-        speak("Merci. Quel est votre numéro de téléphone ?");
-      } else {
+        updateFormalizationSummary();
+        setTimeout(() => {
+            speak("Merci. Quel est votre numéro de téléphone ?");
+            vocalStep = 2;
+            recognition.start(); 
+        }, 1500);
+      } 
+      else if (vocalStep === 2) {
         document.getElementById('formPhone').value = transcript.replace(/\s/g, '');
-        speak("Merci. Quel est votre métier ?");
+        updateFormalizationSummary();
+        setTimeout(() => {
+            speak("Merci. Quel est votre métier ?");
+            vocalStep = 3;
+            recognition.start(); 
+        }, 1500);
       }
-      updateFormalizationSummary();
+      else if (vocalStep === 3) {
+        document.getElementById('formActivity').value = transcript;
+        updateFormalizationSummary();
+        setTimeout(() => {
+            speak("Parfait, votre dossier est prêt. Choisissez maintenant votre forfait sur l'écran.");
+            vocalStep = 0;
+            isListening = false;
+            document.getElementById('micBtn').classList.remove('listening');
+            document.getElementById('vocalTranscript').innerText = "Entretien terminé. Choisissez votre forfait.";
+        }, 2000);
+      }
     };
 
-    recognition.onend = function() {
-      isListening = false;
-      document.getElementById('micBtn').classList.remove('listening');
+    recognition.onend = function() { 
+        if (vocalStep > 0 && vocalStep < 4) {
+            try { recognition.start(); } catch(e) {}
+        } else {
+            isListening = false; 
+            document.getElementById('micBtn').classList.remove('listening'); 
+        }
     };
   }
 
-  function toggleVocalAssistant() {
-    if (!recognition) { alert("La reconnaissance vocale n'est pas supportée sur ce navigateur."); return; }
+  function startVocalFlow() {
+    if (!recognition) { alert("La reconnaissance vocale n'est pas supportée sur ce navigateur. Utilisez Chrome."); return; }
     
     if (isListening) {
-      recognition.stop();
-      isListening = false;
-      document.getElementById('micBtn').classList.remove('listening');
+        recognition.stop();
+        isListening = false;
+        vocalStep = 0;
+        document.getElementById('micBtn').classList.remove('listening');
+        document.getElementById('vocalTranscript').innerText = "Entretien annulé.";
     } else {
-      recognition.start();
-      isListening = true;
-      document.getElementById('micBtn').classList.add('listening');
-      document.getElementById('vocalTranscript').innerText = "Je vous écoute...";
+        isListening = true;
+        vocalStep = 1; 
+        document.getElementById('micBtn').classList.add('listening');
+        document.getElementById('vocalTranscript').innerText = "L'assistant parle...";
+        
+        speak("Bonjour. Je vais vous aider à remplir votre dossier. Quel est votre nom complet ?");
     }
   }
 
   function speak(text) {
     if ('speechSynthesis' in window) {
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'fr-FR';
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text); 
+      utterance.lang = 'fr-FR'; 
+      utterance.rate = 0.9;
+      
+      utterance.onend = function() {
+          document.getElementById('vocalTranscript').innerText = "Je vous écoute...";
+          if (vocalStep > 0) {
+              recognition.start();
+          }
+      };
+      
       window.speechSynthesis.speak(utterance);
     }
   }
