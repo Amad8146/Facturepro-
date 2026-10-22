@@ -158,7 +158,6 @@
     <p class="tagline">Facturez comme un pro ou formalisez votre entreprise, même sans savoir lire.</p>
   </header>
 
-  <!-- BOUTON D'EXPLICATION VOCALE -->
   <button class="listen-btn" id="listenBtn" onclick="playAppExplanation()">
     <span>🎧</span> Écouter la présentation de l'application
   </button>
@@ -172,6 +171,16 @@
   <div id="tab-invoicing" class="section-content active">
     <div class="grid">
       <div>
+        <!-- ASSISTANT VOCAL FACTURE -->
+        <div class="card">
+          <h2>🎤 Assistant Vocal (Créer la facture)</h2>
+          <div class="vocal-box">
+            <button class="mic-btn" id="micBtnInv" onclick="startVocalFlow('facture')">🎤</button>
+            <p style="font-weight:bold; color:var(--primary);">Appuyez sur le micro pour dicter</p>
+            <p class="vocal-transcript" id="vocalTranscriptInv">L'assistant va vous poser des questions.</p>
+          </div>
+        </div>
+
         <div class="card">
           <h2>🏢 Vos informations</h2>
           <label>Nom / Entreprise <span class="required">*</span></label>
@@ -216,12 +225,13 @@
   <div id="tab-formalization" class="section-content">
     <div class="grid">
       <div>
+        <!-- ASSISTANT VOCAL FORMALISATION -->
         <div class="card">
-          <h2>🎤 Assistant Vocal Guidé (Sans savoir lire)</h2>
+          <h2>🎤 Assistant Vocal Guidé (Formalisation)</h2>
           <div class="vocal-box">
-            <button class="mic-btn" id="micBtn" onclick="startVocalFlow()">🎤</button>
+            <button class="mic-btn" id="micBtnForm" onclick="startVocalFlow('formalisation')">🎤</button>
             <p style="font-weight:bold; color:var(--primary);">Appuyez sur le micro pour commencer</p>
-            <p class="vocal-transcript" id="vocalTranscript">L'assistant va vous poser des questions.</p>
+            <p class="vocal-transcript" id="vocalTranscriptForm">L'assistant va vous poser des questions.</p>
           </div>
         </div>
 
@@ -293,7 +303,6 @@
   function playAppExplanation() {
     const btn = document.getElementById('listenBtn');
     
-    // Si l'assistant est déjà en train de parler, on l'arrête
     if (window.speechSynthesis.speaking) {
       window.speechSynthesis.cancel();
       btn.classList.remove('playing');
@@ -301,7 +310,6 @@
       return;
     }
 
-    // Texte de présentation
     const texteExplication = "Bienvenue sur FacturePro Expert CI. Cette application a deux fonctions principales. " +
     "Premièrement, l'onglet Créer une facture vous permet de générer des factures professionnelles en quelques secondes, même sans savoir lire, grâce à un assistant vocal. " +
     "Deuxièmement, l'onglet Me formaliser est conçu pour les artisans et entrepreneurs de l'informel. " +
@@ -311,19 +319,10 @@
 
     const utterance = new SpeechSynthesisUtterance(texteExplication);
     utterance.lang = 'fr-FR';
-    utterance.rate = 0.9; // Parle un peu moins vite pour être bien compris
+    utterance.rate = 0.9;
 
-    // Quand la voix commence
-    utterance.onstart = function() {
-      btn.classList.add('playing');
-      btn.innerHTML = '<span>🔊</span> Arrêter la lecture';
-    };
-
-    // Quand la voix a fini
-    utterance.onend = function() {
-      btn.classList.remove('playing');
-      btn.innerHTML = '<span>🎧</span> Écouter la présentation de l\'application';
-    };
+    utterance.onstart = function() { btn.classList.add('playing'); btn.innerHTML = '<span>🔊</span> Arrêter la lecture'; };
+    utterance.onend = function() { btn.classList.remove('playing'); btn.innerHTML = '<span>🎧</span> Écouter la présentation de l\'application'; };
 
     window.speechSynthesis.speak(utterance);
   }
@@ -383,6 +382,9 @@
 
   // ============ ONGLET FACTURATION ============
   function switchTab(tabId) {
+    // Si on change d'onglet, on arrête tout assistant vocal en cours
+    stopAllVocal();
+
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.section-content').forEach(sec => sec.classList.remove('active'));
     if (tabId === 'invoicing') {
@@ -542,10 +544,11 @@
     alert("✅ Votre demande est enregistrée.\n\nN'oubliez pas d'envoyer vos documents (CNI, casier judiciaire, bail...) par WhatsApp au 0708858816 ou par email à ecoptco@gmail.com sous 14 jours.");
   }
 
-  // ============ ASSISTANT VOCAL SÉQUENTIEL ============
-  let isListening = false; 
+  // ============ LOGIQUE DES ASSISTANTS VOCAUX ============
   let recognition = null;
-  let vocalStep = 0; 
+  let activeMode = null; // "facture" ou "formalisation"
+  let currentStep = 0;   // Étape actuelle
+  let isListening = false;
 
   if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -556,82 +559,139 @@
     
     recognition.onresult = function(event) {
       const transcript = event.results[0][0].transcript;
-      document.getElementById('vocalTranscript').innerText = `Vous avez dit : "${transcript}"`;
+      const transcriptClean = transcript.replace(/\.$/, ""); // Enlève le point final que l'IA ajoute parfois
       
-      if (vocalStep === 1) {
-        document.getElementById('formName').value = transcript;
-        updateFormalizationSummary();
-        setTimeout(() => {
-            speak("Merci. Quel est votre numéro de téléphone ?");
-            vocalStep = 2;
-            recognition.start(); 
-        }, 1500);
-      } 
-      else if (vocalStep === 2) {
-        document.getElementById('formPhone').value = transcript.replace(/\s/g, '');
-        updateFormalizationSummary();
-        setTimeout(() => {
-            speak("Merci. Quel est votre métier ?");
-            vocalStep = 3;
-            recognition.start(); 
-        }, 1500);
+      // ================= MODE FACTURE =================
+      if (activeMode === 'facture') {
+        document.getElementById('vocalTranscriptInv').innerText = `Vous avez dit : "${transcriptClean}"`;
+        
+        if (currentStep === 1) { // Nom Entreprise
+          document.getElementById('fromName').value = transcriptClean;
+          renderInvoice();
+          nextStep("Quel est votre numéro Wave ou Orange Money pour le paiement ?", 2);
+        } 
+        else if (currentStep === 2) { // Numéro Mobile Money
+          document.getElementById('userPayNumber').value = transcriptClean.replace(/\s/g, '');
+          renderInvoice();
+          nextStep("Quel est le nom de votre client ?", 3);
+        }
+        else if (currentStep === 3) { // Nom Client
+          document.getElementById('toName').value = transcriptClean;
+          renderInvoice();
+          nextStep("Quelle est la description de votre prestation ?", 4);
+        }
+        else if (currentStep === 4) { // Description
+          invoiceItems[0].desc = transcriptClean;
+          renderInvoiceItems(); renderInvoice();
+          nextStep("Quel est le prix de cette prestation en FCFA ?", 5);
+        }
+        else if (currentStep === 5) { // Prix
+          // Essai de récupérer juste le nombre si l'utilisateur dit "vingt-cinq mille" ou "25000"
+          let priceText = transcriptClean.replace(/[^0-9]/g, ''); // Garde juste les chiffres
+          if(priceText === '') priceText = 1000; // Sécurité si l'IA écrit des lettres
+          invoiceItems[0].price = parseInt(priceText);
+          renderInvoiceItems(); renderInvoice();
+          endVocalFlow("Parfait ! Votre facture est prête. Vérifiez les informations à l'écran.");
+        }
       }
-      else if (vocalStep === 3) {
-        document.getElementById('formActivity').value = transcript;
-        updateFormalizationSummary();
-        setTimeout(() => {
-            speak("Parfait, votre dossier est prêt. Choisissez maintenant votre forfait sur l'écran.");
-            vocalStep = 0;
-            isListening = false;
-            document.getElementById('micBtn').classList.remove('listening');
-            document.getElementById('vocalTranscript').innerText = "Entretien terminé. Choisissez votre forfait.";
-        }, 2000);
+      
+      // ================= MODE FORMALISATION =================
+      else if (activeMode === 'formalisation') {
+        document.getElementById('vocalTranscriptForm').innerText = `Vous avez dit : "${transcriptClean}"`;
+        
+        if (currentStep === 1) { // Nom
+          document.getElementById('formName').value = transcriptClean;
+          updateFormalizationSummary();
+          nextStep("Merci. Quel est votre numéro de téléphone ?", 2);
+        } 
+        else if (currentStep === 2) { // Téléphone
+          document.getElementById('formPhone').value = transcriptClean.replace(/\s/g, '');
+          updateFormalizationSummary();
+          nextStep("Merci. Quel est votre métier ?", 3);
+        }
+        else if (currentStep === 3) { // Métier
+          document.getElementById('formActivity').value = transcriptClean;
+          updateFormalizationSummary();
+          endVocalFlow("Parfait, votre dossier est prêt. Choisissez maintenant votre forfait sur l'écran.");
+        }
       }
     };
 
     recognition.onend = function() { 
-        if (vocalStep > 0 && vocalStep < 4) {
+        // Si le navigateur coupe le micro tout seul avant la fin, on le relance
+        if (isListening && currentStep > 0) {
             try { recognition.start(); } catch(e) {}
-        } else {
-            isListening = false; 
-            document.getElementById('micBtn').classList.remove('listening'); 
         }
     };
   }
 
-  function startVocalFlow() {
+  function startVocalFlow(mode) {
     if (!recognition) { alert("La reconnaissance vocale n'est pas supportée sur ce navigateur. Utilisez Chrome."); return; }
     
+    // Si on reclique sur le bouton pendant que ça parle, on arrête tout
     if (isListening) {
-        recognition.stop();
-        isListening = false;
-        vocalStep = 0;
-        document.getElementById('micBtn').classList.remove('listening');
-        document.getElementById('vocalTranscript').innerText = "Entretien annulé.";
+        stopAllVocal();
+        return;
+    }
+
+    activeMode = mode;
+    currentStep = 1;
+    isListening = true;
+    
+    if (mode === 'facture') {
+        document.getElementById('micBtnInv').classList.add('listening');
+        document.getElementById('vocalTranscriptInv').innerText = "L'assistant parle...";
+        speak("Bonjour. Je vais vous aider à créer votre facture. Quel est votre nom ou le nom de votre entreprise ?");
     } else {
-        isListening = true;
-        vocalStep = 1; 
-        document.getElementById('micBtn').classList.add('listening');
-        document.getElementById('vocalTranscript').innerText = "L'assistant parle...";
-        
+        document.getElementById('micBtnForm').classList.add('listening');
+        document.getElementById('vocalTranscriptForm').innerText = "L'assistant parle...";
         speak("Bonjour. Je vais vous aider à remplir votre dossier. Quel est votre nom complet ?");
     }
   }
 
+  function nextStep(question, nextStepNumber) {
+    setTimeout(() => {
+        currentStep = nextStepNumber;
+        speak(question);
+    }, 1500);
+  }
+
+  function endVocalFlow(message) {
+    setTimeout(() => {
+        speak(message);
+        currentStep = 0;
+        isListening = false;
+        if(activeMode === 'facture') document.getElementById('micBtnInv').classList.remove('listening');
+        if(activeMode === 'formalisation') document.getElementById('micBtnForm').classList.remove('listening');
+        activeMode = null;
+    }, 1500);
+  }
+
+  function stopAllVocal() {
+    if (window.speechSynthesis.speaking) window.speechSynthesis.cancel();
+    if (recognition) { try { recognition.stop(); } catch(e){} }
+    isListening = false;
+    currentStep = 0;
+    activeMode = null;
+    document.getElementById('micBtnInv').classList.remove('listening');
+    document.getElementById('micBtnForm').classList.remove('listening');
+  }
+
   function speak(text) {
     if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
+      window.speechSynthesis.cancel(); // Coupe toute voix précédente
       const utterance = new SpeechSynthesisUtterance(text); 
       utterance.lang = 'fr-FR'; 
-      utterance.rate = 0.9;
+      utterance.rate = 0.9; // Parle un peu plus lentement
       
       utterance.onend = function() {
-          document.getElementById('vocalTranscript').innerText = "Je vous écoute...";
-          if (vocalStep > 0) {
+          if (activeMode === 'facture') document.getElementById('vocalTranscriptInv').innerText = "Je vous écoute...";
+          if (activeMode === 'formalisation') document.getElementById('vocalTranscriptForm').innerText = "Je vous écoute...";
+          
+          if (isListening && currentStep > 0) {
               recognition.start();
           }
       };
-      
       window.speechSynthesis.speak(utterance);
     }
   }
