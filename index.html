@@ -16,13 +16,20 @@
   
   /* HERO SECTION */
   .hero {
-    position: relative; text-align: center; padding: 80px 20px; 
+    position: relative; text-align: center; padding: 60px 20px; 
     background: linear-gradient(rgba(79, 70, 229, 0.85), rgba(16, 185, 129, 0.85)), 
                 url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1200&auto=format&fit=crop') center/cover;
     border-radius: 24px; color: white; margin-bottom: 30px; overflow: hidden;
   }
   .hero h1 { font-size: 2.5rem; margin-bottom: 10px; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-  .hero p { font-size: 1.1rem; max-width: 700px; margin: 0 auto; opacity: 0.95; }
+  .hero p { font-size: 1.1rem; max-width: 700px; margin: 0 auto 20px; opacity: 0.95; }
+  
+  .btn-audio { 
+    display: inline-flex; align-items: center; gap: 10px; background: white; color: var(--primary); 
+    padding: 12px 25px; border-radius: 30px; font-weight: 700; border: none; cursor: pointer; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: 0.3s; margin: 0 auto; width: auto;
+  }
+  .btn-audio:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
   
   /* TABS */
   .tabs { display: flex; gap: 15px; margin-bottom: 30px; justify-content: center; flex-wrap: wrap; }
@@ -45,7 +52,7 @@
   /* BANNIERES D'ONGLET */
   .page-banner {
     position: relative; border-radius: 20px; overflow: hidden; margin-bottom: 30px;
-    padding: 40px; color: white; display: flex; align-items: center; gap: 30px;
+    padding: 40px; color: white; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;
   }
   .page-banner::before {
     content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
@@ -259,6 +266,9 @@
   .chat-input-area input:focus { background: white; box-shadow: inset 0 0 0 2px var(--primary); }
   .chat-input-area button { width: 45px; height: 45px; border-radius: 50%; margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
 
+  .phone-input-group { display: flex; gap: 10px; }
+  .phone-prefix { background: #e2e8f0; border: 2px solid var(--border); border-radius: 10px; padding: 14px; font-weight: 700; color: var(--text-muted); display: flex; align-items: center; justify-content: center; }
+
   @media print {
     body * { visibility: hidden; }
     #printable-course, #printable-course * { visibility: visible; }
@@ -299,7 +309,7 @@
   <button class="chat-button" onclick="toggleChat()">💬</button>
 </div>
 
-<!-- MODAL AUTH -->
+<!-- MODAL AUTH (Inscription avec Pays) -->
 <div class="modal-overlay" id="authModal">
   <div class="modal-content">
     <div id="authChoice">
@@ -318,9 +328,29 @@
     <div id="registerForm" class="hidden">
       <h2 style="color:var(--primary); margin-bottom:20px; text-align:center;">Créer un compte</h2>
       <label>Nom complet</label><input id="regName" placeholder="Ex: Amadou Coulibaly">
-      <label>Email ou Téléphone</label><input id="regContact" placeholder="Ex: 0708858816">
-      <label>Identifiant</label><input id="regUsername" placeholder="Ex: AmadouDesign">
+      
+      <label>Pays</label>
+      <select id="regCountry" onchange="updatePhonePrefix()">
+        <option value="+225">🇨🇮 Côte d'Ivoire (+225)</option>
+        <option value="+221">🇸🇳 Sénégal (+221)</option>
+        <option value="+229">🇧🇯 Bénin (+229)</option>
+        <option value="+228">🇹🇬 Togo (+228)</option>
+        <option value="+226">🇧🇫 Burkina Faso (+226)</option>
+        <option value="+223">🇲🇱 Mali (+223)</option>
+        <option value="+227">🇳🇪 Niger (+227)</option>
+        <option value="+233">🇬🇭 Ghana (+233)</option>
+        <option value="+234">🇳🇬 Nigéria (+234)</option>
+      </select>
+
+      <label>Numéro de téléphone</label>
+      <div class="phone-input-group">
+        <div class="phone-prefix" id="phonePrefixDisplay">+225</div>
+        <input type="tel" id="regContact" placeholder="0700000000" style="flex:1;">
+      </div>
+      
+      <label>Identifiant de connexion</label><input id="regUsername" placeholder="Ex: AmadouDesign">
       <label>Mot de passe</label><input type="password" id="regPassword" placeholder="Choisissez un mot de passe">
+      
       <div style="margin-top:20px; display:flex; align-items:start; gap:10px;">
         <input type="checkbox" id="acceptCgu" style="width:auto; margin-top:5px;">
         <label for="acceptCgu" style="font-size:0.85rem; margin:0; font-weight:normal; color:var(--text-muted);">J'accepte les conditions générales d'utilisation.</label>
@@ -338,9 +368,11 @@
     <button class="btn-outline" onclick="doLogout()" style="margin:0; padding:8px 16px; width:auto; font-size:0.85rem; border-radius:20px;">Déconnexion</button>
   </div>
 
+  <!-- HERO AVEC BOUTON AUDIO -->
   <div class="hero">
     <h1>Facturez, Formalisez, Formez-vous.</h1>
     <p>L'écosystème tout-en-un qui propulse les artisans et entrepreneurs africains vers le succès.</p>
+    <button class="btn-audio" onclick="playAppExplanation()">🎧 Écouter la présentation de l'application</button>
   </div>
 
   <div class="tabs">
@@ -349,13 +381,14 @@
     <button class="tab-btn" onclick="switchTab('formalization')">🏢 Formalisation (RCCM)</button>
   </div>
 
-  <!-- ONGLET 1 : ACADEMIE (Mis en premier pour l'éducation) -->
+  <!-- ONGLET 1 : ACADEMIE -->
   <div id="tab-academy" class="section-content active">
     <div class="page-banner banner-academy">
       <div>
         <h2>Devenez un Expert</h2>
         <p>Apprenez les secrets de la gestion, de la négociation et des appels d'offres pour multiplier vos revenus par 10.</p>
       </div>
+      <button class="btn-audio" onclick="playAcademyExplanation()" style="background:var(--gold); color:white; border:none;">🎧 Pourquoi se former ?</button>
     </div>
 
     <div class="card" id="academyLockSection" style="background: #fffbeb; border-color: var(--gold);">
@@ -387,6 +420,7 @@
         <h2>Créez vos Factures Pro</h2>
         <p>Générez des factures, devis et proformas en quelques secondes. Dictez vos prestations à l'assistant vocal.</p>
       </div>
+      <button class="btn-audio" onclick="playInvoiceExplanation()" style="background:var(--primary); color:white; border:none;">🎧 Comment facturer ?</button>
     </div>
 
     <div class="grid">
@@ -538,7 +572,57 @@
 <script>
   document.addEventListener('contextmenu', e => e.preventDefault());
 
-  // ============ 1. CHATBOT & AVATARS ============
+  // ============ 1. GESTION INSCRIPTION & PAYS ============
+  function updatePhonePrefix() {
+    const countrySelect = document.getElementById('regCountry');
+    const prefix = countrySelect.value;
+    document.getElementById('phonePrefixDisplay').textContent = prefix;
+    
+    // Adapter le placeholder selon le pays
+    const phoneInput = document.getElementById('regContact');
+    if (prefix === '+225') phoneInput.placeholder = "0700000000 (10 chiffres)";
+    else if (prefix === '+221') phoneInput.placeholder = "770000000 (9 chiffres)";
+    else if (prefix === '+229') phoneInput.placeholder = "97000000 (8 chiffres)";
+    else phoneInput.placeholder = "Votre numéro";
+  }
+
+  // ============ 2. PRESENTATIONS VOCALES ============
+  function playAppExplanation() {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const text = "Bienvenue sur FacturePro Expert, l'écosystème tout-en-un des artisans et entrepreneurs africains. Notre mission est simple : vous aider à gagner plus d'argent et à professionnaliser votre activité. Avec nous, vous pouvez créer des factures et devis professionnels en quelques secondes grâce à l'assistant vocal, même si vous ne savez pas lire. Vous pouvez également formaliser votre entreprise pour obtenir votre RCCM. Et surtout, notre Académie Premium vous propose 33 formations certifiantes pour apprendre à gérer vos chantiers, décrocher des contrats et gagner jusqu'à un million de francs par mois. FacturePro, votre partenaire de réussite.";
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'fr-FR';
+      utterance.rate = 1;
+      window.speechSynthesis.speak(utterance);
+    } else {
+      alert("La synthèse vocale n'est pas supportée par votre navigateur.");
+    }
+  }
+
+  function playAcademyExplanation() {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const text = "L'Académie FacturePro est conçue pour transformer votre carrière. Ne restez pas un simple exécutant. Apprenez à devenir chef de chantier, à négocier des contrats avec les entreprises, ou à répondre aux appels d'offres publics. Nos formations sont interactives, avec un tuteur qui vous guide pas à pas. À la fin de chaque formation, vous recevrez un certificat officiel FacturePro qui prouvera vos compétences à vos futurs clients. Investissez en vous, débloquez votre potentiel.";
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'fr-FR';
+      utterance.rate = 1;
+      window.speechSynthesis.speak(utterance);
+    }
+  }
+
+  function playInvoiceExplanation() {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const text = "Créer une facture professionnelle n'a jamais été aussi simple. Remplissez vos informations, ajoutez vos prestations grâce au catalogue des 15 métiers, ou dictez-les directement à notre assistant vocal. L'application calcule la TVA automatiquement. Ensuite, partagez votre facture avec votre client par WhatsApp. Votre client vous paiera directement sur votre numéro Wave ou Orange Money. C'est rapide, c'est pro, et ça vous fait gagner du temps.";
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'fr-FR';
+      utterance.rate = 1;
+      window.speechSynthesis.speak(utterance);
+    }
+  }
+
+  // ============ 3. CHATBOT & AVATARS ============
   const AVATARS = [
     { name: "Sarah", role: "Assistante", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=150&auto=format&fit=crop" },
     { name: "David", role: "Conseiller", img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=150&auto=format&fit=crop" }
@@ -616,7 +700,7 @@
     }, 800);
   }
 
-  // ============ 2. FACTURATION & ASSISTANT VOCAL ============
+  // ============ 4. FACTURATION & ASSISTANT VOCAL ============
   let invoiceItems = []; 
   let isInvoiceUnlocked = false;
   
@@ -765,7 +849,7 @@
     } 
   }
 
-  // ============ 3. FORMALISATION ============
+  // ============ 5. FORMALISATION ============
   const PACKAGES = [ 
     { id: 'entreprenant', title: 'Entreprenant', basePrice: 40000, docs: ['CNI', 'Extrait naissance', 'Casier judiciaire', 'Certificat résidence', 'Bail', 'Plan localisation'] }, 
     { id: 'suarl', title: 'SUARL', basePrice: 115000, docs: ['Statuts', 'DSV', 'Casier gérant', 'Bail', 'CNI', 'Plan'] }, 
@@ -797,7 +881,7 @@
     window.open(`https://wa.me/2250708858816?text=Bonjour, je souhaite payer ${total.toLocaleString('fr-FR')} FCFA pour mon dossier.`, '_blank'); 
   }
 
-  // ============ 4. ACADEMIE 33 ============
+  // ============ 6. ACADEMIE 33 ============
   let isAcademyUnlocked = false;
   const ACADEMY_SECRET_CODE = "ACADEMIE2026";
 
@@ -913,14 +997,20 @@
     window.print();
   }
 
-  // ============ 5. BASE FUNCTIONS ============
+  // ============ 7. BASE FUNCTIONS ============
   function showLogin() { document.getElementById('authChoice').classList.add('hidden'); document.getElementById('loginForm').classList.remove('hidden'); }
   function showRegister() { document.getElementById('authChoice').classList.add('hidden'); document.getElementById('registerForm').classList.remove('hidden'); }
   function backToAuthChoice() { document.getElementById('loginForm').classList.add('hidden'); document.getElementById('registerForm').classList.add('hidden'); document.getElementById('authChoice').classList.remove('hidden'); }
   
   function doRegister() {
-    const name = document.getElementById('regName').value.trim(); const contact = document.getElementById('regContact').value.trim(); const username = document.getElementById('regUsername').value.trim(); const password = document.getElementById('regPassword').value.trim();
-    if (!name || !contact || !username || !password) { alert("Remplissez tous les champs."); return; }
+    const name = document.getElementById('regName').value.trim(); 
+    const prefix = document.getElementById('regCountry').value;
+    const rawPhone = document.getElementById('regContact').value.trim();
+    const contact = prefix + " " + rawPhone;
+    const username = document.getElementById('regUsername').value.trim(); 
+    const password = document.getElementById('regPassword').value.trim();
+    
+    if (!name || !rawPhone || !username || !password) { alert("Remplissez tous les champs."); return; }
     const user = { name, contact, username, password };
     localStorage.setItem('fp_user_' + username, JSON.stringify(user));
     loginSuccess(user);
@@ -954,4 +1044,4 @@
   renderInvoiceItems(); renderInvoice(); renderPackages(); renderAcademy(); renderCatalogue();
 </script>
 </body>
-</html>
+</html>s
