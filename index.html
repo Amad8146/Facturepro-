@@ -3,189 +3,413 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FacturePro Expert CI</title>
+<title>FacturePro Expert CI - L'Écosystème des Artisans</title>
 <style>
-  :root { --primary: #4f46e5; --primary-hover: #4338ca; --accent: #10b981; --warning: #f59e0b; --danger: #ef4444; --bg: #f8fafc; --card: #ffffff; --text: #1e293b; --text-muted: #64748b; --border: #e2e8f0; }
+  :root { 
+    --primary: #4f46e5; --primary-hover: #4338ca; --accent: #10b981; 
+    --gold: #f59e0b; --danger: #ef4444; --bg: #f8fafc; --card: #ffffff; 
+    --text: #1e293b; --text-muted: #64748b; --border: #e2e8f0; 
+  }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
   .container { max-width: 1200px; margin: 0 auto; padding: 24px 16px; }
-  header { text-align: center; margin-bottom: 20px; padding: 20px; background: linear-gradient(135deg, #eef2ff, #ecfdf5); border-radius: 16px; border: 1px solid var(--border); }
-  h1 { font-size: 2.2rem; color: var(--primary); margin-bottom: 8px; }
-  .tagline { color: var(--text-muted); font-size: 1rem; max-width: 700px; margin: 0 auto; }
   
-  .listen-btn { display: flex; align-items: center; justify-content: center; gap: 10px; background: #fffbeb; color: #b45309; border: 2px dashed #f59e0b; padding: 12px 20px; border-radius: 12px; font-weight: bold; font-size: 1.1rem; cursor: pointer; margin: 15px auto 25px auto; max-width: 400px; width: 100%; transition: all 0.2s; }
-  .listen-btn:hover { background: #fef3c7; transform: scale(1.02); }
-  .listen-btn.playing { background: #f59e0b; color: white; border-style: solid; }
-
-  .tabs { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; flex-wrap: wrap; }
-  .tab-btn { background: white; border: 2px solid var(--border); padding: 12px 24px; border-radius: 30px; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: all 0.2s; font-size: 1rem; }
-  .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); transform: scale(1.05); }
+  /* HERO SECTION */
+  .hero {
+    position: relative; text-align: center; padding: 80px 20px; 
+    background: linear-gradient(rgba(79, 70, 229, 0.85), rgba(16, 185, 129, 0.85)), 
+                url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1200&auto=format&fit=crop') center/cover;
+    border-radius: 24px; color: white; margin-bottom: 30px; overflow: hidden;
+  }
+  .hero h1 { font-size: 2.5rem; margin-bottom: 10px; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+  .hero p { font-size: 1.1rem; max-width: 700px; margin: 0 auto; opacity: 0.95; }
   
+  /* TABS */
+  .tabs { display: flex; gap: 15px; margin-bottom: 30px; justify-content: center; flex-wrap: wrap; }
+  .tab-btn { 
+    background: white; border: 2px solid var(--border); padding: 15px 30px; 
+    border-radius: 12px; font-weight: 700; color: var(--text-muted); cursor: pointer; 
+    transition: all 0.3s; font-size: 1rem; display: flex; align-items: center; gap: 10px; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  }
+  .tab-btn.active { 
+    background: var(--primary); color: white; border-color: var(--primary); 
+    transform: translateY(-3px); box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3); 
+  }
+  
+  /* SECTIONS */
   .section-content { display: none; }
-  .section-content.active { display: block; animation: fadeIn 0.3s; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .section-content.active { display: block; animation: fadeIn 0.4s ease-out; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  /* BANNIERES D'ONGLET */
+  .page-banner {
+    position: relative; border-radius: 20px; overflow: hidden; margin-bottom: 30px;
+    padding: 40px; color: white; display: flex; align-items: center; gap: 30px;
+  }
+  .page-banner::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background-size: cover; background-position: center; z-index: -1; filter: brightness(0.6);
+  }
+  .banner-invoice::before { background-image: url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=1000&auto=format&fit=crop'); }
+  .banner-formal::before { background-image: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1000&auto=format&fit=crop'); }
+  .banner-academy::before { background-image: url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=1000&auto=format&fit=crop'); }
+  
+  .page-banner h2 { font-size: 2rem; margin-bottom: 10px; }
+  .page-banner p { font-size: 1rem; max-width: 600px; opacity: 0.9; }
+
+  /* LAYOUT */
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
   @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
-  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
-  .card h2 { font-size: 1.2rem; margin-bottom: 16px; color: var(--primary); display: flex; align-items: center; gap: 8px; border-bottom: 2px solid #e0e7ff; padding-bottom: 10px; }
   
-  label { display: block; font-size: 0.85rem; color: var(--text); margin-bottom: 6px; margin-top: 14px; font-weight: 600; }
-  label .required { color: var(--danger); margin-left: 4px; font-size: 1.1rem; }
-  input, textarea, select { width: 100%; background: #f8fafc; border: 2px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); font-size: 1rem; font-family: inherit; }
-  input:focus, select:focus { outline: none; border-color: var(--primary); background: white; }
+  .card { 
+    background: var(--card); border: none; border-radius: 16px; padding: 25px; 
+    margin-bottom: 25px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); 
+    border-top: 5px solid var(--primary);
+  }
+  .card h2 { font-size: 1.3rem; margin-bottom: 20px; color: var(--text); display: flex; align-items: center; gap: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
   
-  button { background: var(--primary); color: white; border: none; padding: 12px 20px; border-radius: 8px; font-size: 0.95rem; font-weight: 600; cursor: pointer; width: 100%; margin-top: 16px; transition: background 0.2s; }
-  button:hover { background: var(--primary-hover); }
-  button.btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text); }
-  button.btn-accent { background: var(--accent); }
-  button.btn-large { padding: 16px; font-size: 1.1rem; border-radius: 12px; }
+  label { display: block; font-size: 0.9rem; color: var(--text); margin-bottom: 8px; margin-top: 15px; font-weight: 600; }
+  input, textarea, select { 
+    width: 100%; background: #f8fafc; border: 2px solid var(--border); border-radius: 10px; 
+    padding: 14px; color: var(--text); font-size: 1rem; font-family: inherit; transition: 0.2s;
+  }
+  input:focus, select:focus { outline: none; border-color: var(--primary); background: white; box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
   
-  .vocal-box { background: #eef2ff; border: 2px dashed var(--primary); border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px; position: relative;}
-  .mic-btn { width: 80px; height: 80px; border-radius: 50%; background: var(--danger); color: white; border: none; font-size: 2rem; cursor: pointer; margin: 0 auto 15px auto; display: flex; align-items: center; justify-content: center; animation: pulse 2s infinite; }
-  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
-  .mic-btn.listening { background: var(--accent); animation: none; }
-  .vocal-transcript { font-size: 1rem; font-style: italic; color: var(--text-muted); min-height: 30px; margin-top: 10px; font-weight: bold; color: var(--primary); }
-  .vocal-controls { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
-  .vocal-controls button { width: auto; margin: 0; padding: 8px 16px; font-size: 0.85rem; background: #fff; color: var(--text); border: 1px solid var(--border); }
-  .vocal-controls button:hover { background: #f1f5f9; }
+  button { 
+    background: linear-gradient(135deg, var(--primary), var(--primary-hover)); 
+    color: white; border: none; padding: 14px 20px; border-radius: 10px; 
+    font-size: 1rem; font-weight: 700; cursor: pointer; width: 100%; 
+    margin-top: 15px; transition: transform 0.2s, box-shadow 0.2s; 
+  }
+  button:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3); }
+  button.btn-outline { background: white; border: 2px solid var(--border); color: var(--text); }
+  button.btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+  button.btn-gold { 
+    background: linear-gradient(135deg, #f59e0b, #d97706); font-size: 1.1rem; 
+    box-shadow: 0 10px 20px rgba(245, 158, 11, 0.4); 
+  }
 
-  .catalogue-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; margin-top: 15px; }
-  .catalogue-item { background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 15px; }
-  .catalogue-title { font-weight: bold; color: var(--primary); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; font-size: 1rem; }
-  .prestation-btn { display: block; width: 100%; text-align: left; background: white; border: 1px solid var(--border); padding: 6px 10px; border-radius: 6px; font-size: 0.8rem; margin-bottom: 4px; cursor: pointer; color: var(--text); margin-top: 0; transition: 0.2s; }
-  .prestation-btn:hover { border-color: var(--primary); background: #eef2ff; }
-  .prestation-btn span { color: var(--text-muted); font-size: 0.7rem; }
+  /* VOCAL ASSISTANT */
+  .vocal-box { 
+    background: linear-gradient(135deg, #eef2ff, #ecfdf5); 
+    border: 2px dashed var(--primary); border-radius: 16px; 
+    padding: 30px; text-align: center; margin-bottom: 20px; position: relative; 
+  }
+  .mic-btn { 
+    width: 90px; height: 90px; border-radius: 50%; 
+    background: linear-gradient(135deg, var(--danger), #dc2626); 
+    color: white; border: 4px solid white; font-size: 2.2rem; cursor: pointer; 
+    margin: 0 auto 20px auto; display: flex; align-items: center; justify-content: center; 
+    box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4); transition: 0.3s;
+  }
+  .mic-btn.listening { 
+    background: linear-gradient(135deg, var(--accent), #059669); 
+    animation: pulse 1.5s infinite; 
+  }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
+  .vocal-transcript { font-size: 1.1rem; font-style: italic; font-weight: 600; color: var(--primary); min-height: 30px; margin-top: 15px; }
+  .vocal-controls { display: flex; gap: 10px; justify-content: center; margin-top: 15px; flex-wrap: wrap; }
+  .vocal-controls button { width: auto; margin: 0; padding: 10px 18px; font-size: 0.9rem; background: white; color: var(--text); border: 1px solid var(--border); }
+  .vocal-controls button.force-mic { background: var(--accent); color: white; border: none; }
 
-  .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-  .pricing-card { border: 2px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.2s; }
-  .pricing-card:hover { border-color: var(--primary); }
-  .pricing-card.selected { border-color: var(--accent); background: #f0fdf4; }
-  .pricing-price { font-size: 1.8rem; font-weight: bold; color: var(--primary); margin: 10px 0; }
+  /* CATALOGUE */
+  .catalogue-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; margin-top: 15px; max-height: 400px; overflow-y: auto; padding-right: 5px; }
+  .catalogue-item { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 15px; }
+  .catalogue-title { font-weight: 800; color: var(--primary); margin-bottom: 10px; font-size: 1rem; }
+  .prestation-btn { 
+    display: block; width: 100%; text-align: left; background: #f8fafc; 
+    border: 1px solid var(--border); padding: 10px; border-radius: 8px; 
+    font-size: 0.85rem; margin-bottom: 6px; cursor: pointer; color: var(--text); 
+    margin-top: 0; transition: 0.2s; 
+  }
+  .prestation-btn:hover { background: var(--primary); color: white; border-color: var(--primary); transform: translateX(5px); }
 
-  .invoice-preview { background: white; padding: 40px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.85rem; color: #334155; position: relative; font-family: 'Helvetica Neue', Arial, sans-serif; }
-  .invoice-header { display: flex; justify-content: space-between; border-bottom: 3px solid var(--primary); padding-bottom: 20px; margin-bottom: 30px; }
-  .invoice-header h3 { font-size: 2.2rem; color: var(--primary); margin-bottom: 5px; }
-  .invoice-title-doc { font-size: 1.5rem; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; }
-  .invoice-parties { display: flex; justify-content: space-between; margin-bottom: 30px; gap: 20px; }
-  .invoice-parties > div { flex: 1; }
-  .invoice-parties h4 { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; }
+  /* FACTURE PREVIEW */
+  .invoice-preview { 
+    background: white; padding: 40px; border-radius: 16px; 
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08); position: relative; 
+    border: 1px solid var(--border);
+  }
+  .invoice-header { display: flex; justify-content: space-between; border-bottom: 4px solid var(--primary); padding-bottom: 20px; margin-bottom: 30px; }
+  .invoice-header h3 { font-size: 2.2rem; color: var(--primary); font-weight: 900; }
+  .invoice-title-doc { font-size: 1.5rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); }
   table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
-  th { background: #f1f5f9; color: var(--primary); padding: 12px; text-align: left; font-size: 0.8rem; text-transform: uppercase; border-bottom: 2px solid var(--border); }
-  td { padding: 12px; border-bottom: 1px solid var(--border); }
-  .total-box { width: 300px; float: right; background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid var(--border); }
-  .total-row { font-weight: bold; font-size: 1.2rem; color: var(--primary); display: flex; justify-content: space-between; margin-top: 10px; border-top: 2px solid var(--border); padding-top: 10px; }
-  .invoice-footer { clear: both; margin-top: 40px; display: flex; justify-content: space-between; align-items: flex-end; font-size: 0.75rem; color: var(--text-muted); }
-  .signature-box { width: 200px; height: 80px; border: 1px dashed var(--border); display: flex; align-items: center; justify-content: center; border-radius: 8px; margin-top: 10px; }
+  th { background: #f1f5f9; color: var(--primary); padding: 15px; text-align: left; font-size: 0.85rem; text-transform: uppercase; font-weight: 800; border-bottom: 2px solid var(--border); }
+  td { padding: 15px; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+  .total-box { width: 320px; float: right; background: #f8fafc; padding: 25px; border-radius: 12px; border: 1px solid var(--border); }
+  .total-row { font-weight: 900; font-size: 1.3rem; color: var(--primary); display: flex; justify-content: space-between; margin-top: 15px; border-top: 2px solid var(--border); padding-top: 15px; }
   
-  .lock-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(6px); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; z-index: 10; border-radius: 8px; }
+  .lock-overlay { 
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
+    background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(8px); 
+    display: flex; flex-direction: column; align-items: center; justify-content: center; 
+    text-align: center; z-index: 10; border-radius: 16px; 
+  }
+
+  /* ACADEMY CARDS */
+  .premium-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+  .premium-card { 
+    border-radius: 20px; overflow: hidden; background: white; 
+    border: 2px solid var(--gold); box-shadow: 0 15px 30px rgba(245, 158, 11, 0.15); 
+    cursor: pointer; transition: transform 0.3s; position: relative; 
+  }
+  .premium-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(245, 158, 11, 0.3); }
+  .premium-badge { 
+    position: absolute; top: 15px; right: 15px; 
+    background: linear-gradient(135deg, #f59e0b, #d97706); color: white; 
+    padding: 6px 15px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; 
+    z-index: 2; box-shadow: 0 4px 10px rgba(245, 158, 11, 0.5);
+  }
+  .premium-img { height: 180px; background-size: cover; background-position: center; position: relative; }
+  .premium-content { padding: 25px; }
+  .premium-title { font-size: 1.2rem; font-weight: 800; color: var(--text); margin-bottom: 10px; }
+  .premium-price { font-size: 1.5rem; font-weight: 900; color: var(--gold); }
+  
+  .basic-card { 
+    border: 1px solid var(--border); border-radius: 12px; padding: 20px; 
+    background: white; cursor: pointer; transition: 0.3s; margin-bottom: 15px; 
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .basic-card:hover { border-color: var(--primary); box-shadow: 0 10px 20px rgba(79, 70, 229, 0.1); transform: translateY(-3px); }
+
+  /* MODALS & COURS */
+  .course-modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(5px); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+  .course-modal-content { background: white; border-radius: 20px; width: 100%; max-width: 850px; max-height: 95vh; overflow-y: auto; position: relative; display: flex; flex-direction: column; }
+  .course-body { padding: 40px; }
+  .tutor-box { background: #f8fafc; border: 1px solid var(--border); border-radius: 16px; height: 350px; display: flex; flex-direction: column; margin-top: 25px; }
+  .tutor-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+  .tutor-msg { padding: 12px 18px; border-radius: 15px; font-size: 0.95rem; max-width: 85%; line-height: 1.5; }
+  .tutor-msg.bot { background: #eef2ff; color: var(--text); align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid #c7d2fe; }
+  .tutor-msg.user { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+  .tutor-input { display: flex; padding: 15px; border-top: 1px solid var(--border); gap: 10px; background: white; border-radius: 0 0 16px 16px; }
+  
+  .quiz-option { background: #f8fafc; border: 2px solid var(--border); padding: 15px; border-radius: 10px; margin-bottom: 12px; cursor: pointer; transition: 0.2s; font-weight: 600; }
+  .quiz-option:hover { border-color: var(--primary); background: #eef2ff; }
+
+  .diploma-preview { background: white; padding: 50px; border: 20px solid var(--gold); border-radius: 16px; text-align: center; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+  .diploma-title { font-size: 2.5rem; color: var(--gold); font-family: 'Times New Roman', serif; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 4px; font-weight: 900; }
+  .diploma-name { font-size: 2.2rem; font-weight: 800; color: var(--text); margin: 25px 0; border-bottom: 3px solid var(--gold); display: inline-block; padding: 0 30px 15px; font-style: italic; }
+  .diploma-seal { width: 110px; height: 110px; border: 4px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 25px auto; color: var(--gold); font-weight: 900; font-size: 0.8rem; transform: rotate(-15deg); border-style: double; }
+
   .hidden { display: none !important; }
-  .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
-  .modal-content { background: white; padding: 30px; border-radius: 12px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; }
-  .cgu-text { font-size: 0.75rem; color: var(--text-muted); background: #f1f5f9; padding: 12px; border-radius: 8px; margin-top: 15px; max-height: 150px; overflow-y: auto; border: 1px solid var(--border); }
+  .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+  .modal-content { background: white; padding: 40px; border-radius: 20px; max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0,0,0,0.25); }
+
+  /* CHATBOT AVATAR */
+  .chat-widget { position: fixed; bottom: 25px; right: 25px; z-index: 1500; }
+  .chat-button { 
+    width: 70px; height: 70px; border-radius: 50%; 
+    background: linear-gradient(135deg, var(--primary), var(--primary-hover)); 
+    color: white; border: 4px solid white; font-size: 2rem; cursor: pointer; 
+    box-shadow: 0 10px 25px rgba(79, 70, 229, 0.5); display: flex; align-items: center; justify-content: center; 
+    margin: 0; transition: transform 0.3s; 
+  }
+  .chat-button:hover { transform: scale(1.1) rotate(5deg); }
+  .chat-box { 
+    position: absolute; bottom: 90px; right: 0; width: 360px; background: white; 
+    border: none; border-radius: 20px; padding: 0; 
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2); display: flex; flex-direction: column; 
+    max-height: 550px; overflow: hidden; 
+  }
   
-  /* CHATBOT */
-  .chat-widget { position: fixed; bottom: 20px; right: 20px; z-index: 100; }
-  .chat-button { width: 60px; height: 60px; border-radius: 50%; background: var(--primary); color: white; border: none; font-size: 1.8rem; cursor: pointer; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4); display: flex; align-items: center; justify-content: center; margin: 0; animation: pulse-blue 2s infinite; }
-  @keyframes pulse-blue { 0% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(79, 70, 229, 0); } 100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); } }
-  .chat-box { position: absolute; bottom: 80px; right: 0; width: 320px; background: white; border: 1px solid var(--border); border-radius: 12px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); display: flex; flex-direction: column; max-height: 400px; }
-  .chat-box h4 { color: var(--primary); margin-bottom: 10px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
-  .chat-messages { flex: 1; overflow-y: auto; margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px; }
-  .msg { padding: 8px 12px; border-radius: 8px; font-size: 0.85rem; max-width: 85%; }
-  .msg.bot { background: #eef2ff; color: var(--text); align-self: flex-start; }
-  .msg.user { background: var(--primary); color: white; align-self: flex-end; }
+  .chat-header { 
+    background: linear-gradient(135deg, var(--primary), var(--primary-hover)); 
+    padding: 20px; display: flex; align-items: center; gap: 15px; color: white; 
+  }
+  .avatar-container { 
+    width: 55px; height: 55px; border-radius: 50%; background: #fff; 
+    overflow: hidden; border: 3px solid rgba(255,255,255,0.5); position: relative; 
+    transition: box-shadow 0.2s; 
+  }
+  .avatar-container img { width: 100%; height: 100%; object-fit: cover; }
+  .avatar-talking { animation: pulse-ring 1s infinite; }
+  @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(255, 255, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); } }
+  
+  .chat-header-info h4 { margin: 0; font-size: 1.1rem; font-weight: 800; }
+  .chat-header-info p { margin: 0; font-size: 0.8rem; opacity: 0.9; }
+  .avatar-switch { 
+    margin-left: auto; background: rgba(255,255,255,0.2); border: 1px solid white; 
+    color: white; border-radius: 20px; padding: 6px 12px; font-size: 0.75rem; 
+    cursor: pointer; width: auto; font-weight: 600; margin-top: 0; 
+  }
+  .avatar-switch:hover { background: rgba(255,255,255,0.4); transform: none; box-shadow: none; }
+  
+  .chat-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; background: #f8fafc; min-height: 280px; }
+  .msg { padding: 12px 16px; border-radius: 15px; font-size: 0.9rem; max-width: 85%; line-height: 1.5; position: relative; }
+  .msg.bot { background: white; color: var(--text); align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: 1px solid var(--border); }
+  .msg.user { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 4px; box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2); }
+  .speak-btn { 
+    position: absolute; bottom: -10px; right: -10px; width: 26px; height: 26px; 
+    border-radius: 50%; background: var(--accent); color: white; border: 2px solid white; 
+    display: flex; align-items: center; justify-content: center; font-size: 0.7rem; 
+    cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
+  }
+  
+  .suggestions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .suggestion-btn { 
+    background: #eef2ff; color: var(--primary); border: 1px solid var(--primary); 
+    border-radius: 20px; padding: 6px 12px; font-size: 0.8rem; cursor: pointer; 
+    width: auto; margin: 0; transition: 0.2s; font-weight: 600; 
+  }
+  .suggestion-btn:hover { background: var(--primary); color: white; transform: translateY(-2px); box-shadow: none; }
+  
+  .chat-input-area { display: flex; padding: 15px; background: white; border-top: 1px solid var(--border); gap: 10px; }
+  .chat-input-area input { flex: 1; padding: 12px 15px; font-size: 0.95rem; border-radius: 30px; background: #f1f5f9; border: none; }
+  .chat-input-area input:focus { background: white; box-shadow: inset 0 0 0 2px var(--primary); }
+  .chat-input-area button { width: 45px; height: 45px; border-radius: 50%; margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+
+  @media print {
+    body * { visibility: hidden; }
+    #printable-course, #printable-course * { visibility: visible; }
+    #printable-course { position: absolute; left: 0; top: 0; width: 100%; padding: 20px; }
+  }
 </style>
 </head>
 <body>
 
-<!-- CHATBOT UI -->
+<!-- CHATBOT AVATAR GLOBAL -->
 <div class="chat-widget">
   <div id="chatBox" class="chat-box hidden">
-    <h4>🤖 Agent IA FacturePro</h4>
-    <div class="chat-messages" id="chatMessages">
-      <div class="msg bot">Bonjour ! Je suis l'assistant FacturePro. Posez-moi vos questions sur le NCC, la FNE, les tarifs ou le catalogue.</div>
+    <div class="chat-header">
+      <div class="avatar-container" id="avatarContainer">
+        <img id="avatarImg" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=150&auto=format&fit=crop" alt="Avatar">
+      </div>
+      <div class="chat-header-info">
+        <h4 id="avatarName">Sarah (Assistante)</h4>
+        <p>En ligne - Répond en 5 min</p>
+      </div>
+      <button class="avatar-switch" onclick="switchAvatar()">Changer</button>
     </div>
-    <div style="display:flex; gap:5px;">
-      <input type="text" id="chatInput" placeholder="Posez votre question..." style="flex:1; padding:8px; font-size:0.85rem;" onkeypress="if(event.key==='Enter') askAI()">
-      <button onclick="askAI()" style="width:auto; margin:0; padding:8px 12px;">➤</button>
+    <div class="chat-messages" id="chatMessages">
+      <div class="msg bot">
+        <span class="msg-text">Bonjour ! Je suis Sarah, votre assistante FacturePro. Comment puis-je vous aider aujourd'hui ?</span>
+        <div class="suggestions">
+          <button class="suggestion-btn" onclick="quickAsk('Je veux créer une facture')">Créer une facture</button>
+          <button class="suggestion-btn" onclick="quickAsk('Quels sont les tarifs ?')">Voir les tarifs</button>
+          <button class="suggestion-btn" onclick="quickAsk('Parler des formations')">Formations</button>
+        </div>
+      </div>
+    </div>
+    <div class="chat-input-area">
+      <input type="text" id="chatInput" placeholder="Posez votre question..." onkeypress="if(event.key==='Enter') askAI()">
+      <button onclick="askAI()">➤</button>
     </div>
   </div>
   <button class="chat-button" onclick="toggleChat()">💬</button>
 </div>
 
+<!-- MODAL AUTH -->
 <div class="modal-overlay" id="authModal">
   <div class="modal-content">
     <div id="authChoice">
-      <h2 style="color:var(--primary); margin-bottom:10px; text-align:center;">Bienvenue sur FacturePro</h2>
-      <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:20px; text-align:center;">Connectez-vous ou créez un compte.</p>
+      <h2 style="color:var(--primary); margin-bottom:15px; text-align:center; font-size:2rem;">Bienvenue</h2>
+      <p style="font-size:1rem; color:var(--text-muted); margin-bottom:30px; text-align:center;">Connectez-vous ou créez un compte pour accéder à l'écosystème.</p>
       <button onclick="showLogin()">J'ai déjà un compte</button>
       <button class="btn-outline" onclick="showRegister()">Créer un compte</button>
     </div>
     <div id="loginForm" class="hidden">
-      <h2 style="color:var(--primary); margin-bottom:15px;">Connexion</h2>
+      <h2 style="color:var(--primary); margin-bottom:20px; text-align:center;">Connexion</h2>
       <label>Identifiant</label><input id="loginUsername" placeholder="Votre identifiant">
       <label>Mot de passe</label><input type="password" id="loginPassword" placeholder="Votre mot de passe">
-      <button onclick="doLogin()" style="margin-top:20px;">Se connecter</button>
+      <button onclick="doLogin()" style="margin-top:25px;">Se connecter</button>
       <button class="btn-outline" onclick="backToAuthChoice()">Retour</button>
     </div>
     <div id="registerForm" class="hidden">
-      <h2 style="color:var(--primary); margin-bottom:15px;">Créer un compte</h2>
+      <h2 style="color:var(--primary); margin-bottom:20px; text-align:center;">Créer un compte</h2>
       <label>Nom complet</label><input id="regName" placeholder="Ex: Amadou Coulibaly">
       <label>Email ou Téléphone</label><input id="regContact" placeholder="Ex: 0708858816">
       <label>Identifiant</label><input id="regUsername" placeholder="Ex: AmadouDesign">
       <label>Mot de passe</label><input type="password" id="regPassword" placeholder="Choisissez un mot de passe">
-      <div style="margin-top:15px; display:flex; align-items:start; gap:8px;">
-        <input type="checkbox" id="acceptCgu" style="width:auto; margin-top:4px;">
-        <label for="acceptCgu" style="font-size:0.8rem; margin:0; font-weight:normal;">J'accepte les conditions générales.</label>
+      <div style="margin-top:20px; display:flex; align-items:start; gap:10px;">
+        <input type="checkbox" id="acceptCgu" style="width:auto; margin-top:5px;">
+        <label for="acceptCgu" style="font-size:0.85rem; margin:0; font-weight:normal; color:var(--text-muted);">J'accepte les conditions générales d'utilisation.</label>
       </div>
-      <button onclick="doRegister()" style="margin-top:20px;">Créer mon compte</button>
+      <button onclick="doRegister()" style="margin-top:25px;">Créer mon compte</button>
       <button class="btn-outline" onclick="backToAuthChoice()">Retour</button>
     </div>
   </div>
 </div>
 
+<!-- APPLICATION PRINCIPALE -->
 <div class="container hidden" id="userContainer">
-  <div style="display:flex; justify-content:space-between; align-items:center; background:white; padding:10px 20px; border-radius:8px; border:1px solid var(--border); margin-bottom:20px;">
-    <div>Connecté : <strong id="displayUsername"></strong></div>
-    <button class="btn-outline" onclick="doLogout()" style="margin:0; padding:6px 12px; width:auto; font-size:0.8rem;">Déconnexion</button>
+  <div style="display:flex; justify-content:space-between; align-items:center; background:white; padding:15px 25px; border-radius:16px; border:1px solid var(--border); margin-bottom:25px; box-shadow:0 4px 10px rgba(0,0,0,0.02);">
+    <div style="font-weight:600;">Connecté : <strong id="displayUsername" style="color:var(--primary);"></strong></div>
+    <button class="btn-outline" onclick="doLogout()" style="margin:0; padding:8px 16px; width:auto; font-size:0.85rem; border-radius:20px;">Déconnexion</button>
   </div>
 
-  <header>
-    <h1>FacturePro Expert</h1>
-    <p class="tagline">Facturez comme un pro ou formalisez votre entreprise.</p>
-  </header>
-
-  <button class="listen-btn" id="listenBtn" onclick="playAppExplanation()">
-    <span>🎧</span> Écouter la présentation
-  </button>
+  <div class="hero">
+    <h1>Facturez, Formalisez, Formez-vous.</h1>
+    <p>L'écosystème tout-en-un qui propulse les artisans et entrepreneurs africains vers le succès.</p>
+  </div>
 
   <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('invoicing')">📄 Créer une facture</button>
-    <button class="tab-btn" onclick="switchTab('formalization')">🏢 Me formaliser (RCCM)</button>
+    <button class="tab-btn active" onclick="switchTab('academy')">🎓 Académie (33 Formations)</button>
+    <button class="tab-btn" onclick="switchTab('invoicing')">📄 Facture / Devis</button>
+    <button class="tab-btn" onclick="switchTab('formalization')">🏢 Formalisation (RCCM)</button>
   </div>
 
-  <div id="tab-invoicing" class="section-content active">
+  <!-- ONGLET 1 : ACADEMIE (Mis en premier pour l'éducation) -->
+  <div id="tab-academy" class="section-content active">
+    <div class="page-banner banner-academy">
+      <div>
+        <h2>Devenez un Expert</h2>
+        <p>Apprenez les secrets de la gestion, de la négociation et des appels d'offres pour multiplier vos revenus par 10.</p>
+      </div>
+    </div>
+
+    <div class="card" id="academyLockSection" style="background: #fffbeb; border-color: var(--gold);">
+      <h2 style="color: var(--gold); font-size: 1.5rem;">🔒 Accès à l'Académie Verrouillé</h2>
+      <p style="font-size:1rem; margin-bottom:20px;">Débloquez les 33 formations certifiantes (Métiers & Premium) pour <strong>5 000 F</strong> ou <strong>10 000 FCFA</strong>.</p>
+      <button class="btn-gold" onclick="window.open('https://wa.me/2250708858816?text=Bonjour, je souhaite payer pour débloquer l\'Académie.', '_blank')">💬 Payer & Demander le code</button>
+      <div style="display:flex; gap:10px; margin-top:20px;">
+        <input type="text" id="academyUnlockCode" placeholder="Entrez le code reçu" style="text-align:center; text-transform:uppercase; font-weight:bold; letter-spacing:2px;">
+        <button onclick="verifyAcademyCode()" style="width:auto; margin:0; padding:0 30px;">OK</button>
+      </div>
+    </div>
+
+    <div id="academyContent" class="hidden">
+      <div class="card">
+        <h2>🌟 Formations Premium (Gagnez jusqu'à 1M/mois)</h2>
+        <div class="premium-grid" id="premium-container"></div>
+      </div>
+      <div class="card">
+        <h2>📚 Formations Métiers (Certifiantes)</h2>
+        <div class="grid" id="basic-container"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ONGLET 2 : FACTURATION -->
+  <div id="tab-invoicing" class="section-content">
+    <div class="page-banner banner-invoice">
+      <div>
+        <h2>Créez vos Factures Pro</h2>
+        <p>Générez des factures, devis et proformas en quelques secondes. Dictez vos prestations à l'assistant vocal.</p>
+      </div>
+    </div>
+
     <div class="grid">
       <div>
         <div class="card">
-          <h2>🎤 Assistant Vocal (Dicter tout)</h2>
+          <h2>🎤 Assistant Vocal</h2>
           <div class="vocal-box">
-            <button class="mic-btn" id="micBtnInv" onclick="startVocalFlow('facture')">🎤</button>
-            <p style="font-weight:bold; color:var(--primary);">Appuyez sur le micro pour dicter</p>
-            <p class="vocal-transcript" id="vocalTranscriptInv">L'assistant va vous poser des questions.</p>
+            <button class="mic-btn" id="micBtnInv" onclick="startVocalFlow()">🎤</button>
+            <p style="font-weight:bold; color:var(--primary); font-size:1.1rem;">Appuyez pour dicter votre facture</p>
+            <p class="vocal-transcript" id="vocalTranscriptInv">Prêt à vous écouter.</p>
             <div class="vocal-controls" id="vocalControlsInv" style="display: none;">
+              <button class="force-mic" id="forceMicInv" onclick="forceStartMic()" style="display:none;">🎤 Je réponds</button>
               <button onclick="repeatQuestion()">🔁 Répéter</button>
-              <button onclick="previousQuestion()">⬅️ Précédent</button>
             </div>
           </div>
         </div>
         
         <div class="card">
           <h2>📑 Type de Document</h2>
-          <select id="docType" onchange="renderInvoice()" style="font-weight:bold; color:var(--primary); font-size:1.1rem;">
-            <option value="FACTURE">Facture (Document officiel)</option>
-            <option value="DEVIS">Devis (Proposition de prix)</option>
-            <option value="FACTURE PROFORMA">Facture Proforma (Projet)</option>
+          <select id="docType" onchange="renderInvoice()" style="font-weight:bold; color:var(--primary); font-size:1.1rem; padding:15px;">
+            <option value="FACTURE">Facture officielle</option>
+            <option value="DEVIS">Devis</option>
+            <option value="FACTURE PROFORMA">Facture Proforma</option>
           </select>
         </div>
 
@@ -193,159 +417,513 @@
           <h2>🏢 Vos informations</h2>
           <label>Nom / Entreprise</label><input id="fromName" placeholder="Ex: Kouassi Design" oninput="renderInvoice()">
           <label>NCC / NINEA</label><input id="fromTaxId" placeholder="Ex: 1234567A" oninput="renderInvoice()">
-          <label>Numéro Mobile Money (Wave/OM)</label><input id="userPayNumber" placeholder="0708858816" oninput="renderInvoice()">
-          <label>Adresse</label><input id="fromAddress" placeholder="Cocody, Abidjan" oninput="renderInvoice()">
+          <label>Mobile Money (Wave/OM)</label><input id="userPayNumber" placeholder="0708858816" oninput="renderInvoice()">
         </div>
 
         <div class="card">
-          <h2>👤 Votre Client</h2>
+          <h2>👤 Client</h2>
           <label>Nom du client</label><input id="toName" placeholder="Société XYZ" oninput="renderInvoice()">
-          <label>Contact</label><input id="toContact" placeholder="Numéro" oninput="renderInvoice()">
         </div>
       </div>
 
       <div>
         <div class="card">
-          <h2>📦 Prestations (Tableau)</h2>
+          <h2>📦 Prestations</h2>
           <div id="items-container"></div>
-          <button class="btn-outline" onclick="addInvoiceItem()">+ Ajouter une ligne (Texte libre)</button>
-          <div id="invoice-totals" style="margin-top:15px; text-align:right; font-weight:bold;"></div>
+          <button class="btn-outline" onclick="addInvoiceItem()">+ Ajouter une ligne</button>
+          <div id="invoice-totals" style="margin-top:20px; text-align:right; font-weight:bold; font-size:1.1rem;"></div>
         </div>
 
         <div class="card">
-          <h2>📚 Catalogue de Prestations (15 Métiers)</h2>
-          <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:10px;">Cliquez sur une prestation pour l'ajouter au tableau.</p>
+          <h2>📚 Catalogue</h2>
           <div class="catalogue-grid" id="catalogue-container"></div>
         </div>
 
-        <div class="card">
-          <h2>💎 Abonnements</h2>
-          <div class="pricing-grid">
-            <div class="pricing-card" onclick="selectPricing('acte')">
-              <div style="font-size:0.9rem; font-weight:bold;">À l'acte</div>
-              <div class="pricing-price">1 000 F</div>
-              <div style="font-size:0.75rem; color:var(--text-muted);">Par document généré</div>
-            </div>
-            <div class="pricing-card selected" onclick="selectPricing('pro')">
-              <div style="font-size:0.9rem; font-weight:bold; color:var(--accent);">Pro Illimité</div>
-              <div class="pricing-price" style="color:var(--accent);">5 000 F</div>
-              <div style="font-size:0.75rem; color:var(--text-muted);">Par mois (économisez 80%)</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
+        <div class="card" style="border-top-color: var(--accent);">
           <h2>🔒 Débloquer le document</h2>
-          <p>Frais : <strong id="unlockPrice">5 000 FCFA (Mois)</strong></p>
-          <button onclick="requestUnlockCode()">💬 Payer & Demander le code</button>
-          <div style="display:flex; gap:5px; margin-top:10px;">
-            <input type="text" id="unlockCode" placeholder="Code reçu">
-            <button onclick="verifyUnlockCode()" style="width:auto; margin:0;">OK</button>
-          </div>
-        </div>
-
-        <div class="card" style="border: 1px dashed var(--border);">
-          <h2 style="font-size:0.9rem; cursor:pointer;" onclick="toggleAdmin()">🛠️ Espace Admin</h2>
-          <div id="adminPanel" class="hidden" style="margin-top:10px;">
-            <p style="font-size:0.85rem; color:var(--text-muted);">Code dynamique :</p>
-            <div style="font-size: 2rem; font-weight: bold; color: var(--accent); letter-spacing: 4px; text-align: center; margin: 10px 0; background:#f8fafc; padding:10px; border-radius:8px; border:1px solid var(--border);" id="generatedCode">----</div>
-            <button class="btn-outline" onclick="copyCode()">📋 Copier</button>
+          <p style="font-size:1.1rem; margin-bottom:15px;">Frais : <strong style="color:var(--accent);">1 000 FCFA</strong></p>
+          <button onclick="window.open('https://wa.me/2250708858816?text=Bonjour, je souhaite payer pour débloquer mon document.', '_blank')">💬 Payer & Demander le code</button>
+          <div style="display:flex; gap:10px; margin-top:15px;">
+            <input type="text" id="unlockCode" placeholder="Code reçu" style="text-align:center; font-weight:bold;">
+            <button onclick="verifyUnlockCode()" style="width:auto; margin:0; padding:0 25px; background:var(--accent);">OK</button>
           </div>
         </div>
       </div>
     </div>
-
-    <div class="card" style="margin-top: 20px;">
-      <h2>👁️ Aperçu</h2>
+    <div class="card" style="margin-top: 30px;">
+      <h2>👁️ Aperçu de votre document</h2>
       <div class="invoice-preview" id="invoice-preview"></div>
     </div>
   </div>
 
+  <!-- ONGLET 3 : FORMALISATION -->
   <div id="tab-formalization" class="section-content">
+    <div class="page-banner banner-formal">
+      <div>
+        <h2>Formalisez votre Entreprise</h2>
+        <p>Donnez une existence légale à votre activité. Nous nous occupons de toutes les démarches (CEPICI, RCCM, DGI).</p>
+      </div>
+    </div>
+
     <div class="grid">
       <div>
         <div class="card">
-          <h2>📝 Formulaire de Formalisation</h2>
+          <h2>📝 Vos coordonnées</h2>
           <label>Nom complet</label><input id="formName" placeholder="Votre nom" oninput="updateFormalizationSummary()">
-          <label>Numéro de téléphone</label><input id="formPhone" placeholder="Votre numéro" oninput="updateFormalizationSummary()">
+          <label>Téléphone</label><input id="formPhone" placeholder="Votre numéro" oninput="updateFormalizationSummary()">
           <label>Activité</label><input id="formActivity" placeholder="Votre métier" oninput="updateFormalizationSummary()">
         </div>
         <div class="card">
-          <h2>💼 Choisissez votre forfait</h2>
+          <h2>💼 Choisissez votre Forfait</h2>
           <div id="packages-container"></div>
         </div>
       </div>
       <div>
         <div class="card">
           <h2>📋 Documents à fournir</h2>
-          <div id="documents-list" class="doc-list"></div>
-        </div>
-        <div class="card">
-          <h2>📜 Procuration</h2>
-          <div class="cgu-text" style="max-height: 200px;">
-            Conformément à l'article 1984 du Code civil, le Mandant donne procuration au Mandataire pour accomplir les démarches (CEPICI, RCCM, DGI). En cas de défaillance, les frais de service (25%) sont acquis et les frais officiels remboursés à 50%.
-          </div>
-          <div style="margin-top:15px; display:flex; align-items:start; gap:8px;">
-            <input type="checkbox" id="acceptContract" style="width:auto; margin-top:4px;" onchange="updateFormalizationSummary()">
-            <label for="acceptContract" style="font-size:0.85rem; margin:0;">J'accepte les clauses.</label>
-          </div>
+          <ul id="documents-list" style="font-size:0.95rem; padding-left:20px; line-height:1.8;"></ul>
         </div>
         <div class="card" style="background: #eef2ff; border-color: var(--primary);">
           <h2>💳 Récapitulatif</h2>
-          <div id="formalization-summary"><p>Veuillez remplir le formulaire et choisir un forfait.</p></div>
-          <button class="btn-accent btn-large" onclick="payFormalization()" style="margin-top:15px;">💬 Payer et envoyer</button>
+          <div id="formalization-summary"></div>
+          <button onclick="payFormalization()" style="margin-top:20px;">💬 Payer l'acompte et envoyer</button>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<script>
-  // PROTECTION ANTI-COPIE
-  document.addEventListener('contextmenu', e => e.preventDefault());
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) || (e.ctrlKey && e.key === 'u')) { e.preventDefault(); }
-  });
+<!-- MODAL DE COURS INTERACTIF -->
+<div class="course-modal hidden" id="courseModal">
+  <div class="course-modal-content">
+    <button onclick="closeCourse()" style="position:absolute; top:20px; right:20px; width:40px; height:40px; border-radius:50%; background:var(--danger); color:white; border:none; font-size:1.5rem; cursor:pointer; z-index:10; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 10px rgba(239, 68, 68, 0.4);">×</button>
+    
+    <div class="course-body">
+      <h2 style="color:var(--gold); margin-bottom:15px; font-size:1.8rem;" id="courseTitle"></h2>
+      <button class="btn-outline" onclick="downloadPDF()" style="margin-bottom:20px;">📥 Télécharger le support de cours (PDF)</button>
+      
+      <div id="printable-course" class="hidden" style="color:black; background:white; padding:20px;">
+        <h1 id="printTitle"></h1><p id="printContent"></p>
+      </div>
+      
+      <h3 style="margin-top:30px; margin-bottom:15px; color:var(--primary); font-size:1.3rem;">🤖 Tuteur Interactif</h3>
+      <div class="tutor-box">
+        <div class="tutor-messages" id="tutorMessages"></div>
+        <div class="tutor-input">
+          <input type="text" id="tutorInput" placeholder="Tapez 'Jour 1' pour commencer..." onkeypress="if(event.key==='Enter') sendTutorMsg()" style="border-radius:30px; background:#f1f5f9; border:none;">
+          <button onclick="sendTutorMsg()" style="width:auto; margin:0; padding:0 25px; border-radius:30px;">Envoyer</button>
+        </div>
+      </div>
 
-  // CHATBOT INTELLIGENT
-  function toggleChat() { document.getElementById('chatBox').classList.toggle('hidden'); }
+      <div id="quizSection" class="hidden" style="margin-top:30px; background:#fffbeb; padding:30px; border-radius:16px; border:2px dashed var(--gold);">
+        <h3 style="color:var(--gold); margin-bottom:20px; font-size:1.3rem;">🏆 Évaluation Finale</h3>
+        <div id="quizQuestions"></div>
+        <button class="btn-gold" onclick="submitQuiz()" style="margin-top:20px;">Valider mes réponses</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DIPLOME -->
+<div class="course-modal hidden" id="diplomaModal" style="background:rgba(15, 23, 42, 0.95);">
+  <div style="width:100%; max-width:850px;">
+    <div class="diploma-preview" id="diplomaContent"></div>
+    <div style="display:flex; gap:15px; margin-top:25px;">
+      <button class="btn-gold" onclick="window.print()" style="font-size:1.2rem; padding:18px;">🖨️ Imprimer / Sauvegarder en PDF</button>
+      <button class="btn-outline" style="background:white; font-size:1.1rem;" onclick="document.getElementById('diplomaModal').classList.add('hidden')">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('contextmenu', e => e.preventDefault());
+
+  // ============ 1. CHATBOT & AVATARS ============
+  const AVATARS = [
+    { name: "Sarah", role: "Assistante", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=150&auto=format&fit=crop" },
+    { name: "David", role: "Conseiller", img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=150&auto=format&fit=crop" }
+  ];
+  let currentAvatarIndex = 0;
+
+  function toggleChat() { 
+    document.getElementById('chatBox').classList.toggle('hidden'); 
+    document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+  }
+
+  function switchAvatar() {
+    currentAvatarIndex = (currentAvatarIndex + 1) % AVATARS.length;
+    const avatar = AVATARS[currentAvatarIndex];
+    document.getElementById('avatarImg').src = avatar.img;
+    document.getElementById('avatarName').textContent = `${avatar.name} (${avatar.role})`;
+    const chat = document.getElementById('chatMessages');
+    chat.innerHTML += `<div class="msg bot"><span class="msg-text">Vous parlez maintenant à <b>${avatar.name}</b>. Comment puis-je vous aider ?</span></div>`;
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  function speakMessage(btnElement) {
+    const text = btnElement.parentElement.querySelector('.msg-text').innerText;
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const avatar = document.getElementById('avatarContainer');
+      avatar.classList.add('avatar-talking');
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'fr-FR';
+      utterance.onend = function() { avatar.classList.remove('avatar-talking'); };
+      btnElement.innerHTML = "⏹️";
+      btnElement.onclick = function() { window.speechSynthesis.cancel(); avatar.classList.remove('avatar-talking'); btnElement.innerHTML = "🔊"; btnElement.onclick = function() { speakMessage(btnElement); }; };
+      window.speechSynthesis.speak(utterance);
+    }
+  }
+
+  function quickAsk(question) {
+    document.getElementById('chatInput').value = question;
+    askAI();
+  }
+
   function askAI() {
     const input = document.getElementById('chatInput').value.trim();
     if (!input) return;
     const chatMessages = document.getElementById('chatMessages');
     chatMessages.innerHTML += `<div class="msg user">${input}</div>`;
     document.getElementById('chatInput').value = '';
+    chatMessages.scrollTop = chatMessages.scrollHeight;
     
     setTimeout(() => {
       const text = input.toLowerCase();
-      let botReply = "";
-      
-      if (text.includes("ncc")) botReply = "Le NCC (Numéro de Compte Contribuable) est obligatoire pour les entreprises. Vous pouvez le demander gratuitement à la DGI avec votre RCCM.";
-      else if (text.includes("fne")) botReply = "La FNE (Facture Normalisée Électronique) est obligatoire. FacturePro vous aide à préparer les données, mais la validation finale se fait sur le portail de la DGI.";
-      else if (text.includes("prix") || text.includes("tarif") || text.includes("combien")) botReply = "L'application propose 2 formules : 1 000 FCFA par facture générée, ou 5 000 FCFA par mois pour des factures illimitées.";
-      else if (text.includes("formalisation") || text.includes("rccm")) botReply = "Nous vous accompagnons pour créer votre entreprise (Entreprenant, SUARL, SARL). Les frais incluent 25% de frais de service.";
-      else if (text.includes("catalogue") || text.includes("métier")) botReply = "Notre catalogue couvre 15 métiers (maçonnerie, peinture, plomberie, etc.). Utilisez l'assistant vocal ou cliquez sur le catalogue pour ajouter vos prestations.";
-      else if (text.includes("wave") || text.includes("orange") || text.includes("paiement")) botReply = "Pour payer, cliquez sur 'Payer & Demander le code', envoyez l'argent sur Wave/OM, puis demandez le code à l'administrateur.";
-      else botReply = "Je n'ai pas la réponse exacte. Cliquez sur 'Passer le relais à un expert' en bas de la page pour me contacter sur WhatsApp.";
-      
-      chatMessages.innerHTML += `<div class="msg bot">${botReply}</div>`;
+      let reply = ""; let suggestions = "";
+
+      if (text.includes("facture")) {
+        reply = "Pour créer une facture, allez dans l'onglet 'Facture'. Remplissez vos infos, ajoutez vos prestations, et payez 1000 F pour le PDF.";
+        suggestions = `<button class="suggestion-btn" onclick="quickAsk('Tarifs')">Voir les tarifs</button>`;
+      } else if (text.includes("tarif") || text.includes("prix")) {
+        reply = "Nos tarifs : 1 000 F par facture. Formation métier : 5 000 F. Formation Premium : 10 000 F. Formalisation : à partir de 40 000 F.";
+        suggestions = `<button class="suggestion-btn" onclick="quickAsk('Formations')">Voir les formations</button>`;
+      } else if (text.includes("formation") || text.includes("académie")) {
+        reply = "L'Académie propose 33 formations. Payez 5 000 F ou 10 000 F sur WhatsApp, puis entrez le code ACADEMIE2026 dans l'onglet Académie.";
+        suggestions = `<button class="suggestion-btn" onclick="window.open('https://wa.me/2250708858816','_blank')" style="background:var(--accent);color:white;border-color:var(--accent);">Payer</button>`;
+      } else {
+        reply = "Je n'ai pas la réponse exacte. Contactez un expert sur WhatsApp pour plus d'aide.";
+        suggestions = `<button class="suggestion-btn" onclick="window.open('https://wa.me/2250708858816','_blank')" style="background:var(--accent);color:white;border-color:var(--accent);">💬 Passer le relais</button>`;
+      }
+
+      chatMessages.innerHTML += `
+        <div class="msg bot">
+          <span class="msg-text">${reply}</span>
+          <div class="speak-btn" onclick="speakMessage(this)">🔊</div>
+          <div class="suggestions">${suggestions}</div>
+        </div>`;
       chatMessages.scrollTop = chatMessages.scrollHeight;
     }, 800);
   }
 
+  // ============ 2. FACTURATION & ASSISTANT VOCAL ============
+  let invoiceItems = []; 
+  let isInvoiceUnlocked = false;
+  
+  const CATALOGUE = [
+    { metier: "🧱 Maçonnerie", prestations: [{desc: "Fondations, murs", unite: "m²"}, {desc: "Dalle, poteaux", unite: "m²"}] },
+    { metier: "🎨 Peinture", prestations: [{desc: "Peinture intérieure", unite: "m²"}, {desc: "Peinture façade", unite: "m²"}] },
+    { metier: "🚿 Plomberie", prestations: [{desc: "Réparation fuite", unite: "forfait"}, {desc: "Pose sanitaires", unite: "unité"}] },
+    { metier: "⚡ Électricité", prestations: [{desc: "Installation, câblage", unite: "point"}, {desc: "Éclairage, prises", unite: "unité"}] }
+  ];
+
+  function renderCatalogue() {
+    document.getElementById('catalogue-container').innerHTML = CATALOGUE.map(cat => `
+      <div class="catalogue-item">
+        <div class="catalogue-title">${cat.metier}</div>
+        ${cat.prestations.map(p => `<button class="prestation-btn" onclick="addFromCatalogue('${p.desc}', '${p.unite}')">${p.desc} (${p.unite})</button>`).join('')}
+      </div>
+    `).join('');
+  }
+
+  function addFromCatalogue(desc, unite) { 
+    invoiceItems.push({ desc: desc, qty: 1, price: 0, unite: unite }); 
+    renderInvoiceItems(); renderInvoice(); 
+  }
+
+  function addInvoiceItem() { invoiceItems.push({ desc: '', qty: 1, price: 0 }); renderInvoiceItems(); renderInvoice(); }
+  function removeInvoiceItem(i) { invoiceItems.splice(i, 1); renderInvoiceItems(); renderInvoice(); }
+  function updateInvoiceItem(i, field, value) { invoiceItems[i][field] = field === 'desc' ? value : parseFloat(value) || 0; renderInvoice(); }
+
+  function renderInvoiceItems() {
+    document.getElementById('items-container').innerHTML = invoiceItems.map((it, i) => `
+      <div style="display:grid; grid-template-columns: 3fr 1fr 1.5fr auto; gap:10px; margin-bottom:10px;">
+        <input placeholder="Désignation" value="${it.desc}${it.unite ? ' ('+it.unite+')' : ''}" oninput="updateInvoiceItem(${i}, 'desc', this.value)">
+        <input type="number" placeholder="Qté" value="${it.qty}" min="0" oninput="updateInvoiceItem(${i}, 'qty', this.value)">
+        <input type="number" placeholder="P.U." value="${it.price}" min="0" oninput="updateInvoiceItem(${i}, 'price', this.value)">
+        <button onclick="removeInvoiceItem(${i})" style="width:45px; background:var(--danger); margin:0; padding:0; border-radius:10px;">×</button>
+      </div>
+    `).join('');
+  }
+
+  function renderInvoice() {
+    const v = (id) => document.getElementById(id).value; 
+    const docType = v('docType'); 
+    const prefix = docType === 'FACTURE' ? 'FAC' : (docType === 'DEVIS' ? 'DEV' : 'PRO'); 
+    const docNum = `${prefix}-${new Date().getFullYear()}-001`;
+    const subtotal = invoiceItems.reduce((s, it) => s + (it.qty * it.price), 0); 
+    const vat = subtotal * 0.18; 
+    const total = subtotal + vat; 
+    const fmt = (n) => `${Math.round(n).toLocaleString('fr-FR')} FCFA`;
+    
+    document.getElementById('invoice-totals').innerHTML = `<div>Total HT : ${fmt(subtotal)}</div><div>TVA (18%) : ${fmt(vat)}</div><div style="font-size:1.4rem; color:var(--primary); margin-top:10px;">TOTAL TTC : ${fmt(total)}</div>`;
+    
+    const rows = invoiceItems.map(it => `<tr><td>${it.desc || '—'}</td><td class="text-right">${it.qty}</td><td class="text-right">${fmt(it.price)}</td><td class="text-right">${fmt(it.qty * it.price)}</td></tr>`).join('');
+    
+    document.getElementById('invoice-preview').innerHTML = `
+      <div class="lock-overlay" id="invoice-lock"><h3>🔒 Aperçu Verrouillé</h3><p>Payez 1 000 FCFA pour débloquer.</p></div>
+      <div class="invoice-header"><div><div class="invoice-title-doc">${docType}</div><div style="font-size:0.95rem; color:#666; margin-top:8px;">N° ${docNum}</div><div style="font-size:0.95rem; color:#666;">Date : ${new Date().toLocaleDateString('fr-FR')}</div></div><div style="text-align:right;"><h3 style="color:var(--primary); font-size:2rem;">${v('fromName') || 'VOTRE ENTREPRISE'}</h3><div style="font-weight:600;">Tél : ${v('userPayNumber') || ''}</div><div style="font-weight:600;">NCC : ${v('fromTaxId') || 'Non renseigné'}</div></div></div>
+      <div style="display:flex; justify-content:space-between; margin-bottom:40px;"><div style="background:#f8fafc; padding:15px 25px; border-radius:10px;"><h4 style="font-size:0.8rem; color:#666; text-transform:uppercase; margin-bottom:5px;">Facturé à</h4><strong style="font-size:1.1rem;">${v('toName') || '—'}</strong></div></div>
+      <table><thead><tr><th style="width:50%">Désignation</th><th class="text-right">Qté</th><th class="text-right">Prix Unit.</th><th class="text-right">Total HT</th></tr></thead><tbody>${rows}</tbody></table>
+      <div class="total-box"><div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>Total HT</span><span style="font-weight:600;">${fmt(subtotal)}</span></div><div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>TVA (18%)</span><span style="font-weight:600;">${fmt(vat)}</span></div><div class="total-row"><span>NET À PAYER</span><span>${fmt(total)}</span></div></div>
+    `;
+    if (isInvoiceUnlocked) document.getElementById('invoice-lock').classList.add('hidden');
+  }
+
+  function generateDynamicCode(invoiceNum) {
+    let str = invoiceNum + "SECRET_SALT_2026"; let hash = 0;
+    for (let i = 0; i < str.length; i++) { let char = str.charCodeAt(i); hash = ((hash << 5) - hash) + char; hash = hash & hash; }
+    let code = Math.abs(hash).toString(36).substring(0, 4).toUpperCase(); while(code.length < 4) { code += "X"; } return code;
+  }
+  function getCurrentInvoiceNum() { const docType = document.getElementById('docType').value; const prefix = docType === 'FACTURE' ? 'FAC' : (docType === 'DEVIS' ? 'DEV' : 'PRO'); return `${prefix}-${new Date().getFullYear()}-001`; }
+  
+  function verifyUnlockCode() {
+    const entered = document.getElementById('unlockCode').value.trim().toUpperCase(); 
+    const expectedCode = generateDynamicCode(getCurrentInvoiceNum());
+    if (entered === expectedCode) { 
+      isInvoiceUnlocked = true; 
+      document.getElementById('invoice-lock').classList.add('hidden'); 
+      alert('✅ Document débloqué !'); 
+    } else { alert('❌ Code incorrect.'); }
+  }
+
+  // VOCAL ASSISTANT
+  let recognition = null; let currentStep = 0; let isListening = false; let isConfirming = false; let tempData = {}; let isAskingForMoreItems = false;
+  const QUESTIONS = [ 
+    { field: "fromName", text: "Quel est votre nom ou le nom de votre entreprise ?" }, 
+    { field: "userPayNumber", text: "Quel est votre numéro Wave ou Orange Money ?" }, 
+    { field: "toName", text: "Quel est le nom de votre client ?" }, 
+    { field: "newItemDesc", text: "Quelle est votre prestation ?" }, 
+    { field: "newItemPrice", text: "Quel est le prix de cette prestation en FCFA ?" }, 
+    { field: "askMoreItems", text: "Voulez-vous ajouter une autre prestation ? Dites Oui ou Non." } 
+  ];
+
+  if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SpeechRecognition(); recognition.lang = 'fr-FR'; recognition.continuous = false; recognition.interimResults = false;
+    recognition.onresult = function(event) {
+      const transcript = event.results[0][0].transcript.toLowerCase(); const transcriptClean = event.results[0][0].transcript.replace(/\.$/, "");
+      document.getElementById('forceMicInv').style.display = 'none';
+      if (isAskingForMoreItems) { 
+        if (transcript.includes("oui") || transcript.includes("ouais")) { isAskingForMoreItems = false; currentStep = 3; speak("D'accord. Quelle est la nouvelle prestation ?"); } 
+        else if (transcript.includes("non")) { isAskingForMoreItems = false; endVocalFlow("Parfait ! Votre facture est prête."); } 
+        else { speak("Dites Oui ou Non."); } return; 
+      }
+      if (isConfirming) { 
+        if (transcript.includes("oui") || transcript.includes("c'est ça")) { isConfirming = false; applyData(currentStep, tempData.value); passToNextQuestion(); } 
+        else if (transcript.includes("non") || transcript.includes("pas")) { isConfirming = false; document.getElementById('vocalTranscriptInv').innerText = "Répétez."; speak(QUESTIONS[currentStep].text); } 
+        else { document.getElementById('vocalTranscriptInv').innerText = "Dites Oui ou Non."; speak("Dites Oui pour confirmer, ou Non pour répéter."); } return; 
+      }
+      document.getElementById('vocalTranscriptInv').innerText = `"${transcriptClean}"`; tempData.value = transcriptClean; isConfirming = true;
+      speak(`Vous avez dit : ${transcriptClean}. Est-ce bien cela ? Dites Oui ou Non.`);
+    };
+    recognition.onend = function() { if (isListening && (currentStep > 0 || isConfirming || isAskingForMoreItems)) { try { recognition.start(); } catch(e) { document.getElementById('forceMicInv').style.display = 'block'; } } };
+  }
+
+  function forceStartMic() { try { recognition.start(); document.getElementById('forceMicInv').style.display = 'none'; } catch(e) { alert("Micro occupé."); } }
+  function applyData(stepIndex, value) { 
+    const q = QUESTIONS[stepIndex]; 
+    if(q.field === "newItemDesc") { invoiceItems.push({ desc: value, qty: 1, price: 0 }); renderInvoiceItems(); } 
+    else if(q.field === "newItemPrice") { invoiceItems[invoiceItems.length - 1].price = parseInt(value.replace(/[^0-9]/g, '')) || 1000; renderInvoiceItems(); } 
+    else if(q.field !== "askMoreItems") { document.getElementById(q.field).value = value; } 
+    renderInvoice(); 
+  }
+  function passToNextQuestion() { currentStep++; if (currentStep >= QUESTIONS.length) { endVocalFlow("Parfait ! Votre facture est prête."); } else { speak(QUESTIONS[currentStep].text); } }
+  function startVocalFlow() { 
+    if (!recognition) { alert("Non supporté."); return; } 
+    if (isListening) { stopAllVocal(); return; } 
+    currentStep = 0; isListening = true; isConfirming = false; isAskingForMoreItems = false; invoiceItems = []; renderInvoiceItems(); renderInvoice(); 
+    document.getElementById('micBtnInv').classList.add('listening'); document.getElementById('vocalControlsInv').style.display = 'flex'; document.getElementById('vocalTranscriptInv').innerText = "L'assistant parle..."; 
+    speak(QUESTIONS[0].text); 
+  }
+  function repeatQuestion() { speak(QUESTIONS[currentStep].text); }
+  function endVocalFlow(message) { 
+    speak(message); 
+    setTimeout(() => { currentStep = 0; isListening = false; isConfirming = false; isAskingForMoreItems = false; document.getElementById('micBtnInv').classList.remove('listening'); document.getElementById('vocalControlsInv').style.display = 'none'; }, 4000); 
+  }
+  function stopAllVocal() { if (window.speechSynthesis.speaking) window.speechSynthesis.cancel(); if (recognition) { try { recognition.stop(); } catch(e){} } isListening = false; currentStep = 0; isConfirming = false; isAskingForMoreItems = false; document.getElementById('micBtnInv').classList.remove('listening'); document.getElementById('vocalControlsInv').style.display = 'none'; }
+  function speak(text) { 
+    if ('speechSynthesis' in window) { 
+      window.speechSynthesis.cancel(); const utterance = new SpeechSynthesisUtterance(text); utterance.lang = 'fr-FR'; utterance.rate = 0.9; 
+      utterance.onend = function() { 
+        if (isListening) { 
+          document.getElementById('vocalTranscriptInv').innerText = "Je vous écoute..."; 
+          try { recognition.start(); setTimeout(() => { if (isListening && !isConfirming) { document.getElementById('forceMicInv').style.display = 'block'; } }, 4000); } catch(e){} 
+        } 
+      }; 
+      window.speechSynthesis.speak(utterance); 
+    } 
+  }
+
+  // ============ 3. FORMALISATION ============
+  const PACKAGES = [ 
+    { id: 'entreprenant', title: 'Entreprenant', basePrice: 40000, docs: ['CNI', 'Extrait naissance', 'Casier judiciaire', 'Certificat résidence', 'Bail', 'Plan localisation'] }, 
+    { id: 'suarl', title: 'SUARL', basePrice: 115000, docs: ['Statuts', 'DSV', 'Casier gérant', 'Bail', 'CNI', 'Plan'] }, 
+    { id: 'sarl', title: 'SARL', basePrice: 150000, docs: ['Statuts', 'DSV', 'Casier gérants', 'Bail', 'CNI', 'Plan'] } 
+  ];
+  let selectedPackage = null;
+
+  function renderPackages() { 
+    document.getElementById('packages-container').innerHTML = PACKAGES.map(pkg => { 
+      const fee = pkg.basePrice * 0.25; const total = pkg.basePrice + fee; 
+      return `<div class="package-card" id="pkg-${pkg.id}" onclick="selectPackage('${pkg.id}')" style="border:2px solid var(--border); border-radius:12px; padding:20px; margin-bottom:15px; cursor:pointer; transition:0.2s;"><div style="font-weight:800; color:var(--primary); font-size:1.2rem;">${pkg.title}</div><div style="font-size:1.4rem; font-weight:900; margin:10px 0;">${total.toLocaleString('fr-FR')} FCFA</div><div style="font-size:0.85rem; color:var(--text-muted); font-weight:600;">Frais officiels: ${pkg.basePrice.toLocaleString('fr-FR')} F</div></div>`; 
+    }).join(''); 
+  }
+  function selectPackage(id) { 
+    selectedPackage = PACKAGES.find(p => p.id === id); 
+    document.querySelectorAll('.package-card').forEach(el => el.style.border = '2px solid var(--border)'); 
+    document.getElementById(`pkg-${id}`).style.border = '2px solid var(--accent)'; 
+    document.getElementById('documents-list').innerHTML = selectedPackage.docs.map(d => `<li>${d}</li>`).join(''); 
+    updateFormalizationSummary(); 
+  }
+  function updateFormalizationSummary() { 
+    if (!selectedPackage) return; 
+    const fee = selectedPackage.basePrice * 0.25; const total = selectedPackage.basePrice + fee; 
+    document.getElementById('formalization-summary').innerHTML = `<p style="font-size:1.1rem; margin-bottom:10px;"><strong>Forfait :</strong> ${selectedPackage.title}</p><p style="font-size:1.5rem; color:var(--primary); font-weight:900;">TOTAL : ${total.toLocaleString('fr-FR')} FCFA</p>`; 
+  }
+  function payFormalization() { 
+    if (!selectedPackage) { alert("Choisissez un forfait."); return; } 
+    const total = selectedPackage.basePrice * 1.25; 
+    window.open(`https://wa.me/2250708858816?text=Bonjour, je souhaite payer ${total.toLocaleString('fr-FR')} FCFA pour mon dossier.`, '_blank'); 
+  }
+
+  // ============ 4. ACADEMIE 33 ============
+  let isAcademyUnlocked = false;
+  const ACADEMY_SECRET_CODE = "ACADEMIE2026";
+
+  function verifyAcademyCode() {
+    const entered = document.getElementById('academyUnlockCode').value.trim().toUpperCase();
+    if (entered === ACADEMY_SECRET_CODE) {
+      isAcademyUnlocked = true;
+      document.getElementById('academyLockSection').classList.add('hidden');
+      document.getElementById('academyContent').classList.remove('hidden');
+      alert("✅ Académie débloquée !");
+    } else { alert("❌ Code incorrect."); }
+  }
+
+  const FORMATIONS = {
+    premium: [
+      { id: 'p1', title: "Devenir Chef de Chantier", price: 10000, desc: "Gérez une équipe.", img: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=600&auto=format&fit=crop", days: ["Jour 1 : Calcul des coûts.", "Jour 2 : Management.", "Jour 3 : Livraison."], quiz: [ { q: "Prix rentable ?", opts: ["Voisin", "Coût + 30%", "Client"], a: 1 } ] },
+      { id: 'p2', title: "Contrats B2B", price: 10000, desc: "Travaillez avec les entreprises.", img: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=600&auto=format&fit=crop", days: ["Jour 1 : Prospecter.", "Jour 2 : Offre.", "Jour 3 : Signer."], quiz: [ { q: "Meilleur client ?", opts: ["Particulier", "Entreprise", "Ami"], a: 1 } ] },
+      { id: 'p3', title: "Appels d'Offres", price: 10000, desc: "Marchés publics.", img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600&auto=format&fit=crop", days: ["Jour 1 : Trouver.", "Jour 2 : Dossier.", "Jour 3 : Chiffrer."], quiz: [ { q: "Document vital ?", opts: ["CNI", "RCCM", "Permis"], a: 1 } ] }
+    ],
+    basic: [
+      { id: 'b1', title: "Maçonnerie", price: 5000, days: ["Jour 1", "Jour 2", "Jour 3"], quiz: [{ q: "Béton ?", opts: ["Sable + Ciment", "Eau", "Bois"], a: 0 }] },
+      { id: 'b2', title: "Peinture", price: 5000, days: ["Jour 1", "Jour 2", "Jour 3"], quiz: [{ q: "Sous-couche ?", opts: ["Non", "Oui", "Parfois"], a: 1 }] }
+    ]
+  };
+
+  let currentCourse = null; let tutorStep = 0; let userAnswers = {};
+
+  function renderAcademy() {
+    document.getElementById('premium-container').innerHTML = FORMATIONS.premium.map(c => `<div class="premium-card" onclick="openCourse('${c.id}')"><div class="premium-badge">PREMIUM</div><div class="premium-img" style="background-image: url('${c.img}');"></div><div class="premium-content"><div class="premium-title">${c.title}</div><div class="premium-price">${c.price.toLocaleString('fr-FR')} FCFA</div></div></div>`).join('');
+    document.getElementById('basic-container').innerHTML = FORMATIONS.basic.map(c => `<div class="basic-card" onclick="openCourse('${c.id}')"><div style="font-weight:800; font-size:1.1rem; color:var(--primary);">${c.title}</div><div style="font-size:1.2rem; font-weight:900; margin-top:10px;">${c.price.toLocaleString('fr-FR')} FCFA</div></div>`).join('');
+  }
+
+  function openCourse(id) {
+    if (!isAcademyUnlocked) { alert("🔒 Débloquez l'Académie d'abord."); return; }
+    currentCourse = FORMATIONS.premium.find(c => c.id === id) || FORMATIONS.basic.find(c => c.id === id);
+    document.getElementById('courseTitle').textContent = currentCourse.title;
+    document.getElementById('tutorMessages').innerHTML = `<div class="tutor-msg bot">Bienvenue dans la formation <b>${currentCourse.title}</b> !<br><br>Tapez <b>"Jour 1"</b> pour commencer.</div>`;
+    document.getElementById('tutorInput').value = ""; tutorStep = 0; userAnswers = {};
+    document.getElementById('quizSection').classList.add('hidden');
+    document.getElementById('courseModal').classList.remove('hidden');
+  }
+
+  function closeCourse() { document.getElementById('courseModal').classList.add('hidden'); }
+
+  function sendTutorMsg() {
+    const input = document.getElementById('tutorInput').value.trim();
+    if (!input) return;
+    const chat = document.getElementById('tutorMessages');
+    chat.innerHTML += `<div class="tutor-msg user">${input}</div>`;
+    document.getElementById('tutorInput').value = '';
+    
+    setTimeout(() => {
+      let reply = "";
+      const text = input.toLowerCase();
+      if (tutorStep === 0 && text.includes("jour 1")) { reply = `📘 <b>Jour 1</b><br>${currentCourse.days[0]}<br><br> Tapez <b>'Jour 2'</b>.`; tutorStep = 1; } 
+      else if (tutorStep === 1 && text.includes("jour 2")) { reply = `📙 <b>Jour 2</b><br>${currentCourse.days[1]}<br><br> Tapez <b>'Jour 3'</b>.`; tutorStep = 2; }
+      else if (tutorStep === 2 && text.includes("jour 3")) { reply = `📕 <b>Jour 3</b><br>${currentCourse.days[2]}<br><br> Cliquez sur <b>Passer l'évaluation</b> ci-dessous.`; tutorStep = 3; showQuiz(); }
+      else { reply = "Tapez 'Jour 1', 'Jour 2' ou 'Jour 3' pour avancer."; }
+      chat.innerHTML += `<div class="tutor-msg bot">${reply}</div>`;
+      chat.scrollTop = chat.scrollHeight;
+    }, 800);
+  }
+
+  function showQuiz() {
+    document.getElementById('quizSection').classList.remove('hidden');
+    document.getElementById('quizQuestions').innerHTML = currentCourse.quiz.map((q, index) => `
+      <div style="margin-bottom:20px;"><p style="font-weight:700; margin-bottom:10px; font-size:1.1rem;">${index + 1}. ${q.q}</p>
+        ${q.opts.map((opt, i) => `<div class="quiz-option" onclick="selectOption(this, ${index}, ${i})">${String.fromCharCode(65+i)}) ${opt}</div>`).join('')}
+      </div>`).join('');
+  }
+
+  function selectOption(el, qIndex, optIndex) {
+    const parent = el.parentElement; parent.querySelectorAll('.quiz-option').forEach(opt => opt.style.background = '');
+    el.style.background = '#d1fae5'; el.style.borderColor = 'var(--accent)'; userAnswers[qIndex] = optIndex;
+  }
+
+  function submitQuiz() {
+    let score = 0; currentCourse.quiz.forEach((q, i) => { if (userAnswers[i] === q.a) score++; });
+    if (score === currentCourse.quiz.length) generateDiploma();
+    else alert(`Score : ${score}/${currentCourse.quiz.length}. Il faut un sans-faute.`);
+  }
+
+  function generateDiploma() {
+    closeCourse();
+    const name = document.getElementById('displayUsername').textContent;
+    const date = new Date().toLocaleDateString('fr-FR');
+    document.getElementById('diplomaContent').innerHTML = `
+      <div class="diploma-title">Certificat de Réussite</div>
+      <p style="font-size:1.2rem; color:#666;">Décerné à</p>
+      <div class="diploma-name">${name}</div>
+      <p style="font-size:1.2rem; color:#666;">pour la formation :</p>
+      <h3 style="font-size:1.8rem; color:var(--primary); margin:20px 0;">${currentCourse.title}</h3>
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:50px;">
+        <div style="text-align:center;"><div class="diploma-seal">FACTUREPRO</div><div style="font-size:0.8rem; color:#666;">Sceau</div></div>
+        <div style="text-align:center;"><div style="font-weight:800; font-size:1.6rem;">Amadou Coulibaly</div><div style="border-top:1px solid #ccc; width:220px; font-size:0.85rem; color:#666; padding-top:8px;">Directeur</div></div>
+        <div style="text-align:center;"><div style="font-size:0.9rem; color:#666;">Délivré le</div><div style="font-weight:800; font-size:1.1rem;">${date}</div></div>
+      </div>`;
+    document.getElementById('diplomaModal').classList.remove('hidden');
+  }
+
+  function downloadPDF() {
+    if (!isAcademyUnlocked) { alert("🔒 Débloquez l'Académie."); return; }
+    document.getElementById('printTitle').textContent = currentCourse.title;
+    let contentHTML = "";
+    currentCourse.days.forEach((day, index) => { contentHTML += `<h3>Jour ${index + 1}</h3><p>${day}</p><br>`; });
+    contentHTML += `<h3>Évaluation Finale</h3>`;
+    currentCourse.quiz.forEach((q, i) => {
+      contentHTML += `<p><strong>${i+1}. ${q.q}</strong></p>`;
+      q.opts.forEach((opt, j) => { contentHTML += `<p>- ${String.fromCharCode(65+j)}) ${opt}</p>`; });
+      contentHTML += `<p><em>Réponse : ${String.fromCharCode(65+q.a)}</em></p><br>`;
+    });
+    document.getElementById('printContent').innerHTML = contentHTML;
+    window.print();
+  }
+
+  // ============ 5. BASE FUNCTIONS ============
   function showLogin() { document.getElementById('authChoice').classList.add('hidden'); document.getElementById('loginForm').classList.remove('hidden'); }
   function showRegister() { document.getElementById('authChoice').classList.add('hidden'); document.getElementById('registerForm').classList.remove('hidden'); }
   function backToAuthChoice() { document.getElementById('loginForm').classList.add('hidden'); document.getElementById('registerForm').classList.add('hidden'); document.getElementById('authChoice').classList.remove('hidden'); }
-
+  
   function doRegister() {
-    const name = document.getElementById('regName').value.trim(); const contact = document.getElementById('regContact').value.trim(); const username = document.getElementById('regUsername').value.trim(); const password = document.getElementById('regPassword').value.trim(); const cgu = document.getElementById('acceptCgu').checked;
+    const name = document.getElementById('regName').value.trim(); const contact = document.getElementById('regContact').value.trim(); const username = document.getElementById('regUsername').value.trim(); const password = document.getElementById('regPassword').value.trim();
     if (!name || !contact || !username || !password) { alert("Remplissez tous les champs."); return; }
-    if (!cgu) { alert("Acceptez les conditions."); return; }
     const user = { name, contact, username, password };
     localStorage.setItem('fp_user_' + username, JSON.stringify(user));
-    const url = "https://formspree.io/f/xjygnqyg"; 
-    fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ nom: name, contact: contact, username: username }) })
-    .then(() => { loginSuccess(user); }).catch((err) => { console.error(err); loginSuccess(user); });
+    loginSuccess(user);
   }
 
   function doLogin() {
@@ -359,286 +937,21 @@
 
   function loginSuccess(user) {
     document.getElementById('authModal').classList.add('hidden'); document.getElementById('userContainer').classList.remove('hidden');
-    document.getElementById('displayUsername').textContent = user.username; document.getElementById('fromName').value = user.name; document.getElementById('userPayNumber').value = user.contact;
-    renderInvoiceItems(); renderInvoice(); renderPackages(); updateFormalizationSummary(); updateAdminCode();
+    document.getElementById('displayUsername').textContent = user.username;
+    document.getElementById('fromName').value = user.name; document.getElementById('userPayNumber').value = user.contact;
+    renderInvoiceItems(); renderInvoice(); renderPackages(); renderAcademy(); renderCatalogue();
   }
 
-  function doLogout() {
-    document.getElementById('userContainer').classList.add('hidden'); document.getElementById('authModal').classList.remove('hidden'); backToAuthChoice();
-  }
-
+  function doLogout() { document.getElementById('userContainer').classList.add('hidden'); document.getElementById('authModal').classList.remove('hidden'); backToAuthChoice(); }
   function switchTab(tabId) {
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active')); document.querySelectorAll('.section-content').forEach(sec => sec.classList.remove('active'));
-    if (tabId === 'invoicing') { document.querySelector('.tab-btn:nth-child(1)').classList.add('active'); document.getElementById('tab-invoicing').classList.add('active'); }
-    else { document.querySelector('.tab-btn:nth-child(2)').classList.add('active'); document.getElementById('tab-formalization').classList.add('active'); }
+    if (tabId === 'invoicing') { document.querySelector('.tab-btn:nth-child(2)').classList.add('active'); document.getElementById('tab-invoicing').classList.add('active'); }
+    else if (tabId === 'formalization') { document.querySelector('.tab-btn:nth-child(3)').classList.add('active'); document.getElementById('tab-formalization').classList.add('active'); }
+    else { document.querySelector('.tab-btn:nth-child(1)').classList.add('active'); document.getElementById('tab-academy').classList.add('active'); }
   }
 
-  // ============ CATALOGUE DE PRESTATIONS ============
-  const CATALOGUE = [
-    { metier: "🧱 Maçonnerie", prestations: [{desc: "Fondations, murs", unite: "m²"}, {desc: "Dalle, poteaux", unite: "m²"}, {desc: "Enduit, créissage", unite: "m²"}, {desc: "Clôture, muret", unite: "ml"}] },
-    { metier: "🧱 Carrelage", prestations: [{desc: "Pose sol", unite: "m²"}, {desc: "Pose murale, faïence", unite: "m²"}, {desc: "Plinthes", unite: "ml"}, {desc: "Dépose ancien carrelage", unite: "m²"}] },
-    { metier: "🎨 Peinture", prestations: [{desc: "Peinture intérieure", unite: "m²"}, {desc: "Peinture façade", unite: "m²"}, {desc: "Enduit, ponçage", unite: "m²"}, {desc: "Décoration, effets", unite: "forfait"}] },
-    { metier: "🪚 Menuiserie", prestations: [{desc: "Portes, fenêtres", unite: "unité"}, {desc: "Placards, cuisine", unite: "forfait"}, {desc: "Meubles sur mesure", unite: "pièce"}, {desc: "Charpente, toiture bois", unite: "m²"}] },
-    { metier: "🚿 Plomberie", prestations: [{desc: "Réparation fuite", unite: "forfait"}, {desc: "Pose sanitaires", unite: "unité"}, {desc: "Tuyauterie, raccords", unite: "ml"}, {desc: "Forage, pompe", unite: "forfait"}] },
-    { metier: "⚡ Électricité", prestations: [{desc: "Installation, câblage", unite: "point"}, {desc: "Tableau, disjoncteur", unite: "unité"}, {desc: "Éclairage, prises", unite: "unité"}, {desc: "Dépannage, groupe", unite: "forfait"}] },
-    { metier: "🔥 Soudure, ferronnerie", prestations: [{desc: "Portail, grille", unite: "unité"}, {desc: "Garde-corps, escalier", unite: "ml"}, {desc: "Hangar, charpente métal", unite: "m²"}, {desc: "Réparation métallique", unite: "forfait"}] },
-    { metier: "❄️ Climatisation", prestations: [{desc: "Pose climatiseur", unite: "unité"}, {desc: "Entretien, nettoyage", unite: "unité"}, {desc: "Recharge de gaz", unite: "forfait"}, {desc: "Réparation frigo", unite: "forfait"}] },
-    { metier: "🔧 Mécanique auto", prestations: [{desc: "Vidange, entretien", unite: "forfait"}, {desc: "Freins, suspension", unite: "forfait"}, {desc: "Diagnostic, électricité", unite: "forfait"}, {desc: "Carrosserie, peinture", unite: "panneau"}] },
-    { metier: "🧹 Ménage", prestations: [{desc: "Ménage à domicile", unite: "heure"}, {desc: "Repassage, linge", unite: "heure"}, {desc: "Nettoyage bureaux", unite: "m²"}, {desc: "Fin de chantier", unite: "forfait"}] },
-    { metier: "🌿 Jardinage", prestations: [{desc: "Tonte, désherbage", unite: "m²"}, {desc: "Taille, élagage", unite: "heure"}, {desc: "Plantation, aménagement", unite: "forfait"}, {desc: "Entretien mensuel", unite: "forfait"}] },
-    { metier: "🚚 Livraison", prestations: [{desc: "Course urgente", unite: "course"}, {desc: "Livraison colis", unite: "colis"}, {desc: "Transport marchandises", unite: "km"}, {desc: "Déménagement", unite: "forfait"}] },
-    { metier: "✂️ Couture", prestations: [{desc: "Tenue sur mesure", unite: "pièce"}, {desc: "Retouches, ourlets", unite: "pièce"}, {desc: "Uniformes, pagnes", unite: "lot"}, {desc: "Broderie", unite: "pièce"}] },
-    { metier: "❤️ Aide à domicile", prestations: [{desc: "Garde d'enfants", unite: "heure"}, {desc: "Aide personnes âgées", unite: "heure"}, {desc: "Cuisine, courses", unite: "heure"}, {desc: "Soutien scolaire", unite: "heure"}] },
-    { metier: "📸 Événementiel", prestations: [{desc: "Photo, vidéo", unite: "séance"}, {desc: "Sonorisation, DJ", unite: "soirée"}, {desc: "Décoration, chaises", unite: "lot"}, {desc: "Traiteur", unite: "personne"}] }
-  ];
-
-  function renderCatalogue() {
-    document.getElementById('catalogue-container').innerHTML = CATALOGUE.map(cat => `
-      <div class="catalogue-item">
-        <div class="catalogue-title">${cat.metier}</div>
-        ${cat.prestations.map(p => `
-          <button class="prestation-btn" onclick="addFromCatalogue('${p.desc}', '${p.unite}')">
-            ${p.desc} <span>(${p.unite})</span>
-          </button>
-        `).join('')}
-      </div>
-    `).join('');
-  }
-
-  function addFromCatalogue(desc, unite) {
-    invoiceItems.push({ desc: desc, qty: 1, price: 0, unite: unite });
-    renderInvoiceItems(); renderInvoice();
-    alert("Prestation ajoutée ! N'oubliez pas de mettre le prix.");
-  }
-
-  // ============ FACTURATION ============
-  let invoiceItems = [{ desc: 'Main d\'oeuvre', qty: 1, price: 1000 }]; let isInvoiceUnlocked = false;
-  function addInvoiceItem() { invoiceItems.push({ desc: '', qty: 1, price: 0 }); renderInvoiceItems(); renderInvoice(); }
-  function removeInvoiceItem(i) { invoiceItems.splice(i, 1); renderInvoiceItems(); renderInvoice(); }
-  function updateInvoiceItem(i, field, value) { invoiceItems[i][field] = field === 'desc' ? value : parseFloat(value) || 0; renderInvoice(); }
-
-  function renderInvoiceItems() {
-    document.getElementById('items-container').innerHTML = invoiceItems.map((it, i) => `
-      <div style="display:grid; grid-template-columns: 3fr 1fr 1.5fr auto; gap:5px; margin-bottom:5px;">
-        <input placeholder="Désignation" value="${it.desc}${it.unite ? ' ('+it.unite+')' : ''}" oninput="updateInvoiceItem(${i}, 'desc', this.value)">
-        <input type="number" placeholder="Qté" value="${it.qty}" min="0" oninput="updateInvoiceItem(${i}, 'qty', this.value)">
-        <input type="number" placeholder="P.U." value="${it.price}" min="0" oninput="updateInvoiceItem(${i}, 'price', this.value)">
-        <button onclick="removeInvoiceItem(${i})" style="width:34px; background:var(--danger); margin:0; padding:0;">×</button>
-      </div>
-    `).join('');
-  }
-
-  let currentPricing = 'pro';
-  function selectPricing(type) {
-    currentPricing = type;
-    document.querySelectorAll('.pricing-card').forEach(el => el.classList.remove('selected'));
-    if(type === 'acte') { event.currentTarget.classList.add('selected'); document.getElementById('unlockPrice').textContent = "1 000 FCFA"; }
-    else { event.currentTarget.classList.add('selected'); document.getElementById('unlockPrice').textContent = "5 000 FCFA (Mois)"; }
-  }
-
-  function renderInvoice() {
-    const v = (id) => document.getElementById(id).value;
-    const docType = v('docType');
-    const prefix = docType === 'FACTURE' ? 'FAC' : (docType === 'DEVIS' ? 'DEV' : 'PRO');
-    const docNum = `${prefix}-${new Date().getFullYear()}-001`;
-
-    const subtotal = invoiceItems.reduce((s, it) => s + (it.qty * it.price), 0); const vat = subtotal * 0.18; const total = subtotal + vat; const fmt = (n) => `${Math.round(n).toLocaleString('fr-FR')} FCFA`;
-    
-    document.getElementById('invoice-totals').innerHTML = `<div>Total HT : ${fmt(subtotal)}</div><div>TVA (18%) : ${fmt(vat)}</div><div style="font-size:1.2rem; color:var(--primary);">TOTAL TTC : ${fmt(total)}</div>`;
-    
-    const preview = document.getElementById('invoice-preview');
-    const rows = invoiceItems.map(it => `<tr><td>${it.desc || '—'}</td><td class="text-right">${it.qty}</td><td class="text-right">${fmt(it.price)}</td><td class="text-right">${fmt(it.qty * it.price)}</td></tr>`).join('');
-    
-    preview.innerHTML = `
-      <div class="lock-overlay" id="invoice-lock"><h3>🔒 Aperçu Verrouillé</h3><p>Payez pour générer le document final.</p></div>
-      <div class="invoice-header">
-        <div><div class="invoice-title-doc">${docType}</div><div style="font-size:0.9rem; color:#666; margin-top:5px;">N° ${docNum}</div><div style="font-size:0.9rem; color:#666;">Date : ${new Date().toLocaleDateString('fr-FR')}</div></div>
-        <div style="text-align:right;"><h3 style="color:var(--primary);">${v('fromName') || 'VOTRE ENTREPRISE'}</h3><div>${v('fromAddress') || ''}</div><div>Tél : ${v('userPayNumber') || ''}</div><div>NCC : ${v('fromTaxId') || 'Non renseigné'}</div></div>
-      </div>
-      <div class="invoice-parties"><div><h4>Client</h4><strong>${v('toName') || '—'}</strong><br>${v('toContact') || ''}</div></div>
-      <table><thead><tr><th style="width:50%">Désignation</th><th class="text-right">Qté</th><th class="text-right">Prix Unit.</th><th class="text-right">Total HT</th></tr></thead><tbody>${rows}</tbody></table>
-      <div class="total-box">
-        <div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>Total HT</span><span>${fmt(subtotal)}</span></div>
-        <div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>TVA (18%)</span><span>${fmt(vat)}</span></div>
-        <div class="total-row"><span>NET À PAYER</span><span>${fmt(total)}</span></div>
-      </div>
-      <div class="invoice-footer">
-        <div><strong>Mentions légales :</strong><br>Paiement par Wave ou Orange Money au ${v('userPayNumber') || '—'}.<br>En cas de retard, des pénalités pourront être appliquées.</div>
-        <div style="text-align:center;"><div>Signature & Cachet</div><div class="signature-box"></div></div>
-      </div>
-    `;
-    if (isInvoiceUnlocked) { document.getElementById('invoice-lock').classList.add('hidden'); }
-  }
-
-  function generateDynamicCode(invoiceNum) {
-    let str = invoiceNum + "SECRET_SALT_2026"; let hash = 0;
-    for (let i = 0; i < str.length; i++) { let char = str.charCodeAt(i); hash = ((hash << 5) - hash) + char; hash = hash & hash; }
-    let code = Math.abs(hash).toString(36).substring(0, 4).toUpperCase(); while(code.length < 4) { code += "X"; } return code;
-  }
-  function getCurrentInvoiceNum() { const docType = document.getElementById('docType').value; const prefix = docType === 'FACTURE' ? 'FAC' : (docType === 'DEVIS' ? 'DEV' : 'PRO'); return `${prefix}-${new Date().getFullYear()}-001`; }
-  function requestUnlockCode() { window.open(`https://wa.me/2250708858816?text=Bonjour, je souhaite payer pour débloquer mon document.`, '_blank'); }
-  function verifyUnlockCode() {
-    const entered = document.getElementById('unlockCode').value.trim().toUpperCase(); const expectedCode = generateDynamicCode(getCurrentInvoiceNum());
-    if (entered === expectedCode) { isInvoiceUnlocked = true; document.getElementById('invoice-lock').classList.add('hidden'); alert('✅ Document débloqué !'); } else { alert('❌ Code incorrect.'); }
-  }
-  function toggleAdmin() { document.getElementById('adminPanel').classList.toggle('hidden'); updateAdminCode(); }
-  function updateAdminCode() { document.getElementById('generatedCode').textContent = generateDynamicCode(getCurrentInvoiceNum()); }
-  function copyCode() { const code = document.getElementById('generatedCode').textContent; navigator.clipboard.writeText(code).then(() => alert('📋 Code copié !')); }
-
-  // ============ FORMALISATION ============
-  const PACKAGES = [
-    { id: 'entreprenant', title: 'Entreprenant', basePrice: 40000, details: 'Idéal pour les artisans.', docs: ['CNI', 'Extrait naissance', 'Casier judiciaire', 'Certificat résidence', 'Bail', 'Plan localisation'] },
-    { id: 'suarl', title: 'SUARL', basePrice: 115000, details: 'Pour protéger vos biens.', docs: ['Statuts', 'DSV', 'Casier gérant', 'Bail', 'CNI', 'Plan'] },
-    { id: 'sarl', title: 'SARL', basePrice: 150000, details: 'Pour s\'associer.', docs: ['Statuts', 'DSV', 'Casier gérants', 'Bail', 'CNI', 'Plan'] }
-  ];
-  let selectedPackage = null;
-  function renderPackages() {
-    document.getElementById('packages-container').innerHTML = PACKAGES.map(pkg => {
-      const fee = pkg.basePrice * 0.25; const total = pkg.basePrice + fee;
-      return `<div class="package-card" id="pkg-${pkg.id}" onclick="selectPackage('${pkg.id}')" style="border:1px solid var(--border); border-radius:8px; padding:15px; margin-bottom:10px; cursor:pointer;">
-          <div class="package-title" style="font-weight:bold; color:var(--primary);">${pkg.title}</div>
-          <div class="package-price" style="font-size:1.2rem; font-weight:bold; margin:5px 0;">${total.toLocaleString('fr-FR')} FCFA</div>
-          <div style="font-size:0.8rem; color:var(--text-muted);">Frais officiels: ${pkg.basePrice.toLocaleString('fr-FR')} F<br>Frais service (25%): ${fee.toLocaleString('fr-FR')} F</div>
-        </div>`;
-    }).join('');
-  }
-  function selectPackage(id) {
-    selectedPackage = PACKAGES.find(p => p.id === id);
-    document.querySelectorAll('.package-card').forEach(el => el.style.border = '1px solid var(--border)');
-    document.getElementById(`pkg-${id}`).style.border = '2px solid var(--accent)';
-    document.getElementById('documents-list').innerHTML = selectedPackage.docs.map(d => `<li>${d}</li>`).join(''); updateFormalizationSummary();
-  }
-  function updateFormalizationSummary() {
-    if (!selectedPackage) return;
-    const fee = selectedPackage.basePrice * 0.25; const total = selectedPackage.basePrice + fee;
-    document.getElementById('formalization-summary').innerHTML = `<p><strong>Forfait :</strong> ${selectedPackage.title}</p><p style="font-size:1.2rem; color:var(--primary); font-weight:bold; margin-top:10px;">TOTAL : ${total.toLocaleString('fr-FR')} FCFA</p>`;
-  }
-  function payFormalization() {
-    if (!selectedPackage || !document.getElementById('acceptContract').checked) { alert("Veuillez choisir un forfait et accepter les clauses."); return; }
-    const total = selectedPackage.basePrice * 1.25;
-    window.open(`https://wa.me/2250708858816?text=Bonjour, je souhaite payer ${total.toLocaleString('fr-FR')} FCFA pour mon dossier.`, '_blank');
-  }
-
-  // ============ ASSISTANT VOCAL INTELLIGENT ============
-  let recognition = null; let activeMode = null; let currentStep = 0; let isListening = false; let isConfirming = false; let tempData = {};
-  let isAskingForMoreItems = false;
-
-  const QUESTIONS = {
-    facture: [
-      { field: "fromName", text: "Quel est votre nom ou le nom de votre entreprise ?" },
-      { field: "userPayNumber", text: "Quel est votre numéro Wave ou Orange Money ?" },
-      { field: "toName", text: "Quel est le nom de votre client ?" },
-      { field: "newItemDesc", text: "Quelle est votre prestation ? Par exemple : peinture, ciment, ou maçonnerie." },
-      { field: "newItemPrice", text: "Quel est le prix de cette prestation en FCFA ?" },
-      { field: "askMoreItems", text: "Voulez-vous ajouter une autre prestation ? Dites Oui ou Non." }
-    ]
-  };
-
-  if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    recognition = new SpeechRecognition(); recognition.lang = 'fr-FR'; recognition.continuous = false; recognition.interimResults = false;
-    recognition.onresult = function(event) {
-      const transcript = event.results[0][0].transcript.toLowerCase(); const transcriptClean = event.results[0][0].transcript.replace(/\.$/, "");
-      
-      if (isAskingForMoreItems) {
-        if (transcript.includes("oui") || transcript.includes("ouais")) {
-          isAskingForMoreItems = false; currentStep = 3; speak("D'accord. Quelle est la nouvelle prestation ?");
-        } else if (transcript.includes("non")) {
-          isAskingForMoreItems = false; endVocalFlow("Parfait ! Votre facture est prête.");
-        } else { speak("Je n'ai pas compris. Dites Oui pour ajouter, ou Non pour terminer."); }
-        return;
-      }
-
-      if (isConfirming) {
-        if (transcript.includes("oui") || transcript.includes("c'est ça")) { 
-          isConfirming = false; applyData(activeMode, currentStep, tempData.value); passToNextQuestion(); 
-        }
-        else if (transcript.includes("non") || transcript.includes("pas")) { 
-          isConfirming = false; document.getElementById('vocalTranscriptInv').innerText = "Répétez."; speak(QUESTIONS[activeMode][currentStep].text); 
-        }
-        else { document.getElementById('vocalTranscriptInv').innerText = "Dites Oui ou Non."; speak("Dites Oui pour confirmer, ou Non pour répéter."); }
-        return;
-      }
-
-      document.getElementById('vocalTranscriptInv').innerText = `"${transcriptClean}"`;
-      tempData.value = transcriptClean; isConfirming = true;
-      speak(`Vous avez dit : ${transcriptClean}. Est-ce bien cela ? Dites Oui ou Non.`);
-    };
-    
-    recognition.onend = function() { if (isListening && (currentStep > 0 || isConfirming || isAskingForMoreItems)) { try { recognition.start(); } catch(e) {} } };
-  }
-
-  function applyData(mode, stepIndex, value) {
-    const q = QUESTIONS[mode][stepIndex];
-    if(q.field === "newItemDesc") { 
-      invoiceItems.push({ desc: value, qty: 1, price: 0 }); renderInvoiceItems(); 
-    }
-    else if(q.field === "newItemPrice") { 
-      invoiceItems[invoiceItems.length - 1].price = parseInt(value.replace(/[^0-9]/g, '')) || 1000; renderInvoiceItems(); 
-    }
-    else if(q.field !== "askMoreItems") { document.getElementById(q.field).value = value; }
-    renderInvoice();
-  }
-
-  function passToNextQuestion() {
-    currentStep++;
-    if (currentStep >= QUESTIONS[activeMode].length) { endVocalFlow("Parfait ! Votre facture est prête."); } 
-    else { speak(QUESTIONS[activeMode][currentStep].text); }
-  }
-
-  function startVocalFlow(mode) {
-    if (!recognition) { alert("Non supporté."); return; }
-    if (isListening) { stopAllVocal(); return; }
-    activeMode = mode; currentStep = 0; isListening = true; isConfirming = false; isAskingForMoreItems = false;
-    invoiceItems = []; renderInvoiceItems(); renderInvoice();
-    document.getElementById('micBtnInv').style.background = 'var(--accent)'; document.getElementById('vocalControlsInv').style.display = 'flex';
-    document.getElementById('vocalTranscriptInv').innerText = "L'assistant parle...";
-    speak(QUESTIONS[mode][0].text);
-  }
-
-  function repeatQuestion() { 
-    if(!activeMode) return;
-    if (currentStep === 5) speak(QUESTIONS[activeMode][5].text);
-    else speak(QUESTIONS[activeMode][currentStep].text); 
-  }
-  function previousQuestion() { 
-    if(!activeMode || currentStep <= 0) return; 
-    currentStep--; isConfirming = false; isAskingForMoreItems = false;
-    speak(QUESTIONS[activeMode][currentStep].text); 
-  }
-  function endVocalFlow(message) {
-    speak(message); 
-    setTimeout(() => { 
-      currentStep = 0; isListening = false; isConfirming = false; isAskingForMoreItems = false; 
-      document.getElementById('micBtnInv').style.background = 'var(--danger)'; document.getElementById('vocalControlsInv').style.display = 'none'; activeMode = null; 
-    }, 3000);
-  }
-  function stopAllVocal() { 
-    if (window.speechSynthesis.speaking) window.speechSynthesis.cancel(); 
-    if (recognition) { try { recognition.stop(); } catch(e){} } 
-    isListening = false; currentStep = 0; isConfirming = false; isAskingForMoreItems = false; activeMode = null; 
-    document.getElementById('micBtnInv').style.background = 'var(--danger)'; document.getElementById('vocalControlsInv').style.display = 'none'; 
-  }
-  function speak(text) {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel(); 
-      const utterance = new SpeechSynthesisUtterance(text); utterance.lang = 'fr-FR'; utterance.rate = 0.9;
-      utterance.onend = function() { 
-        if (isListening) { document.getElementById('vocalTranscriptInv').innerText = "Je vous écoute..."; try { recognition.start(); } catch(e){} } 
-      };
-      window.speechSynthesis.speak(utterance);
-    }
-  }
-
-  function playAppExplanation() { 
-    window.speechSynthesis.cancel(); 
-    const utterance = new SpeechSynthesisUtterance("Bienvenue sur FacturePro Expert CI. Vous pouvez utiliser l'assistant vocal pour dicter vos prestations une par une. L'assistant vous demandera si vous voulez en ajouter d'autres. Choisissez votre abonnement et payez pour débloquer votre document."); 
-    utterance.lang = 'fr-FR'; 
-    window.speechSynthesis.speak(utterance); 
-  }
-
-  // INIT
-  renderCatalogue(); renderInvoiceItems(); renderInvoice(); renderPackages(); updateFormalizationSummary();
+  // INITIALISATION
+  renderInvoiceItems(); renderInvoice(); renderPackages(); renderAcademy(); renderCatalogue();
 </script>
 </body>
 </html>
