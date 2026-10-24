@@ -184,9 +184,9 @@
   .course-modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(5px); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 20px; }
   .course-modal-content { background: white; border-radius: 20px; width: 100%; max-width: 850px; max-height: 95vh; overflow-y: auto; position: relative; display: flex; flex-direction: column; }
   .course-body { padding: 40px; }
-  .tutor-box { background: #f8fafc; border: 1px solid var(--border); border-radius: 16px; height: 350px; display: flex; flex-direction: column; margin-top: 25px; }
+  .tutor-box { background: #f8fafc; border: 1px solid var(--border); border-radius: 16px; height: 400px; display: flex; flex-direction: column; margin-top: 25px; }
   .tutor-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
-  .tutor-msg { padding: 12px 18px; border-radius: 15px; font-size: 0.95rem; max-width: 85%; line-height: 1.5; }
+  .tutor-msg { padding: 15px 20px; border-radius: 15px; font-size: 0.95rem; max-width: 90%; line-height: 1.6; }
   .tutor-msg.bot { background: #eef2ff; color: var(--text); align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid #c7d2fe; }
   .tutor-msg.user { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
   .tutor-input { display: flex; padding: 15px; border-top: 1px solid var(--border); gap: 10px; background: white; border-radius: 0 0 16px 16px; }
@@ -205,74 +205,40 @@
 
   /* CHATBOT AVATAR */
   .chat-widget { position: fixed; bottom: 25px; right: 25px; z-index: 1500; }
-  .chat-button { 
-    width: 70px; height: 70px; border-radius: 50%; 
-    background: linear-gradient(135deg, var(--primary), var(--primary-hover)); 
-    color: white; border: 4px solid white; font-size: 2rem; cursor: pointer; 
-    box-shadow: 0 10px 25px rgba(79, 70, 229, 0.5); display: flex; align-items: center; justify-content: center; 
-    margin: 0; transition: transform 0.3s; 
-  }
+  .chat-button { width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--primary-hover)); color: white; border: 4px solid white; font-size: 2rem; cursor: pointer; box-shadow: 0 10px 25px rgba(79, 70, 229, 0.5); display: flex; align-items: center; justify-content: center; margin: 0; transition: transform 0.3s; }
   .chat-button:hover { transform: scale(1.1) rotate(5deg); }
-  .chat-box { 
-    position: absolute; bottom: 90px; right: 0; width: 360px; background: white; 
-    border: none; border-radius: 20px; padding: 0; 
-    box-shadow: 0 20px 50px rgba(0,0,0,0.2); display: flex; flex-direction: column; 
-    max-height: 550px; overflow: hidden; 
-  }
-  
-  .chat-header { 
-    background: linear-gradient(135deg, var(--primary), var(--primary-hover)); 
-    padding: 20px; display: flex; align-items: center; gap: 15px; color: white; 
-  }
-  .avatar-container { 
-    width: 55px; height: 55px; border-radius: 50%; background: #fff; 
-    overflow: hidden; border: 3px solid rgba(255,255,255,0.5); position: relative; 
-    transition: box-shadow 0.2s; 
-  }
+  .chat-box { position: absolute; bottom: 90px; right: 0; width: 360px; background: white; border: none; border-radius: 20px; padding: 0; box-shadow: 0 20px 50px rgba(0,0,0,0.2); display: flex; flex-direction: column; max-height: 550px; overflow: hidden; }
+  .chat-header { background: linear-gradient(135deg, var(--primary), var(--primary-hover)); padding: 20px; display: flex; align-items: center; gap: 15px; color: white; }
+  .avatar-container { width: 55px; height: 55px; border-radius: 50%; background: #fff; overflow: hidden; border: 3px solid rgba(255,255,255,0.5); position: relative; transition: box-shadow 0.2s; }
   .avatar-container img { width: 100%; height: 100%; object-fit: cover; }
   .avatar-talking { animation: pulse-ring 1s infinite; }
   @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(255, 255, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); } }
-  
   .chat-header-info h4 { margin: 0; font-size: 1.1rem; font-weight: 800; }
   .chat-header-info p { margin: 0; font-size: 0.8rem; opacity: 0.9; }
-  .avatar-switch { 
-    margin-left: auto; background: rgba(255,255,255,0.2); border: 1px solid white; 
-    color: white; border-radius: 20px; padding: 6px 12px; font-size: 0.75rem; 
-    cursor: pointer; width: auto; font-weight: 600; margin-top: 0; 
-  }
+  .avatar-switch { margin-left: auto; background: rgba(255,255,255,0.2); border: 1px solid white; color: white; border-radius: 20px; padding: 6px 12px; font-size: 0.75rem; cursor: pointer; width: auto; font-weight: 600; margin-top: 0; }
   .avatar-switch:hover { background: rgba(255,255,255,0.4); transform: none; box-shadow: none; }
-  
   .chat-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; background: #f8fafc; min-height: 280px; }
   .msg { padding: 12px 16px; border-radius: 15px; font-size: 0.9rem; max-width: 85%; line-height: 1.5; position: relative; }
   .msg.bot { background: white; color: var(--text); align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: 1px solid var(--border); }
   .msg.user { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 4px; box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2); }
-  .speak-btn { 
-    position: absolute; bottom: -10px; right: -10px; width: 26px; height: 26px; 
-    border-radius: 50%; background: var(--accent); color: white; border: 2px solid white; 
-    display: flex; align-items: center; justify-content: center; font-size: 0.7rem; 
-    cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
-  }
-  
+  .speak-btn { position: absolute; bottom: -10px; right: -10px; width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: white; border: 2px solid white; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
   .suggestions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-  .suggestion-btn { 
-    background: #eef2ff; color: var(--primary); border: 1px solid var(--primary); 
-    border-radius: 20px; padding: 6px 12px; font-size: 0.8rem; cursor: pointer; 
-    width: auto; margin: 0; transition: 0.2s; font-weight: 600; 
-  }
+  .suggestion-btn { background: #eef2ff; color: var(--primary); border: 1px solid var(--primary); border-radius: 20px; padding: 6px 12px; font-size: 0.8rem; cursor: pointer; width: auto; margin: 0; transition: 0.2s; font-weight: 600; }
   .suggestion-btn:hover { background: var(--primary); color: white; transform: translateY(-2px); box-shadow: none; }
-  
   .chat-input-area { display: flex; padding: 15px; background: white; border-top: 1px solid var(--border); gap: 10px; }
   .chat-input-area input { flex: 1; padding: 12px 15px; font-size: 0.95rem; border-radius: 30px; background: #f1f5f9; border: none; }
   .chat-input-area input:focus { background: white; box-shadow: inset 0 0 0 2px var(--primary); }
   .chat-input-area button { width: 45px; height: 45px; border-radius: 50%; margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
-
   .phone-input-group { display: flex; gap: 10px; }
   .phone-prefix { background: #e2e8f0; border: 2px solid var(--border); border-radius: 10px; padding: 14px; font-weight: 700; color: var(--text-muted); display: flex; align-items: center; justify-content: center; }
 
+  /* BUG FIX: PRINT ISOLATION */
   @media print {
     body * { visibility: hidden; }
     #printable-course, #printable-course * { visibility: visible; }
-    #printable-course { position: absolute; left: 0; top: 0; width: 100%; padding: 20px; }
+    #printable-course { position: absolute; left: 0; top: 0; width: 100%; padding: 20px; background: white; color: black; }
+    .course-modal-content { position: static !important; max-height: none !important; overflow: visible !important; box-shadow: none !important; border: none !important; }
+    .course-modal { position: static !important; background: transparent !important; padding: 0 !important; }
   }
 </style>
 </head>
@@ -309,7 +275,7 @@
   <button class="chat-button" onclick="toggleChat()">💬</button>
 </div>
 
-<!-- MODAL AUTH (Inscription avec Pays) -->
+<!-- MODAL AUTH -->
 <div class="modal-overlay" id="authModal">
   <div class="modal-content">
     <div id="authChoice">
@@ -368,7 +334,6 @@
     <button class="btn-outline" onclick="doLogout()" style="margin:0; padding:8px 16px; width:auto; font-size:0.85rem; border-radius:20px;">Déconnexion</button>
   </div>
 
-  <!-- HERO AVEC BOUTON AUDIO -->
   <div class="hero">
     <h1>Facturez, Formalisez, Formez-vous.</h1>
     <p>L'écosystème tout-en-un qui propulse les artisans et entrepreneurs africains vers le succès.</p>
@@ -376,7 +341,7 @@
   </div>
 
   <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('academy')">🎓 Académie (33 Formations)</button>
+    <button class="tab-btn active" onclick="switchTab('academy')">🎓 Académie (39 Formations)</button>
     <button class="tab-btn" onclick="switchTab('invoicing')">📄 Facture / Devis</button>
     <button class="tab-btn" onclick="switchTab('formalization')">🏢 Formalisation (RCCM)</button>
   </div>
@@ -386,14 +351,14 @@
     <div class="page-banner banner-academy">
       <div>
         <h2>Devenez un Expert</h2>
-        <p>Apprenez les secrets de la gestion, de la négociation et des appels d'offres pour multiplier vos revenus par 10.</p>
+        <p>De l'artisanat à l'immobilier, en passant par la vente et la finance. Apprenez les secrets pour multiplier vos revenus par 10.</p>
       </div>
       <button class="btn-audio" onclick="playAcademyExplanation()" style="background:var(--gold); color:white; border:none;">🎧 Pourquoi se former ?</button>
     </div>
 
     <div class="card" id="academyLockSection" style="background: #fffbeb; border-color: var(--gold);">
       <h2 style="color: var(--gold); font-size: 1.5rem;">🔒 Accès à l'Académie Verrouillé</h2>
-      <p style="font-size:1rem; margin-bottom:20px;">Débloquez les 33 formations certifiantes (Métiers & Premium) pour <strong>5 000 F</strong> ou <strong>10 000 FCFA</strong>.</p>
+      <p style="font-size:1rem; margin-bottom:20px;">Débloquez les 39 formations certifiantes (Artisans, Vente, Immobilier) pour <strong>5 000 F</strong> ou <strong>10 000 FCFA</strong>.</p>
       <button class="btn-gold" onclick="window.open('https://wa.me/2250708858816?text=Bonjour, je souhaite payer pour débloquer l\'Académie.', '_blank')">💬 Payer & Demander le code</button>
       <div style="display:flex; gap:10px; margin-top:20px;">
         <input type="text" id="academyUnlockCode" placeholder="Entrez le code reçu" style="text-align:center; text-transform:uppercase; font-weight:bold; letter-spacing:2px;">
@@ -440,7 +405,7 @@
         
         <div class="card">
           <h2>📑 Type de Document</h2>
-          <select id="docType" onchange="renderInvoice()" style="font-weight:bold; color:var(--primary); font-size:1.1rem; padding:15px;">
+          <select id="docType" onchange="renderInvoice(); updateAdminCode();" style="font-weight:bold; color:var(--primary); font-size:1.1rem; padding:15px;">
             <option value="FACTURE">Facture officielle</option>
             <option value="DEVIS">Devis</option>
             <option value="FACTURE PROFORMA">Facture Proforma</option>
@@ -480,6 +445,15 @@
           <div style="display:flex; gap:10px; margin-top:15px;">
             <input type="text" id="unlockCode" placeholder="Code reçu" style="text-align:center; font-weight:bold;">
             <button onclick="verifyUnlockCode()" style="width:auto; margin:0; padding:0 25px; background:var(--accent);">OK</button>
+          </div>
+        </div>
+        
+        <div class="card" style="border: 1px dashed var(--border);">
+          <h2 style="font-size:0.9rem; cursor:pointer;" onclick="toggleAdmin()">🛠️ Espace Admin (Générer le code)</h2>
+          <div id="adminPanel" class="hidden" style="margin-top:10px;">
+            <p style="font-size:0.85rem; color:var(--text-muted);">Code dynamique :</p>
+            <div style="font-size: 2rem; font-weight: bold; color: var(--accent); letter-spacing: 4px; text-align: center; margin: 10px 0; background:#f8fafc; padding:10px; border-radius:8px; border:1px solid var(--border);" id="generatedCode">----</div>
+            <button class="btn-outline" onclick="copyCode()">📋 Copier</button>
           </div>
         </div>
       </div>
@@ -537,7 +511,7 @@
       <button class="btn-outline" onclick="downloadPDF()" style="margin-bottom:20px;">📥 Télécharger le support de cours (PDF)</button>
       
       <div id="printable-course" class="hidden" style="color:black; background:white; padding:20px;">
-        <h1 id="printTitle"></h1><p id="printContent"></p>
+        <h1 id="printTitle"></h1><div id="printContent"></div>
       </div>
       
       <h3 style="margin-top:30px; margin-bottom:15px; color:var(--primary); font-size:1.3rem;">🤖 Tuteur Interactif</h3>
@@ -578,7 +552,6 @@
     const prefix = countrySelect.value;
     document.getElementById('phonePrefixDisplay').textContent = prefix;
     
-    // Adapter le placeholder selon le pays
     const phoneInput = document.getElementById('regContact');
     if (prefix === '+225') phoneInput.placeholder = "0700000000 (10 chiffres)";
     else if (prefix === '+221') phoneInput.placeholder = "770000000 (9 chiffres)";
@@ -590,20 +563,18 @@
   function playAppExplanation() {
     if ('speechSynthesis' in window) {
       window.speechSynthesis.cancel();
-      const text = "Bienvenue sur FacturePro Expert, l'écosystème tout-en-un des artisans et entrepreneurs africains. Notre mission est simple : vous aider à gagner plus d'argent et à professionnaliser votre activité. Avec nous, vous pouvez créer des factures et devis professionnels en quelques secondes grâce à l'assistant vocal, même si vous ne savez pas lire. Vous pouvez également formaliser votre entreprise pour obtenir votre RCCM. Et surtout, notre Académie Premium vous propose 33 formations certifiantes pour apprendre à gérer vos chantiers, décrocher des contrats et gagner jusqu'à un million de francs par mois. FacturePro, votre partenaire de réussite.";
+      const text = "Bienvenue sur FacturePro Expert, l'écosystème tout-en-un des artisans et entrepreneurs africains. Notre mission est simple : vous aider à gagner plus d'argent et à professionnaliser votre activité. Avec nous, vous pouvez créer des factures et devis professionnels en quelques secondes grâce à l'assistant vocal. Vous pouvez également formaliser votre entreprise. Et surtout, notre Académie Premium vous propose 39 formations certifiantes, allant de l'artisanat à l'immobilier, en passant par la vente et la gestion de caisse, pour vous aider à devenir un expert et gagner jusqu'à un million de francs par mois. FacturePro, votre partenaire de réussite.";
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'fr-FR';
       utterance.rate = 1;
       window.speechSynthesis.speak(utterance);
-    } else {
-      alert("La synthèse vocale n'est pas supportée par votre navigateur.");
     }
   }
 
   function playAcademyExplanation() {
     if ('speechSynthesis' in window) {
       window.speechSynthesis.cancel();
-      const text = "L'Académie FacturePro est conçue pour transformer votre carrière. Ne restez pas un simple exécutant. Apprenez à devenir chef de chantier, à négocier des contrats avec les entreprises, ou à répondre aux appels d'offres publics. Nos formations sont interactives, avec un tuteur qui vous guide pas à pas. À la fin de chaque formation, vous recevrez un certificat officiel FacturePro qui prouvera vos compétences à vos futurs clients. Investissez en vous, débloquez votre potentiel.";
+      const text = "L'Académie FacturePro est conçue pour transformer votre carrière. Que vous soyez artisan, commercial, agent immobilier ou gestionnaire de caisse, nous avons la formation qu'il vous faut. Apprenez à devenir chef de chantier, à négocier des contrats, à vendre des maisons ou à gérer une microfinance. Nos formations sont interactives, avec un tuteur qui vous guide pas à pas. À la fin, vous recevrez un certificat officiel FacturePro. Investissez en vous, débloquez votre potentiel.";
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'fr-FR';
       utterance.rate = 1;
@@ -614,7 +585,7 @@
   function playInvoiceExplanation() {
     if ('speechSynthesis' in window) {
       window.speechSynthesis.cancel();
-      const text = "Créer une facture professionnelle n'a jamais été aussi simple. Remplissez vos informations, ajoutez vos prestations grâce au catalogue des 15 métiers, ou dictez-les directement à notre assistant vocal. L'application calcule la TVA automatiquement. Ensuite, partagez votre facture avec votre client par WhatsApp. Votre client vous paiera directement sur votre numéro Wave ou Orange Money. C'est rapide, c'est pro, et ça vous fait gagner du temps.";
+      const text = "Créer une facture professionnelle n'a jamais été aussi simple. Remplissez vos informations, ajoutez vos prestations, ou dictez-les directement à notre assistant vocal. L'application calcule la TVA automatiquement. Ensuite, partagez votre facture avec votre client par WhatsApp. Votre client vous paiera directement sur votre numéro Wave ou Orange Money. C'est rapide, c'est pro, et ça vous fait gagner du temps.";
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'fr-FR';
       utterance.rate = 1;
@@ -683,7 +654,7 @@
         reply = "Nos tarifs : 1 000 F par facture. Formation métier : 5 000 F. Formation Premium : 10 000 F. Formalisation : à partir de 40 000 F.";
         suggestions = `<button class="suggestion-btn" onclick="quickAsk('Formations')">Voir les formations</button>`;
       } else if (text.includes("formation") || text.includes("académie")) {
-        reply = "L'Académie propose 33 formations. Payez 5 000 F ou 10 000 F sur WhatsApp, puis entrez le code ACADEMIE2026 dans l'onglet Académie.";
+        reply = "L'Académie propose 39 formations (Artisans, Immobilier, Vente, Microfinance). Payez 5 000 F ou 10 000 F sur WhatsApp, puis entrez le code ACADEMIE2026 dans l'onglet Académie.";
         suggestions = `<button class="suggestion-btn" onclick="window.open('https://wa.me/2250708858816','_blank')" style="background:var(--accent);color:white;border-color:var(--accent);">Payer</button>`;
       } else {
         reply = "Je n'ai pas la réponse exacte. Contactez un expert sur WhatsApp pour plus d'aide.";
@@ -703,6 +674,7 @@
   // ============ 4. FACTURATION & ASSISTANT VOCAL ============
   let invoiceItems = []; 
   let isInvoiceUnlocked = false;
+  let unlockedInvoiceId = ""; // Bug Fix: Track exactly which invoice was unlocked
   
   const CATALOGUE = [
     { metier: "🧱 Maçonnerie", prestations: [{desc: "Fondations, murs", unite: "m²"}, {desc: "Dalle, poteaux", unite: "m²"}] },
@@ -755,13 +727,12 @@
     const rows = invoiceItems.map(it => `<tr><td>${it.desc || '—'}</td><td class="text-right">${it.qty}</td><td class="text-right">${fmt(it.price)}</td><td class="text-right">${fmt(it.qty * it.price)}</td></tr>`).join('');
     
     document.getElementById('invoice-preview').innerHTML = `
-      <div class="lock-overlay" id="invoice-lock"><h3>🔒 Aperçu Verrouillé</h3><p>Payez 1 000 FCFA pour débloquer.</p></div>
+      <div class="lock-overlay" id="invoice-lock" ${isInvoiceUnlocked && unlockedInvoiceId === docNum ? 'style="display:none;"' : ''}><h3>🔒 Aperçu Verrouillé</h3><p>Payez 1 000 FCFA pour débloquer.</p></div>
       <div class="invoice-header"><div><div class="invoice-title-doc">${docType}</div><div style="font-size:0.95rem; color:#666; margin-top:8px;">N° ${docNum}</div><div style="font-size:0.95rem; color:#666;">Date : ${new Date().toLocaleDateString('fr-FR')}</div></div><div style="text-align:right;"><h3 style="color:var(--primary); font-size:2rem;">${v('fromName') || 'VOTRE ENTREPRISE'}</h3><div style="font-weight:600;">Tél : ${v('userPayNumber') || ''}</div><div style="font-weight:600;">NCC : ${v('fromTaxId') || 'Non renseigné'}</div></div></div>
       <div style="display:flex; justify-content:space-between; margin-bottom:40px;"><div style="background:#f8fafc; padding:15px 25px; border-radius:10px;"><h4 style="font-size:0.8rem; color:#666; text-transform:uppercase; margin-bottom:5px;">Facturé à</h4><strong style="font-size:1.1rem;">${v('toName') || '—'}</strong></div></div>
       <table><thead><tr><th style="width:50%">Désignation</th><th class="text-right">Qté</th><th class="text-right">Prix Unit.</th><th class="text-right">Total HT</th></tr></thead><tbody>${rows}</tbody></table>
       <div class="total-box"><div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>Total HT</span><span style="font-weight:600;">${fmt(subtotal)}</span></div><div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>TVA (18%)</span><span style="font-weight:600;">${fmt(vat)}</span></div><div class="total-row"><span>NET À PAYER</span><span>${fmt(total)}</span></div></div>
     `;
-    if (isInvoiceUnlocked) document.getElementById('invoice-lock').classList.add('hidden');
   }
 
   function generateDynamicCode(invoiceNum) {
@@ -773,13 +744,19 @@
   
   function verifyUnlockCode() {
     const entered = document.getElementById('unlockCode').value.trim().toUpperCase(); 
-    const expectedCode = generateDynamicCode(getCurrentInvoiceNum());
+    const currentId = getCurrentInvoiceNum();
+    const expectedCode = generateDynamicCode(currentId);
     if (entered === expectedCode) { 
       isInvoiceUnlocked = true; 
-      document.getElementById('invoice-lock').classList.add('hidden'); 
+      unlockedInvoiceId = currentId; // Bug Fix: Tie it to the specific invoice
+      document.getElementById('invoice-lock').style.display = 'none'; 
       alert('✅ Document débloqué !'); 
     } else { alert('❌ Code incorrect.'); }
   }
+
+  function toggleAdmin() { document.getElementById('adminPanel').classList.toggle('hidden'); updateAdminCode(); }
+  function updateAdminCode() { document.getElementById('generatedCode').textContent = generateDynamicCode(getCurrentInvoiceNum()); }
+  function copyCode() { const code = document.getElementById('generatedCode').textContent; navigator.clipboard.writeText(code).then(() => alert('📋 Code copié !')); }
 
   // VOCAL ASSISTANT
   let recognition = null; let currentStep = 0; let isListening = false; let isConfirming = false; let tempData = {}; let isAskingForMoreItems = false;
@@ -811,10 +788,17 @@
       document.getElementById('vocalTranscriptInv').innerText = `"${transcriptClean}"`; tempData.value = transcriptClean; isConfirming = true;
       speak(`Vous avez dit : ${transcriptClean}. Est-ce bien cela ? Dites Oui ou Non.`);
     };
-    recognition.onend = function() { if (isListening && (currentStep > 0 || isConfirming || isAskingForMoreItems)) { try { recognition.start(); } catch(e) { document.getElementById('forceMicInv').style.display = 'block'; } } };
+    recognition.onend = function() { 
+      if (isListening && (currentStep > 0 || isConfirming || isAskingForMoreItems)) { 
+        try { recognition.start(); } catch(e) { 
+          document.getElementById('forceMicInv').style.display = 'block'; 
+          isListening = false;
+        } 
+      } 
+    };
   }
 
-  function forceStartMic() { try { recognition.start(); document.getElementById('forceMicInv').style.display = 'none'; } catch(e) { alert("Micro occupé."); } }
+  function forceStartMic() { try { isListening = true; recognition.start(); document.getElementById('forceMicInv').style.display = 'none'; } catch(e) { alert("Micro occupé."); } }
   function applyData(stepIndex, value) { 
     const q = QUESTIONS[stepIndex]; 
     if(q.field === "newItemDesc") { invoiceItems.push({ desc: value, qty: 1, price: 0 }); renderInvoiceItems(); } 
@@ -881,14 +865,15 @@
     window.open(`https://wa.me/2250708858816?text=Bonjour, je souhaite payer ${total.toLocaleString('fr-FR')} FCFA pour mon dossier.`, '_blank'); 
   }
 
-  // ============ 6. ACADEMIE 33 ============
-  let isAcademyUnlocked = false;
+  // ============ 6. ACADEMIE 39 AVEC CONTENU ENRICHI ============
+  let isAcademyUnlocked = localStorage.getItem('academyUnlocked') === 'true';
   const ACADEMY_SECRET_CODE = "ACADEMIE2026";
 
   function verifyAcademyCode() {
     const entered = document.getElementById('academyUnlockCode').value.trim().toUpperCase();
     if (entered === ACADEMY_SECRET_CODE) {
       isAcademyUnlocked = true;
+      localStorage.setItem('academyUnlocked', 'true'); // Bug Fix: Save to localStorage
       document.getElementById('academyLockSection').classList.add('hidden');
       document.getElementById('academyContent').classList.remove('hidden');
       alert("✅ Académie débloquée !");
@@ -897,13 +882,113 @@
 
   const FORMATIONS = {
     premium: [
-      { id: 'p1', title: "Devenir Chef de Chantier", price: 10000, desc: "Gérez une équipe.", img: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=600&auto=format&fit=crop", days: ["Jour 1 : Calcul des coûts.", "Jour 2 : Management.", "Jour 3 : Livraison."], quiz: [ { q: "Prix rentable ?", opts: ["Voisin", "Coût + 30%", "Client"], a: 1 } ] },
-      { id: 'p2', title: "Contrats B2B", price: 10000, desc: "Travaillez avec les entreprises.", img: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=600&auto=format&fit=crop", days: ["Jour 1 : Prospecter.", "Jour 2 : Offre.", "Jour 3 : Signer."], quiz: [ { q: "Meilleur client ?", opts: ["Particulier", "Entreprise", "Ami"], a: 1 } ] },
-      { id: 'p3', title: "Appels d'Offres", price: 10000, desc: "Marchés publics.", img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600&auto=format&fit=crop", days: ["Jour 1 : Trouver.", "Jour 2 : Dossier.", "Jour 3 : Chiffrer."], quiz: [ { q: "Document vital ?", opts: ["CNI", "RCCM", "Permis"], a: 1 } ] }
+      { 
+        id: 'p1', title: "Devenir Chef de Chantier", price: 10000, 
+        desc: "Gérez une équipe et maximisez vos profits.", 
+        img: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=600&auto=format&fit=crop",
+        days: [
+          "<b>🎯 Objectif :</b> Savoir calculer un prix sans se tromper.<br><br><b>📖 Leçon :</b> Ne devinez jamais un prix. La formule est : (Prix des matériaux + Prix de la main d'œuvre) + 30% de marge. Les 30% servent à couvrir les imprévus et à faire du bénéfice.<br><br><b>💡 Exemple :</b> Tu as 100 000 F de ciment et 50 000 F de main d'œuvre. Total = 150 000 F. Ajoute 30% (45 000 F). Ton prix final doit être 195 000 F.<br><br><b>🏆 Défi :</b> Prends le dernier chantier que tu as fait et recalcule le prix avec cette méthode.",
+          "<b>🎯 Objectif :</b> Apprendre à diriger sans travailler à la place des autres.<br><br><b>📖 Leçon :</b> Un chef de chantier ne pose pas de briques. Il vérifie que les briques sont bien posées. Tu dois répartir les tâches et surveiller la qualité.<br><br><b>💡 Exemple :</b> Le matin, tu donnes les instructions à ton équipe. Tu passes 3 fois par jour pour vérifier. Si un ouvrier est absent, tu ne le remplaces pas, tu réorganises les autres.<br><br><b>🏆 Défi :</b> Demain matin, donne 3 instructions claires à ton équipe et observe le résultat.",
+          "<b>🎯 Objectif :</b> Gérer la fin du chantier et encaisser l'argent.<br><br><b>📖 Leçon :</b> Un chantier n'est pas fini quand les travaux sont terminés, mais quand le client a payé. Fais signer un procès-verbal de réception. Envoie une facture propre via FacturePro.<br><br><b>💡 Exemple :</b> Avant de partir, fais le tour avec le client. Note les petits défauts. Fais signer le document et envoie la facture le jour même.<br><br><b>🏆 Défi :</b> Prépare un modèle de facture sur FacturePro pour ton prochain chantier."
+        ],
+        quiz: [ { q: "Comment fixer un prix rentable ?", opts: ["Prix du voisin", "Coût + 30% de marge", "Prix du client"], a: 1 }, { q: "Rôle du chef de chantier ?", opts: ["Travailler plus", "Superviser l'équipe", "Dormir"], a: 1 } ]
+      },
+      { 
+        id: 'p2', title: "Contrats B2B (Entreprises)", price: 10000, 
+        desc: "Sécurisez des revenus réguliers avec les entreprises.", 
+        img: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=600&auto=format&fit=crop",
+        days: [
+          "<b>🎯 Objectif :</b> Comprendre pourquoi les entreprises sont de meilleurs clients.<br><br><b>📖 Leçon :</b> Un particulier paie une fois. Une entreprise (hôtel, usine, école) a besoin d'entretien tous les mois. Elle signe un contrat annuel.<br><br><b>💡 Exemple :</b> Au lieu de réparer une fuite chez un client, propose à un hôtel de vérifier toutes les chambres chaque mois pour 50 000 F.<br><br><b>🏆 Défi :</b> Liste 5 entreprises (hôtels, écoles, restaurants) près de chez toi et va les voir.",
+          "<b>🎯 Objectif :</b> Créer une offre irrésistible.<br><br><b>📖 Leçon :</b> Prépare un dossier avec tes prestations, tes tarifs et tes références. Les entreprises veulent de la sécurité et des factures propres.<br><br><b>💡 Exemple :</b> Imprime une facture pro avec ton NCC via FacturePro. Montre-la au directeur. Il verra que tu es sérieux.<br><br><b>🏆 Défi :</b> Crée une plaquette de présentation avec tes 3 meilleures réalisations.",
+          "<b>🎯 Objectif :</b> Négocier et signer le contrat.<br><br><b>📖 Leçon :</b> Ne baisse jamais ton prix pour gagner le contrat. Propose plutôt d'ajouter un service (ex: intervention rapide en 24h).<br><br><b>💡 Exemple :</b> Le client dit 'c'est cher'. Tu réponds : 'Mon prix inclut la garantie et la facture officielle'.<br><br><b>🏆 Défi :</b> Prépare 3 phrases pour défendre ton prix face à un client qui négocie."
+        ],
+        quiz: [ { q: "Quel est le meilleur client ?", opts: ["Un particulier", "Une entreprise avec contrat", "Un ami"], a: 1 }, { q: "Que faire face à un client qui négocie ?", opts: ["Baisser le prix", "Ajouter de la valeur", "Partir"], a: 1 } ]
+      },
+      { 
+        id: 'p3', title: "Maîtriser les Appels d'Offres", price: 10000, 
+        desc: "Décrochez les marchés publics de l'État et des mairies.", 
+        img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600&auto=format&fit=crop",
+        days: [
+          "<b>🎯 Objectif :</b> Trouver les marchés qui recrutent.<br><br><b>📖 Leçon :</b> Les mairies, les ministères et les ONG publient des avis d'appels d'offres. Il faut les surveiller.<br><br><b>💡 Exemple :</b> Va à la mairie de ta commune et demande le journal des marchés publics. Regarde aussi les sites officiels.<br><br><b>🏆 Défi :</b> Rends-toi à la mairie et demande où sont affichés les appels d'offres.",
+          "<b>🎯 Objectif :</b> Monter le dossier administratif sans erreur.<br><br><b>📖 Leçon :</b> Un dossier incomplet est éliminé. Il faut : RCCM, NCC, Attestation de régularité fiscale, CNPS, etc.<br><br><b>💡 Exemple :</b> Grâce à FacturePro, tu as déjà un RCCM et un NCC. Il te reste les attestations à demander à la DGI.<br><br><b>🏆 Défi :</b> Fais la liste de tous les documents qu'il te manque pour soumissionner.",
+          "<b>🎯 Objectif :</b> Chiffrer l'offre financière pour gagner.<br><br><b>📖 Leçon :</b> Le prix est important, mais le dossier technique l'est encore plus. Propose une méthode de travail claire.<br><br><b>💡 Exemple :</b> Ne mets pas le prix le plus bas, mets le prix juste. L'État vérifie souvent le sérieux de l'entreprise.<br><br><b>🏆 Défi :</b> Prépare un devis détaillé via FacturePro en mode 'Devis' pour un faux chantier."
+        ],
+        quiz: [ { q: "Quel document est vital ?", opts: ["La CNI", "Le RCCM et le NCC", "Le permis"], a: 1 }, { q: "Comment gagner un appel d'offre ?", opts: ["Prix bas sans dossier", "Dossier complet et prix juste", "Prix élevé"], a: 1 } ]
+      },
+      { 
+        id: 'p4', title: "Immobilier : Niveau Débutant", price: 10000, 
+        desc: "Apprenez à vendre et louer des maisons.", 
+        img: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=600&auto=format&fit=crop",
+        days: [
+          "<b>🎯 Objectif :</b> Comprendre l'estimation d'un bien.<br><br><b>📖 Leçon :</b> Le prix d'une maison dépend du quartier, de l'état et des commodités (eau, électricité). Ne mets pas un prix au hasard.<br><br><b>💡 Exemple :</b> Une maison à Cocody ne vaut pas le même prix qu'à Yopougon. Compare avec 3 autres maisons du quartier.<br><br><b>🏆 Défi :</b> Prends 3 annonces immobilières et note les prix du m².",
+          "<b>🎯 Objectif :</b> Réussir une visite et convaincre.<br><br><b>📖 Leçon :</b> Fais visiter une maison propre. Mets en avant les points forts (lumière, espace). Ne parle pas de l'argent tout de suite.<br><br><b>💡 Exemple :</b> 'Comme vous pouvez le voir, la cuisine est très fonctionnelle et le quartier est calme.'<br><br><b>🏆 Défi :</b> Prépare 3 phrases pour décrire une maison que tu connais bien.",
+          "<b>🎯 Objectif :</b> Conclure la vente et signer le bail.<br><br><b>📖 Leçon :</b> Utilise un contrat de bail écrit. Fais un état des lieux. Et surtout, génère la facture avec FacturePro.<br><br><b>💡 Exemple :</b> Le client est d'accord. Tu sors ton téléphone, tu génères la facture proforma et tu demandes l'acompte.<br><br><b>🏆 Défi :</b> Télécharge un modèle de contrat de bail sur internet et lis-le attentivement."
+        ],
+        quiz: [ { q: "Élément clé d'une vente ?", opts: ["Le prix", "La confiance", "La chance"], a: 1 }, { q: "Que faire après visite ?", opts: ["Partir", "Générer une facture proforma", "Changer de métier"], a: 1 } ]
+      },
+      { 
+        id: 'p5', title: "Immobilier : Niveau Senior", price: 10000, 
+        desc: "Closing avancé et création d'agence.", 
+        img: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=600&auto=format&fit=crop",
+        days: [
+          "<b>🎯 Objectif :</b> Vendre des biens de luxe (haut ticket).<br><br><b>📖 Leçon :</b> Les clients riches n'achètent pas une maison, ils achètent un statut. Sois irréprochable, ponctuel et discret.<br><br><b>💡 Exemple :</b> Propose une visite privée dans une voiture propre. Offre un café. Ne presse jamais le client.<br><br><b>🏆 Défi :</b> Renseigne-toi sur les quartiers les plus huppés de ta ville.",
+          "<b>🎯 Objectif :</b> Gérer les objections (le client dit non).<br><br><b>📖 Leçon :</b> 'C'est trop cher' veut dire 'je ne vois pas la valeur'. 'Je vais réfléchir' veut dire 'je n'ai pas confiance'. Rassure-le.<br><br><b>💡 Exemple :</b> 'Je comprends. Mais regardez la vue, et le quartier est sécurisé. C'est un investissement.'<br><br><b>🏆 Défi :</b> Écris 3 réponses aux objections les plus courantes.",
+          "<b>🎯 Objectif :</b> Créer et gérer son agence immobilière.<br><br><b>📖 Leçon :</b> Pour ouvrir une agence, tu dois formaliser ton entreprise (RCCM). Utilise notre service de formalisation.<br><br><b>💡 Exemple :</b> Choisis le statut SUARL (143 750 F) pour limiter les risques. Embauche un agent.<br><br><b>🏆 Défi :</b> Va dans l'onglet Formalisation et regarde le statut SUARL."
+        ],
+        quiz: [ { q: "Le closing c'est ?", opts: ["Conclure la vente", "Fermer la porte", "Partir"], a: 0 }, { q: "Client riche cherche ?", opts: ["Juste une maison", "Un statut et de la confiance", "Le prix le plus bas"], a: 1 } ]
+      },
+      { 
+        id: 'p6', title: "Commercial Terrain : Débutant", price: 10000, 
+        desc: "Les bases pour vendre n'importe quel produit.", 
+        img: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=600&auto=format&fit=crop",
+        days: [
+          "<b>🎯 Objectif :</b> Aborder un client sans se faire rejeter.<br><br><b>📖 Leçon :</b> Ne commence pas par 'Bonjour, je vends...'. Commence par une question. 'Comment allez-vous aujourd'hui ?'<br><br><b>💡 Exemple :</b> Tu vends des produits cosmétiques. 'Bonjour madame, vous cherchez un produit pour la peau ?'<br><br><b>🏆 Défi :</b> Aborde 3 personnes aujourd'hui en leur posant une question ouverte.",
+          "<b>🎯 Objectif :</b> Construire un argumentaire de vente.<br><br><b>📖 Leçon :</b> Un bon argumentaire répond à 3 questions : Qu'est-ce que c'est ? Qu'est-ce que ça fait ? Combien ça coûte ?<br><br><b>💡 Exemple :</b> 'C'est un crédit qui change la peau. Il élimine les taches en 2 semaines. Il coûte 15 000 F.'<br><br><b>🏆 Défi :</b> Prépare ton argumentaire en 3 phrases et répète-le à voix haute.",
+          "<b>🎯 Objectif :</b> Conclure la vente sans être agressif.<br><br><b>📖 Leçon :</b> À la fin, demande simplement : 'On l'emballe ?' ou 'Vous payez par Wave ou en espèces ?'<br><br><b>💡 Exemple :</b> Le client hésite. Tu dis : 'Il ne reste que 2 pièces à ce prix'.<br><br><b>🏆 Défi :</b> Fais une vente (même petite) aujourd'hui."
+        ],
+        quiz: [ { q: "Première règle ?", opts: ["Parler fort", "Écouter le client", "Vendre cher"], a: 1 }, { q: "Conclusion de vente ?", opts: ["Attendre", "Demander comment il paie", "Partir"], a: 1 } ]
+      },
+      { 
+        id: 'p7', title: "Commercial Terrain : Senior", price: 10000, 
+        desc: "Vente d'élite, fidélisation et gros contrats.", 
+        img: "https://images.unsplash.com/photo-1552581234-26160f608093?q=80&w=600&auto=format&fit=crop",
+        days: [
+          "<b>🎯 Objectif :</b> Comprendre la psychologie d'achat.<br><br><b>📖 Leçon :</b> Les gens achètent avec l'émotion et justifient avec la logique. Fais rêver le client avant de donner le prix.<br><br><b>💡 Exemple :</b> Ne dis pas 'Voici une télé'. Dis 'Imaginez regarder le match ce soir sur cet écran géant'.<br><br><b>🏆 Défi :</b> Fais une démonstration de ton produit sans parler du prix pendant 2 minutes.",
+          "<b>🎯 Objectif :</b> Faire du closing à haut ticket.<br><br><b>📖 Leçon :</b> Propose toujours une offre premium. Souvent, le client choisit l'option intermédiaire. Si tu proposes seulement le bas de gamme, tu gagneras moins.<br><br><b>💡 Exemple :</b> Propose 3 formules : Basique, Confort, VIP. Le client va hésiter entre Confort et VIP.<br><br><b>🏆 Défi :</b> Crée 3 formules pour ton produit ou service.",
+          "<b>🎯 Objectif :</b> Fidéliser pour revendre.<br><br><b>📖 Leçon :</b> Un client fidèle coûte moins cher qu'un nouveau client. Appelle tes clients après la vente pour prendre des nouvelles.<br><br><b>💡 Exemple :</b> 'Bonjour M. Diallo, votre téléphone fonctionne bien ? Si vous avez des amis intéressés, je vous fais une réduction.'<br><br><b>🏆 Défi :</b> Rappelle 2 anciens clients aujourd'hui."
+        ],
+        quiz: [ { q: "Un bon commercial ?", opts: ["Vend une fois", "Fidélise le client", "Ment"], a: 1 }, { q: "Achat est basé sur ?", opts: ["L'émotion", "Le prix", "La chance"], a: 0 } ]
+      },
+      { 
+        id: 'p8', title: "Microfinance : Débutant", price: 10000, 
+        desc: "Gestion de caisse et relation client.", 
+        img: "https://images.unsplash.com/photo-1554224155-1696413565d3?q=80&w=600&auto=format&fit=crop",
+        days: [
+          "<b>🎯 Objectif :</b> Tenir une caisse sans faire d'erreur.<br><br><b>📖 Leçon :</b> La caisse doit toujours être équilibrée. Compte l'argent tous les matins et tous les soirs.<br><br><b>💡 Exemple :</b> Si le total théorique est 50 000 F et que tu as 49 500 F en caisse, il manque 500 F. Il faut chercher l'erreur.<br><br><b>🏆 Défi :</b> Fais un inventaire de caisse fictif avec des pièces et des billets.",
+          "<b>🎯 Objectif :</b> Accueillir un client en microfinance.<br><br><b>📖 Leçon :</b> Le client doit se sentir en sécurité. Écoute son besoin. Ne promets pas de prêt avant d'avoir vérifié son dossier.<br><br><b>💡 Exemple :</b> 'Bonjour, asseyez-vous. Vous avez besoin d'un prêt pour agrandir votre commerce ? Quels sont vos revenus actuels ?'<br><br><b>🏆 Défi :</b> Écris 5 questions que tu poseras à un client qui veut emprunter.",
+          "<b>🎯 Objectif :</b> Zéro erreur dans les documents.<br><br><b>📖 Leçon :</b> Vérifie toujours la signature et la pièce d'identité. Une erreur de nom peut bloquer le dossier.<br><br><b>💡 Exemple :</b> La CNI dit 'KOUAME' mais le client a signé 'KOUASSI'. C'est une fraude potentielle.<br><br><b>🏆 Défi :</b> Vérifie la CNI d'un ami et compare avec son nom sur son compte bancaire."
+        ],
+        quiz: [ { q: "Erreur de caisse ?", opts: ["Pas grave", "Interdit", "Normal"], a: 1 }, { q: "Avant de prêter ?", opts: ["Donner vite", "Vérifier l'identité et les revenus", "Demander un pourboire"], a: 1 } ]
+      },
+      { 
+        id: 'p9', title: "Microfinance : Senior", price: 10000, 
+        desc: "Recouvrement et analyse de risque.", 
+        img: "https://images.unsplash.com/photo-1579532537598-459ecdaf39cc?q=80&w=600&auto=format&fit=crop",
+        days: [
+          "<b>🎯 Objectif :</b> Analyser le risque d'impayé.<br><br><b>📖 Leçon :</b> Regarde si le client a un commerce stable, s'il rembourse ses dettes. Un client qui paie toujours en retard n'est pas fiable.<br><br><b>💡 Exemple :</b> Un client a un petit commerce, mais il gagne 200 000 F/mois. Un prêt de 50 000 F est raisonnable. Un prêt de 500 000 F est trop risqué.<br><br><b>🏆 Défi :</b> Analyse le profil de 2 clients de ton quartier.",
+          "<b>🎯 Objectif :</b> Prêter sans se ruiner.<br><br><b>📖 Leçon :</b> Ne prête jamais plus de 30% des revenus du client. Et exige toujours une garantie (moto, marchandise, caution).<br><br><b>💡 Exemple :</b> Le client gagne 100 000 F. Sa mensualité de prêt ne doit pas dépasser 30 000 F.<br><br><b>🏆 Défi :</b> Calcule la mensualité maximale d'un client qui gagne 150 000 F.",
+          "<b>🎯 Objectif :</b> Recouvrer les impayés sans violence.<br><br><b>📖 Leçon :</b> Rappelle-toi que le client a des difficultés. Sois ferme mais poli. Propose un échelonnement.<br><br><b>💡 Exemple :</b> 'M. Diallo, vous avez 2 semaines de retard. Je peux vous proposer de payer 10 000 F aujourd'hui et 10 000 F vendredi.'<br><br><b>🏆 Défi :</b> Rédige une lettre de rappel amiable pour un client en retard."
+        ],
+        quiz: [ { q: "Le risque c'est ?", opts: ["Un jeu", "L'impayé", "La chance"], a: 1 }, { q: "Recouvrement ?", opts: ["Violence", "Négociation et échelonnement", "Ignorer"], a: 1 } ]
+      }
     ],
     basic: [
-      { id: 'b1', title: "Maçonnerie", price: 5000, days: ["Jour 1", "Jour 2", "Jour 3"], quiz: [{ q: "Béton ?", opts: ["Sable + Ciment", "Eau", "Bois"], a: 0 }] },
-      { id: 'b2', title: "Peinture", price: 5000, days: ["Jour 1", "Jour 2", "Jour 3"], quiz: [{ q: "Sous-couche ?", opts: ["Non", "Oui", "Parfois"], a: 1 }] }
+      { id: 'b1', title: "Maçonnerie", price: 5000, days: ["<b>Jour 1 :</b> Les différents types de ciments.", "<b>Jour 2 :</b> Calcul du dosage du béton.", "<b>Jour 3 :</b> Technique de crépissage."], quiz: [{ q: "Béton = ?", opts: ["Sable + Ciment + Eau", "Eau seule", "Bois"], a: 0 }] },
+      { id: 'b2', title: "Peinture", price: 5000, days: ["<b>Jour 1 :</b> Préparation des murs.", "<b>Jour 2 :</b> Application de la sous-couche.", "<b>Jour 3 :</b> Finitions et effets."], quiz: [{ q: "Sous-couche ?", opts: ["Inutile", "Obligatoire", "Parfois"], a: 1 }] },
+      { id: 'b3', title: "Carrelage", price: 5000, days: ["<b>Jour 1 :</b> Préparation du sol.", "<b>Jour 2 :</b> Pose avec croisillons.", "<b>Jour 3 :</b> Jointoiement."], quiz: [{ q: "Outil de coupe ?", opts: ["Marteau", "Carrelette", "Scie"], a: 1 }] },
+      { id: 'b4', title: "Plomberie", price: 5000, days: ["<b>Jour 1 :</b> Les tuyaux PVC et PER.", "<b>Jour 2 :</b> Raccords et joints.", "<b>Jour 3 :</b> Test d'étanchéité."], quiz: [{ q: "Joint étanche ?", opts: ["Téflon", "Colle", "Papier"], a: 0 }] },
+      { id: 'b5', title: "Électricité", price: 5000, days: ["<b>Jour 1 :</b> Couleurs des fils.", "<b>Jour 2 :</b> Installation d'un tableau.", "<b>Jour 3 :</b> Mise à la terre."], quiz: [{ q: "Fil de terre ?", opts: ["Rouge", "Bleu", "Vert/Jaune"], a: 2 }] },
+      { id: 'b6', title: "Menuiserie", price: 5000, days: ["<b>Jour 1 :</b> Prise de mesures.", "<b>Jour 2 :</b> Assemblage des pièces.", "<b>Jour 3 :</b> Finitions et vernis."], quiz: [{ q: "Vérifier l'angle ?", opts: ["A l'œil", "Équerre", "Mètre"], a: 1 }] }
     ]
   };
 
@@ -912,13 +997,18 @@
   function renderAcademy() {
     document.getElementById('premium-container').innerHTML = FORMATIONS.premium.map(c => `<div class="premium-card" onclick="openCourse('${c.id}')"><div class="premium-badge">PREMIUM</div><div class="premium-img" style="background-image: url('${c.img}');"></div><div class="premium-content"><div class="premium-title">${c.title}</div><div class="premium-price">${c.price.toLocaleString('fr-FR')} FCFA</div></div></div>`).join('');
     document.getElementById('basic-container').innerHTML = FORMATIONS.basic.map(c => `<div class="basic-card" onclick="openCourse('${c.id}')"><div style="font-weight:800; font-size:1.1rem; color:var(--primary);">${c.title}</div><div style="font-size:1.2rem; font-weight:900; margin-top:10px;">${c.price.toLocaleString('fr-FR')} FCFA</div></div>`).join('');
+    
+    if (isAcademyUnlocked) {
+      document.getElementById('academyLockSection').classList.add('hidden');
+      document.getElementById('academyContent').classList.remove('hidden');
+    }
   }
 
   function openCourse(id) {
     if (!isAcademyUnlocked) { alert("🔒 Débloquez l'Académie d'abord."); return; }
     currentCourse = FORMATIONS.premium.find(c => c.id === id) || FORMATIONS.basic.find(c => c.id === id);
     document.getElementById('courseTitle').textContent = currentCourse.title;
-    document.getElementById('tutorMessages').innerHTML = `<div class="tutor-msg bot">Bienvenue dans la formation <b>${currentCourse.title}</b> !<br><br>Tapez <b>"Jour 1"</b> pour commencer.</div>`;
+    document.getElementById('tutorMessages').innerHTML = `<div class="tutor-msg bot">Bienvenue dans la formation <b>${currentCourse.title}</b> !<br><br>Je suis votre tuteur. Tapez <b>"Jour 1"</b> pour commencer la leçon.</div>`;
     document.getElementById('tutorInput').value = ""; tutorStep = 0; userAnswers = {};
     document.getElementById('quizSection').classList.add('hidden');
     document.getElementById('courseModal').classList.remove('hidden');
@@ -936,11 +1026,30 @@
     setTimeout(() => {
       let reply = "";
       const text = input.toLowerCase();
-      if (tutorStep === 0 && text.includes("jour 1")) { reply = `📘 <b>Jour 1</b><br>${currentCourse.days[0]}<br><br> Tapez <b>'Jour 2'</b>.`; tutorStep = 1; } 
-      else if (tutorStep === 1 && text.includes("jour 2")) { reply = `📙 <b>Jour 2</b><br>${currentCourse.days[1]}<br><br> Tapez <b>'Jour 3'</b>.`; tutorStep = 2; }
-      else if (tutorStep === 2 && text.includes("jour 3")) { reply = `📕 <b>Jour 3</b><br>${currentCourse.days[2]}<br><br> Cliquez sur <b>Passer l'évaluation</b> ci-dessous.`; tutorStep = 3; showQuiz(); }
-      else { reply = "Tapez 'Jour 1', 'Jour 2' ou 'Jour 3' pour avancer."; }
-      chat.innerHTML += `<div class="tutor-msg bot">${reply}</div>`;
+      
+      if (tutorStep === 0 && text.includes("jour 1")) { 
+          reply = currentCourse.days[0]; 
+          tutorStep = 1; 
+          chat.innerHTML += `<div class="tutor-msg bot">${reply}</div>`;
+          setTimeout(() => { chat.innerHTML += `<div class="tutor-msg bot">Tapez <b>'Jour 2'</b> quand vous êtes prêt pour la suite.</div>`; chat.scrollTop = chat.scrollHeight; }, 1000);
+      } 
+      else if (tutorStep === 1 && text.includes("jour 2")) { 
+          reply = currentCourse.days[1]; 
+          tutorStep = 2; 
+          chat.innerHTML += `<div class="tutor-msg bot">${reply}</div>`;
+          setTimeout(() => { chat.innerHTML += `<div class="tutor-msg bot">Tapez <b>'Jour 3'</b> pour la dernière partie.</div>`; chat.scrollTop = chat.scrollHeight; }, 1000);
+      }
+      else if (tutorStep === 2 && text.includes("jour 3")) { 
+          reply = currentCourse.days[2]; 
+          tutorStep = 3; 
+          chat.innerHTML += `<div class="tutor-msg bot">${reply}</div>`;
+          setTimeout(() => { chat.innerHTML += `<div class="tutor-msg bot">Félicitations ! Vous avez terminé la théorie. Cliquez sur <b>Passer l'évaluation</b> ci-dessous pour obtenir votre certificat.</div>`; chat.scrollTop = chat.scrollHeight; showQuiz(); }, 1000);
+      }
+      else { 
+          reply = "Je n'ai pas compris. Tapez 'Jour 1', 'Jour 2' ou 'Jour 3' pour avancer."; 
+          chat.innerHTML += `<div class="tutor-msg bot">${reply}</div>`;
+      }
+      
       chat.scrollTop = chat.scrollHeight;
     }, 800);
   }
@@ -986,7 +1095,7 @@
     if (!isAcademyUnlocked) { alert("🔒 Débloquez l'Académie."); return; }
     document.getElementById('printTitle').textContent = currentCourse.title;
     let contentHTML = "";
-    currentCourse.days.forEach((day, index) => { contentHTML += `<h3>Jour ${index + 1}</h3><p>${day}</p><br>`; });
+    currentCourse.days.forEach((day, index) => { contentHTML += `<h3>Jour ${index + 1}</h3><div>${day}</div><br><br>`; });
     contentHTML += `<h3>Évaluation Finale</h3>`;
     currentCourse.quiz.forEach((q, i) => {
       contentHTML += `<p><strong>${i+1}. ${q.q}</strong></p>`;
@@ -1013,6 +1122,14 @@
     if (!name || !rawPhone || !username || !password) { alert("Remplissez tous les champs."); return; }
     const user = { name, contact, username, password };
     localStorage.setItem('fp_user_' + username, JSON.stringify(user));
+
+    // Envoi Formspree
+    fetch("https://formspree.io/f/xjygnqyq", { 
+      method: 'POST', 
+      headers: { 'Content-Type': 'application/json' }, 
+      body: JSON.stringify({ nom: name, contact: contact, username: username }) 
+    }).catch(() => {});
+
     loginSuccess(user);
   }
 
@@ -1044,4 +1161,4 @@
   renderInvoiceItems(); renderInvoice(); renderPackages(); renderAcademy(); renderCatalogue();
 </script>
 </body>
-</html>s
+</html>
