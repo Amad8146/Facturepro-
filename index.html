@@ -674,7 +674,7 @@
   // ============ 4. FACTURATION & ASSISTANT VOCAL ============
   let invoiceItems = []; 
   let isInvoiceUnlocked = false;
-  let unlockedInvoiceId = ""; // Bug Fix: Track exactly which invoice was unlocked
+  let unlockedInvoiceId = "";
   
   const CATALOGUE = [
     { metier: "🧱 Maçonnerie", prestations: [{desc: "Fondations, murs", unite: "m²"}, {desc: "Dalle, poteaux", unite: "m²"}] },
@@ -748,7 +748,7 @@
     const expectedCode = generateDynamicCode(currentId);
     if (entered === expectedCode) { 
       isInvoiceUnlocked = true; 
-      unlockedInvoiceId = currentId; // Bug Fix: Tie it to the specific invoice
+      unlockedInvoiceId = currentId;
       document.getElementById('invoice-lock').style.display = 'none'; 
       alert('✅ Document débloqué !'); 
     } else { alert('❌ Code incorrect.'); }
@@ -873,7 +873,7 @@
     const entered = document.getElementById('academyUnlockCode').value.trim().toUpperCase();
     if (entered === ACADEMY_SECRET_CODE) {
       isAcademyUnlocked = true;
-      localStorage.setItem('academyUnlocked', 'true'); // Bug Fix: Save to localStorage
+      localStorage.setItem('academyUnlocked', 'true');
       document.getElementById('academyLockSection').classList.add('hidden');
       document.getElementById('academyContent').classList.remove('hidden');
       alert("✅ Académie débloquée !");
