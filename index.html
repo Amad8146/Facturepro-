@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FacturePro Expert CI - L'Écosystème des Artisans</title>
+<!-- AJOUT DE LA BIBLIOTHÈQUE POUR LES PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <style>
   :root { 
     --primary: #4f46e5; --primary-hover: #4338ca; --accent: #10b981; 
@@ -362,6 +364,14 @@
     .acad-slide:first-child { opacity: 1; }
     .reveal { opacity: 1; }
     .reveal.in { animation: none; }
+  }
+
+  /* AJOUT POUR L'IMPRESSION DU CERTIFICAT */
+  @media print {
+    body * { visibility: hidden; }
+    #diplomaModal, #diplomaModal * { visibility: visible; }
+    #diplomaModal { position: absolute; left: 0; top: 0; width: 100%; background: white !important; }
+    .diploma-preview { border: 15px solid var(--gold) !important; box-shadow: none; }
   }
 </style>
 </head>
@@ -956,7 +966,12 @@
     } else { alert('❌ Code incorrect.'); }
   }
 
-  function toggleAdmin() { document.getElementById('adminPanel').classList.toggle('hidden'); updateAdminCode(); }
+  function toggleAdmin() { 
+    const panel = document.getElementById('adminPanel');
+    panel.classList.toggle('hidden'); 
+    updateAdminCode(); 
+    generateAdminFormationCode(); 
+  }
   function updateAdminCode() { document.getElementById('generatedCode').textContent = generateDynamicCode(getCurrentInvoiceNum()); }
   function copyCode() { const code = document.getElementById('generatedCode').textContent; navigator.clipboard.writeText(code).then(() => alert('📋 Code copié !')); }
 
@@ -1599,45 +1614,45 @@
 
   const ACAD_FILTERS = [['all','Tout'], ['btp','Bâtiment & Métiers'], ['business','Business & Marchés'], ['immo','Immobilier'], ['vente','Vente'], ['finance','Microfinance']];
   const ACAD_META = {
-    p1: { cat:'btp',      label:'Chantier & BTP',    level:'Intermédiaire', c1:'#ea580c', c2:'#f59e0b' },
-    p2: { cat:'business', label:'Business & Contrats', level:'Intermédiaire', c1:'#4f46e5', c2:'#06b6d4' },
-    p3: { cat:'business', label:'Marchés publics',   level:'Avancé',        c1:'#0f766e', c2:'#10b981' },
-    p4: { cat:'immo',     label:'Immobilier',        level:'Débutant',      c1:'#2563eb', c2:'#38bdf8' },
-    p5: { cat:'immo',     label:'Immobilier',        level:'Avancé',        c1:'#7c3aed', c2:'#ec4899' },
-    p6: { cat:'vente',    label:'Vente terrain',     level:'Débutant',      c1:'#db2777', c2:'#f97316' },
-    p7: { cat:'vente',    label:'Vente terrain',     level:'Avancé',        c1:'#be123c', c2:'#f59e0b' },
-    p8: { cat:'finance',  label:'Microfinance',      level:'Débutant',      c1:'#059669', c2:'#34d399' },
-    p9: { cat:'finance',  label:'Microfinance',      level:'Avancé',        c1:'#0d9488', c2:'#22d3ee' },
-    b1: { cat:'btp', label:'Maçonnerie', level:'Pratique', c1:'#ea580c', c2:'#f59e0b' },
-    b2: { cat:'btp', label:'Maçonnerie', level:'Pratique', c1:'#ea580c', c2:'#f59e0b' },
-    b3: { cat:'btp', label:'Peinture', level:'Pratique', c1:'#db2777', c2:'#f97316' },
-    b4: { cat:'btp', label:'Peinture', level:'Pratique', c1:'#db2777', c2:'#f97316' },
-    b5: { cat:'btp', label:'Carrelage', level:'Pratique', c1:'#0891b2', c2:'#10b981' },
-    b6: { cat:'btp', label:'Carrelage', level:'Pratique', c1:'#0891b2', c2:'#10b981' },
-    b7: { cat:'btp', label:'Plomberie', level:'Pratique', c1:'#2563eb', c2:'#06b6d4' },
-    b8: { cat:'btp', label:'Plomberie', level:'Pratique', c1:'#2563eb', c2:'#06b6d4' },
-    b9: { cat:'btp', label:'Électricité', level:'Pratique', c1:'#d97706', c2:'#ef4444' },
-    b10:{ cat:'btp', label:'Électricité', level:'Pratique', c1:'#d97706', c2:'#ef4444' },
-    b11:{ cat:'btp', label:'Menuiserie', level:'Pratique', c1:'#92400e', c2:'#d97706' },
-    b12:{ cat:'btp', label:'Menuiserie', level:'Pratique', c1:'#92400e', c2:'#d97706' },
-    b13:{ cat:'btp', label:'Soudure', level:'Pratique', c1:'#78716c', c2:'#a8a29e' },
-    b14:{ cat:'btp', label:'Soudure', level:'Pratique', c1:'#78716c', c2:'#a8a29e' },
-    b15:{ cat:'btp', label:'Climatisation', level:'Pratique', c1:'#0ea5e9', c2:'#38bdf8' },
-    b16:{ cat:'btp', label:'Climatisation', level:'Pratique', c1:'#0ea5e9', c2:'#38bdf8' },
-    b17:{ cat:'btp', label:'Mécanique', level:'Pratique', c1:'#475569', c2:'#94a3b8' },
-    b18:{ cat:'btp', label:'Mécanique', level:'Pratique', c1:'#475569', c2:'#94a3b8' },
-    b19:{ cat:'btp', label:'Ménage', level:'Pratique', c1:'#65a30d', c2:'#a3e635' },
-    b20:{ cat:'btp', label:'Ménage', level:'Pratique', c1:'#65a30d', c2:'#a3e635' },
-    b21:{ cat:'btp', label:'Jardinage', level:'Pratique', c1:'#15803d', c2:'#4ade80' },
-    b22:{ cat:'btp', label:'Jardinage', level:'Pratique', c1:'#15803d', c2:'#4ade80' },
-    b23:{ cat:'btp', label:'Livraison', level:'Pratique', c1:'#ea580c', c2:'#fb923c' },
-    b24:{ cat:'btp', label:'Livraison', level:'Pratique', c1:'#ea580c', c2:'#fb923c' },
-    b25:{ cat:'btp', label:'Couture', level:'Pratique', c1:'#db2777', c2:'#f472b6' },
-    b26:{ cat:'btp', label:'Couture', level:'Pratique', c1:'#db2777', c2:'#f472b6' },
-    b27:{ cat:'btp', label:'Aide à domicile', level:'Pratique', c1:'#9333ea', c2:'#c084fc' },
-    b28:{ cat:'btp', label:'Aide à domicile', level:'Pratique', c1:'#9333ea', c2:'#c084fc' },
-    b29:{ cat:'btp', label:'Événementiel', level:'Pratique', c1:'#e11d48', c2:'#fb7185' },
-    b30:{ cat:'btp', label:'Événementiel', level:'Pratique', c1:'#e11d48', c2:'#fb7185' }
+    p1: { cat:'btp',      label:'Chantier & BTP',    level:'Intermédiaire', c1:'#ea580c', c2:'#f59e0b', desc: "Gérez une équipe et maximisez vos profits." },
+    p2: { cat:'business', label:'Business & Contrats', level:'Intermédiaire', c1:'#4f46e5', c2:'#06b6d4', desc: "Sécurisez des revenus réguliers avec les entreprises." },
+    p3: { cat:'business', label:'Marchés publics',   level:'Avancé',        c1:'#0f766e', c2:'#10b981', desc: "Décrochez les marchés publics de l'État et des mairies." },
+    p4: { cat:'immo',     label:'Immobilier',        level:'Débutant',      c1:'#2563eb', c2:'#38bdf8', desc: "Apprenez à vendre et louer des maisons." },
+    p5: { cat:'immo',     label:'Immobilier',        level:'Avancé',        c1:'#7c3aed', c2:'#ec4899', desc: "Closing avancé et création d'agence." },
+    p6: { cat:'vente',    label:'Vente terrain',     level:'Débutant',      c1:'#db2777', c2:'#f97316', desc: "Les bases pour vendre n'importe quel produit." },
+    p7: { cat:'vente',    label:'Vente terrain',     level:'Avancé',        c1:'#be123c', c2:'#f59e0b', desc: "Vente d'élite, fidélisation et gros contrats." },
+    p8: { cat:'finance',  label:'Microfinance',      level:'Débutant',      c1:'#059669', c2:'#34d399', desc: "Gestion de caisse et relation client." },
+    p9: { cat:'finance',  label:'Microfinance',      level:'Avancé',        c1:'#0d9488', c2:'#22d3ee', desc: "Recouvrement et analyse de risque." },
+    b1: { cat:'btp', label:'Maçonnerie', level:'Pratique', c1:'#ea580c', c2:'#f59e0b', desc: "Apprenez les bases du métier de maçon." },
+    b2: { cat:'btp', label:'Maçonnerie', level:'Pratique', c1:'#ea580c', c2:'#f59e0b', desc: "Maîtrisez les finitions et les ouvertures." },
+    b3: { cat:'btp', label:'Peinture', level:'Pratique', c1:'#db2777', c2:'#f97316', desc: "La préparation est la clé d'une belle peinture." },
+    b4: { cat:'btp', label:'Peinture', level:'Pratique', c1:'#db2777', c2:'#f97316', desc: "Créez des effets décoratifs uniques." },
+    b5: { cat:'btp', label:'Carrelage', level:'Pratique', c1:'#0891b2', c2:'#10b981', desc: "Posez du carrelage droit et sans défaut." },
+    b6: { cat:'btp', label:'Carrelage', level:'Pratique', c1:'#0891b2', c2:'#10b981', desc: "Réussissez une pose en diagonale parfaite." },
+    b7: { cat:'btp', label:'Plomberie', level:'Pratique', c1:'#2563eb', c2:'#06b6d4', desc: "Les bases pour réparer et installer." },
+    b8: { cat:'btp', label:'Plomberie', level:'Pratique', c1:'#2563eb', c2:'#06b6d4', desc: "Installez vos sanitaires comme un pro." },
+    b9: { cat:'btp', label:'Électricité', level:'Pratique', c1:'#d97706', c2:'#ef4444', desc: "Travaillez en sécurité et comprenez les circuits." },
+    b10:{ cat:'btp', label:'Électricité', level:'Pratique', c1:'#d97706', c2:'#ef4444', desc: "Trouvez et réparez les pannes électriques." },
+    b11:{ cat:'btp', label:'Menuiserie', level:'Pratique', c1:'#92400e', c2:'#d97706', desc: "Apprenez à mesurer, couper et assembler." },
+    b12:{ cat:'btp', label:'Menuiserie', level:'Pratique', c1:'#92400e', c2:'#d97706', desc: "Concevez et fabriquez vos meubles." },
+    b13:{ cat:'btp', label:'Soudure', level:'Pratique', c1:'#78716c', c2:'#a8a29e', desc: "Maîtrisez le poste à souder en toute sécurité." },
+    b14:{ cat:'btp', label:'Soudure', level:'Pratique', c1:'#78716c', c2:'#a8a29e', desc: "Fabriquez des portails solides et esthétiques." },
+    b15:{ cat:'btp', label:'Climatisation', level:'Pratique', c1:'#0ea5e9', c2:'#38bdf8', desc: "Installez un climatiseur étape par étape." },
+    b16:{ cat:'btp', label:'Climatisation', level:'Pratique', c1:'#0ea5e9', c2:'#38bdf8', desc: "Entretenez et dépannez les climatiseurs." },
+    b17:{ cat:'btp', label:'Mécanique', level:'Pratique', c1:'#475569', c2:'#94a3b8', desc: "Faites l'entretien de base d'un véhicule." },
+    b18:{ cat:'btp', label:'Mécanique', level:'Pratique', c1:'#475569', c2:'#94a3b8', desc: "Posez un diagnostic précis des pannes." },
+    b19:{ cat:'btp', label:'Ménage', level:'Pratique', c1:'#65a30d', c2:'#a3e635', desc: "Nettoyez et désinfectez comme un professionnel." },
+    b20:{ cat:'btp', label:'Ménage', level:'Pratique', c1:'#65a30d', c2:'#a3e635', desc: "Obtenez des vitres parfaitement transparentes." },
+    b21:{ cat:'btp', label:'Jardinage', level:'Pratique', c1:'#15803d', c2:'#4ade80', desc: "Créez et entretenez de beaux espaces verts." },
+    b22:{ cat:'btp', label:'Jardinage', level:'Pratique', c1:'#15803d', c2:'#4ade80', desc: "Taillez et élaguez sans abîmer les arbres." },
+    b23:{ cat:'btp', label:'Livraison', level:'Pratique', c1:'#ea580c', c2:'#fb923c', desc: "Transportez vos colis en toute sécurité." },
+    b24:{ cat:'btp', label:'Livraison', level:'Pratique', c1:'#ea580c', c2:'#fb923c', desc: "Offrez un service client irréprochable." },
+    b25:{ cat:'btp', label:'Couture', level:'Pratique', c1:'#db2777', c2:'#f472b6', desc: "Prenez les mesures et tracez vos patrons." },
+    b26:{ cat:'btp', label:'Couture', level:'Pratique', c1:'#db2777', c2:'#f472b6', desc: "Réussissez des finitions dignes des grands couturiers." },
+    b27:{ cat:'btp', label:'Aide à domicile', level:'Pratique', c1:'#9333ea', c2:'#c084fc', desc: "Assistez les personnes âgées avec soin." },
+    b28:{ cat:'btp', label:'Aide à domicile', level:'Pratique', c1:'#9333ea', c2:'#c084fc', desc: "Gérez les pathologies et les urgences." },
+    b29:{ cat:'btp', label:'Événementiel', level:'Pratique', c1:'#e11d48', c2:'#fb7185', desc: "Planifiez et gérez des événements inoubliables." },
+    b30:{ cat:'btp', label:'Événementiel', level:'Pratique', c1:'#e11d48', c2:'#fb7185', desc: "Maîtrisez la technique son et lumière." }
   };
   const ACAD_SVG = (inner, size) => `<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="${size||96}" height="${size||96}" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">${inner}</svg>`;
   const ACAD_ICONS = {
@@ -1675,7 +1690,7 @@
   }
 
   function acadCardHTML(c, i, tier) {
-    const m = ACAD_META[c.id] || { label: 'Formation', level: 'Pratique', c1: '#4f46e5', c2: '#10b981' };
+    const m = ACAD_META[c.id] || { label: 'Formation', level: 'Pratique', c1: '#4f46e5', c2: '#10b981', desc: 'Formation professionnelle' };
     const unlocked = isAcademyUnlocked || unlockedFormations.includes(c.id);
     const pr = acadProg()[c.id] || { step: 0, done: false };
     const pct = pr.done ? 100 : Math.round(Math.min(pr.step, c.days.length) / c.days.length * 100);
@@ -1691,7 +1706,7 @@
       <div class="fcard-body">
         <div class="fcard-cat">${m.label}</div>
         <h4>${c.title}</h4>
-        <p>${c.desc || m.desc || ''}</p>
+        <p>${c.desc || m.desc}</p>
         <div class="fcard-meta"><span>${ICON_CLOCK} ${c.days.length} jours</span><span>${ICON_QUIZ} ${c.quiz.length} questions</span><span>${ICON_CERT} Certificat</span></div>
         ${unlocked ? `<div class="fcard-prog" aria-label="Progression ${pct} %"><i style="width:${pct}%"></i></div>` : ''}
         <div class="fcard-foot"><span class="fcard-price ${unlocked ? 'ok' : ''}">${price}</span><span class="fcard-go">${go}</span></div>
@@ -1901,59 +1916,62 @@
     document.getElementById('diplomaModal').classList.remove('hidden');
   }
 
+  // NOUVELLE FONCTION DE TÉLÉCHARGEMENT PDF CORRIGÉE
   function downloadPDF() {
     if (!isAcademyUnlocked && !unlockedFormations.includes(currentCourse.id) && !isDemoMode) { 
         alert("🔒 Débloquez l'Académie."); 
         return; 
     }
     
+    // Création d'une div cachée pour le PDF afin d'avoir une mise en page propre
+    const pdfContainer = document.createElement('div');
+    pdfContainer.style.padding = '40px';
+    pdfContainer.style.background = 'white';
+    pdfContainer.style.fontFamily = 'Arial, sans-serif';
+    pdfContainer.style.color = '#333';
+    pdfContainer.style.lineHeight = '1.6';
+
+    let contentHTML = `
+      <h1 style="color: #4f46e5; text-align: center; border-bottom: 2px solid #4f46e5; padding-bottom: 10px; margin-bottom: 20px;">
+        ${currentCourse.title} ${isDemoMode ? '(Aperçu)' : ''}
+      </h1>
+    `;
+
     let daysToPrint = isDemoMode ? [currentCourse.days[0]] : currentCourse.days;
     let quizToPrint = isDemoMode ? [] : currentCourse.quiz;
 
-    const printWindow = window.open('', '_blank');
-    if(!printWindow) { alert("Veuillez autoriser les fenêtres pop-up pour télécharger le PDF."); return; }
-
-    let contentHTML = `
-      <html>
-        <head>
-          <title>${currentCourse.title} - FacturePro</title>
-          <style>
-            body { font-family: Arial, sans-serif; padding: 30px; line-height: 1.6; color: #333; }
-            h1 { color: #4f46e5; text-align: center; border-bottom: 2px solid #4f46e5; padding-bottom: 10px; }
-            h3 { color: #f59e0b; margin-top: 20px; }
-            p { margin-bottom: 10px; }
-            .footer { margin-top: 50px; text-align: center; font-size: 0.8rem; color: #888; border-top: 1px solid #ccc; padding-top: 20px; }
-          </style>
-        </head>
-        <body>
-          <h1>${currentCourse.title} ${isDemoMode ? '(Aperçu)' : ''}</h1>
-    `;
-
     daysToPrint.forEach((day, index) => { 
-        contentHTML += `<h3>Jour ${index + 1}</h3><div>${day}</div><br>`; 
+        // Nettoyage des balises pour le PDF
+        let cleanDay = day.replace(/<br><br>/g, '<br>');
+        contentHTML += `<h2 style="color: #f59e0b; margin-top: 25px;">Jour ${index + 1}</h2><div style="text-align: justify;">${cleanDay}</div>`; 
     });
     
     if (quizToPrint.length > 0) {
-        contentHTML += `<h3>Évaluation Finale</h3>`;
+        contentHTML += `<h2 style="color: #f59e0b; margin-top: 25px;">Évaluation Finale</h2>`;
         quizToPrint.forEach((q, i) => {
-          contentHTML += `<p><strong>${i+1}. ${q.q}</strong></p>`;
-          q.opts.forEach((opt, j) => { contentHTML += `<p>- ${String.fromCharCode(65+j)}) ${opt}</p>`; });
-          contentHTML += `<p><em>Réponse : ${String.fromCharCode(65+q.a)}</em></p><br>`;
+          contentHTML += `<p style="font-weight: bold; margin-bottom: 5px;">${i+1}. ${q.q}</p>`;
+          q.opts.forEach((opt, j) => { contentHTML += `<p style="margin: 2px 0 2px 15px;">- ${String.fromCharCode(65+j)}) ${opt}</p>`; });
+          contentHTML += `<p style="color: #10b981; font-size: 0.9em; margin-bottom: 15px;">Réponse : ${String.fromCharCode(65+q.a)}</p>`;
         });
     } else {
         contentHTML += `<p style="color:#ef4444; font-weight:bold; text-align:center; margin-top:30px;">🔒 Débloquez la formation complète sur FacturePro Expert.</p>`;
     }
 
-    contentHTML += `
-          <div class="footer">Document généré par l'Académie FacturePro Expert CI.</div>
-        </body>
-      </html>
-    `;
+    contentHTML += `<div style="margin-top: 50px; text-align: center; font-size: 0.8rem; color: #888; border-top: 1px solid #ccc; padding-top: 20px;">Document généré par l'Académie FacturePro Expert CI.</div>`;
 
-    printWindow.document.write(contentHTML);
-    printWindow.document.close();
-    printWindow.focus();
-    setTimeout(() => { printWindow.print(); }, 500);
+    pdfContainer.innerHTML = contentHTML;
+
+    // Options du PDF (Format A4, orientation portrait, marges)
+    const opt = {
+      margin:       10, // marges en mm
+      filename:     `FacturePro_${currentCourse.title.replace(/\s+/g, '_')}.pdf`,
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2, useCORS: true }, // Scale 2 pour une meilleure qualité
+      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    // Génération et téléchargement du PDF
+    html2pdf().set(opt).from(pdfContainer).save();
   }
 
   // ============ 8. BASE FUNCTIONS ============
