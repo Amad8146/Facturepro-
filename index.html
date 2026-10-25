@@ -231,15 +231,6 @@
   .chat-input-area button { width: 45px; height: 45px; border-radius: 50%; margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
   .phone-input-group { display: flex; gap: 10px; }
   .phone-prefix { background: #e2e8f0; border: 2px solid var(--border); border-radius: 10px; padding: 14px; font-weight: 700; color: var(--text-muted); display: flex; align-items: center; justify-content: center; }
-
-  /* BUG FIX: PRINT ISOLATION */
-  @media print {
-    body * { visibility: hidden; }
-    #printable-course, #printable-course * { visibility: visible; }
-    #printable-course { position: absolute; left: 0; top: 0; width: 100%; padding: 20px; background: white; color: black; }
-    .course-modal-content { position: static !important; max-height: none !important; overflow: visible !important; box-shadow: none !important; border: none !important; }
-    .course-modal { position: static !important; background: transparent !important; padding: 0 !important; }
-  }
 </style>
 </head>
 <body>
@@ -451,9 +442,26 @@
         <div class="card" style="border: 1px dashed var(--border);">
           <h2 style="font-size:0.9rem; cursor:pointer;" onclick="toggleAdmin()">🛠️ Espace Admin (Générer le code)</h2>
           <div id="adminPanel" class="hidden" style="margin-top:10px;">
-            <p style="font-size:0.85rem; color:var(--text-muted);">Code dynamique :</p>
+            <p style="font-size:0.85rem; color:var(--text-muted);">Code Facture :</p>
             <div style="font-size: 2rem; font-weight: bold; color: var(--accent); letter-spacing: 4px; text-align: center; margin: 10px 0; background:#f8fafc; padding:10px; border-radius:8px; border:1px solid var(--border);" id="generatedCode">----</div>
             <button class="btn-outline" onclick="copyCode()">📋 Copier</button>
+            <hr style="margin:15px 0; border:1px solid var(--border);">
+            <p style="font-size:0.85rem; color:var(--text-muted);">Code Formation (5 000 F) :</p>
+            <select id="adminFormationSelect" style="padding:8px; font-size:0.85rem; margin-bottom:5px;">
+                <option value="p1">P1 - Chef de Chantier</option>
+                <option value="p2">P2 - Contrats B2B</option>
+                <option value="p3">P3 - Appels d'Offres</option>
+                <option value="p4">P4 - Immobilier Déb.</option>
+                <option value="p5">P5 - Immobilier Senior</option>
+                <option value="p6">P6 - Commercial Déb.</option>
+                <option value="p7">P7 - Commercial Senior</option>
+                <option value="p8">P8 - Microfinance Déb.</option>
+                <option value="p9">P9 - Microfinance Senior</option>
+                <option value="b1">B1 - Maçonnerie</option>
+                <option value="b2">B2 - Peinture</option>
+            </select>
+            <div style="font-size: 1.2rem; font-weight: bold; color: var(--gold); text-align: center; margin: 5px 0;" id="generatedFormationCode">----</div>
+            <button class="btn-outline" onclick="generateAdminFormationCode()">Générer le code formation</button>
           </div>
         </div>
       </div>
@@ -510,10 +518,6 @@
       <h2 style="color:var(--gold); margin-bottom:15px; font-size:1.8rem;" id="courseTitle"></h2>
       <button class="btn-outline" onclick="downloadPDF()" style="margin-bottom:20px;">📥 Télécharger le support de cours (PDF)</button>
       
-      <div id="printable-course" class="hidden" style="color:black; background:white; padding:20px;">
-        <h1 id="printTitle"></h1><div id="printContent"></div>
-      </div>
-      
       <h3 style="margin-top:30px; margin-bottom:15px; color:var(--primary); font-size:1.3rem;">🤖 Tuteur Interactif</h3>
       <div class="tutor-box">
         <div class="tutor-messages" id="tutorMessages"></div>
@@ -546,7 +550,10 @@
 <script>
   document.addEventListener('contextmenu', e => e.preventDefault());
 
-  // ============ 1. GESTION INSCRIPTION & PAYS ============
+  // ============ 1. GESTION ADMIN (URL SECRET) ============
+  const isAdminMode = window.location.hash === '#admin';
+  
+  // ============ 2. GESTION INSCRIPTION & PAYS ============
   function updatePhonePrefix() {
     const countrySelect = document.getElementById('regCountry');
     const prefix = countrySelect.value;
@@ -559,7 +566,7 @@
     else phoneInput.placeholder = "Votre numéro";
   }
 
-  // ============ 2. PRESENTATIONS VOCALES ============
+  // ============ 3. PRESENTATIONS VOCALES ============
   function playAppExplanation() {
     if ('speechSynthesis' in window) {
       window.speechSynthesis.cancel();
@@ -593,7 +600,7 @@
     }
   }
 
-  // ============ 3. CHATBOT & AVATARS ============
+  // ============ 4. CHATBOT & AVATARS ============
   const AVATARS = [
     { name: "Sarah", role: "Assistante", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=150&auto=format&fit=crop" },
     { name: "David", role: "Conseiller", img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=150&auto=format&fit=crop" }
@@ -671,7 +678,7 @@
     }, 800);
   }
 
-  // ============ 4. FACTURATION & ASSISTANT VOCAL ============
+  // ============ 5. FACTURATION & ASSISTANT VOCAL ============
   let invoiceItems = []; 
   let isInvoiceUnlocked = false;
   let unlockedInvoiceId = "";
@@ -833,7 +840,7 @@
     } 
   }
 
-  // ============ 5. FORMALISATION ============
+  // ============ 6. FORMALISATION ============
   const PACKAGES = [ 
     { id: 'entreprenant', title: 'Entreprenant', basePrice: 40000, docs: ['CNI', 'Extrait naissance', 'Casier judiciaire', 'Certificat résidence', 'Bail', 'Plan localisation'] }, 
     { id: 'suarl', title: 'SUARL', basePrice: 115000, docs: ['Statuts', 'DSV', 'Casier gérant', 'Bail', 'CNI', 'Plan'] }, 
@@ -865,19 +872,48 @@
     window.open(`https://wa.me/2250708858816?text=Bonjour, je souhaite payer ${total.toLocaleString('fr-FR')} FCFA pour mon dossier.`, '_blank'); 
   }
 
-  // ============ 6. ACADEMIE 39 AVEC CONTENU ENRICHI ============
-  let isAcademyUnlocked = localStorage.getItem('academyUnlocked') === 'true';
-  const ACADEMY_SECRET_CODE = "ACADEMIE2026";
+  // ============ 7. ACADEMIE : SYSTEME DE CODES DYNAMIQUES ============
+  let isAcademyUnlocked = localStorage.getItem('academyUnlocked') === 'true' || isAdminMode;
+  let unlockedFormations = JSON.parse(localStorage.getItem('unlockedFormations') || '[]');
+  const ACADEMY_GLOBAL_CODE = "ACADEMIE2026";
+
+  function generateFormationCode(formationId) {
+    let str = formationId + "SECRET_SALT_ACADEMY";
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) { let char = str.charCodeAt(i); hash = ((hash << 5) - hash) + char; hash = hash & hash; }
+    let code = Math.abs(hash).toString(36).substring(0, 4).toUpperCase(); while(code.length < 4) { code += "X"; }
+    return "FORM-" + code;
+  }
 
   function verifyAcademyCode() {
     const entered = document.getElementById('academyUnlockCode').value.trim().toUpperCase();
-    if (entered === ACADEMY_SECRET_CODE) {
+    
+    if (entered === ACADEMY_GLOBAL_CODE || isAdminMode) {
       isAcademyUnlocked = true;
       localStorage.setItem('academyUnlocked', 'true');
       document.getElementById('academyLockSection').classList.add('hidden');
       document.getElementById('academyContent').classList.remove('hidden');
-      alert("✅ Académie débloquée !");
-    } else { alert("❌ Code incorrect."); }
+      alert("✅ Pack Premium Débloqué ! Vous avez accès à toutes les formations.");
+      renderAcademy();
+      return;
+    }
+
+    let foundFormation = null;
+    FORMATIONS.premium.forEach(f => { if (generateFormationCode(f.id) === entered) foundFormation = f; });
+    FORMATIONS.basic.forEach(f => { if (generateFormationCode(f.id) === entered) foundFormation = f; });
+
+    if (foundFormation) {
+      if (!unlockedFormations.includes(foundFormation.id)) {
+        unlockedFormations.push(foundFormation.id);
+        localStorage.setItem('unlockedFormations', JSON.stringify(unlockedFormations));
+      }
+      document.getElementById('academyLockSection').classList.add('hidden');
+      document.getElementById('academyContent').classList.remove('hidden');
+      alert(`✅ Formation débloquée : ${foundFormation.title} !`);
+      renderAcademy();
+    } else {
+      alert("❌ Code incorrect.");
+    }
   }
 
   const FORMATIONS = {
@@ -995,17 +1031,44 @@
   let currentCourse = null; let tutorStep = 0; let userAnswers = {};
 
   function renderAcademy() {
-    document.getElementById('premium-container').innerHTML = FORMATIONS.premium.map(c => `<div class="premium-card" onclick="openCourse('${c.id}')"><div class="premium-badge">PREMIUM</div><div class="premium-img" style="background-image: url('${c.img}');"></div><div class="premium-content"><div class="premium-title">${c.title}</div><div class="premium-price">${c.price.toLocaleString('fr-FR')} FCFA</div></div></div>`).join('');
-    document.getElementById('basic-container').innerHTML = FORMATIONS.basic.map(c => `<div class="basic-card" onclick="openCourse('${c.id}')"><div style="font-weight:800; font-size:1.1rem; color:var(--primary);">${c.title}</div><div style="font-size:1.2rem; font-weight:900; margin-top:10px;">${c.price.toLocaleString('fr-FR')} FCFA</div></div>`).join('');
-    
     if (isAcademyUnlocked) {
       document.getElementById('academyLockSection').classList.add('hidden');
       document.getElementById('academyContent').classList.remove('hidden');
+    } else {
+      document.getElementById('academyLockSection').classList.remove('hidden');
+      document.getElementById('academyContent').classList.add('hidden');
     }
+
+    document.getElementById('premium-container').innerHTML = FORMATIONS.premium.map(c => {
+      const isUnlocked = isAcademyUnlocked || unlockedFormations.includes(c.id);
+      return `
+      <div class="premium-card" onclick="openCourse('${c.id}')" style="position:relative;">
+        <div class="premium-badge">${isUnlocked ? 'ACCÈS OK' : 'PREMIUM'}</div>
+        <div class="premium-img" style="background-image: url('${c.img}');"></div>
+        <div class="premium-content">
+          <div class="premium-title">${c.title}</div>
+          <div class="premium-price">${isUnlocked ? '<span style="color:var(--accent);">Débloqué ✓</span>' : c.price.toLocaleString('fr-FR') + ' FCFA'}</div>
+        </div>
+      </div>`;
+    }).join('');
+
+    document.getElementById('basic-container').innerHTML = FORMATIONS.basic.map(c => {
+      const isUnlocked = isAcademyUnlocked || unlockedFormations.includes(c.id);
+      return `
+      <div class="basic-card" onclick="openCourse('${c.id}')" style="${isUnlocked ? 'border-color:var(--accent);' : ''}">
+        <div style="font-weight:800; font-size:1.1rem; color:var(--primary);">${c.title}</div>
+        <div style="font-size:1.2rem; font-weight:900; margin-top:10px;">${isUnlocked ? '<span style="color:var(--accent);">Débloqué ✓</span>' : c.price.toLocaleString('fr-FR') + ' FCFA'}</div>
+      </div>`;
+    }).join('');
   }
 
   function openCourse(id) {
-    if (!isAcademyUnlocked) { alert("🔒 Débloquez l'Académie d'abord."); return; }
+    const isUnlocked = isAcademyUnlocked || unlockedFormations.includes(id);
+    if (!isUnlocked) { 
+      alert("🔒 Cette formation est verrouillée. Payez 5 000 F ou 10 000 F sur WhatsApp pour recevoir le code de déblocage."); 
+      window.open(`https://wa.me/2250708858816?text=Bonjour, je souhaite débloquer la formation.`, '_blank');
+      return; 
+    }
     currentCourse = FORMATIONS.premium.find(c => c.id === id) || FORMATIONS.basic.find(c => c.id === id);
     document.getElementById('courseTitle').textContent = currentCourse.title;
     document.getElementById('tutorMessages').innerHTML = `<div class="tutor-msg bot">Bienvenue dans la formation <b>${currentCourse.title}</b> !<br><br>Je suis votre tuteur. Tapez <b>"Jour 1"</b> pour commencer la leçon.</div>`;
@@ -1091,22 +1154,55 @@
     document.getElementById('diplomaModal').classList.remove('hidden');
   }
 
+  // === BUG FIX: NOUVELLE METHODE D'IMPRESSION PDF PROPRE ===
   function downloadPDF() {
-    if (!isAcademyUnlocked) { alert("🔒 Débloquez l'Académie."); return; }
-    document.getElementById('printTitle').textContent = currentCourse.title;
-    let contentHTML = "";
-    currentCourse.days.forEach((day, index) => { contentHTML += `<h3>Jour ${index + 1}</h3><div>${day}</div><br><br>`; });
+    if (!isAcademyUnlocked && !unlockedFormations.includes(currentCourse.id)) { 
+        alert("🔒 Débloquez l'Académie."); 
+        return; 
+    }
+    const printWindow = window.open('', '_blank');
+    if(!printWindow) { alert("Veuillez autoriser les fenêtres pop-up pour télécharger le PDF."); return; }
+
+    let contentHTML = `
+      <html>
+        <head>
+          <title>${currentCourse.title} - FacturePro</title>
+          <style>
+            body { font-family: Arial, sans-serif; padding: 30px; line-height: 1.6; color: #333; }
+            h1 { color: #4f46e5; text-align: center; border-bottom: 2px solid #4f46e5; padding-bottom: 10px; }
+            h3 { color: #f59e0b; margin-top: 20px; }
+            p { margin-bottom: 10px; }
+            .footer { margin-top: 50px; text-align: center; font-size: 0.8rem; color: #888; border-top: 1px solid #ccc; padding-top: 20px; }
+          </style>
+        </head>
+        <body>
+          <h1>${currentCourse.title}</h1>
+    `;
+
+    currentCourse.days.forEach((day, index) => { 
+        contentHTML += `<h3>Jour ${index + 1}</h3><div>${day}</div><br>`; 
+    });
+    
     contentHTML += `<h3>Évaluation Finale</h3>`;
     currentCourse.quiz.forEach((q, i) => {
       contentHTML += `<p><strong>${i+1}. ${q.q}</strong></p>`;
       q.opts.forEach((opt, j) => { contentHTML += `<p>- ${String.fromCharCode(65+j)}) ${opt}</p>`; });
       contentHTML += `<p><em>Réponse : ${String.fromCharCode(65+q.a)}</em></p><br>`;
     });
-    document.getElementById('printContent').innerHTML = contentHTML;
-    window.print();
+
+    contentHTML += `
+          <div class="footer">Document généré par l'Académie FacturePro Expert CI.</div>
+        </body>
+      </html>
+    `;
+
+    printWindow.document.write(contentHTML);
+    printWindow.document.close();
+    printWindow.focus();
+    setTimeout(() => { printWindow.print(); }, 500);
   }
 
-  // ============ 7. BASE FUNCTIONS ============
+  // ============ 8. BASE FUNCTIONS ============
   function showLogin() { document.getElementById('authChoice').classList.add('hidden'); document.getElementById('loginForm').classList.remove('hidden'); }
   function showRegister() { document.getElementById('authChoice').classList.add('hidden'); document.getElementById('registerForm').classList.remove('hidden'); }
   function backToAuthChoice() { document.getElementById('loginForm').classList.add('hidden'); document.getElementById('registerForm').classList.add('hidden'); document.getElementById('authChoice').classList.remove('hidden'); }
@@ -1123,7 +1219,6 @@
     const user = { name, contact, username, password };
     localStorage.setItem('fp_user_' + username, JSON.stringify(user));
 
-    // Envoi Formspree
     fetch("https://formspree.io/f/xjygnqyq", { 
       method: 'POST', 
       headers: { 'Content-Type': 'application/json' }, 
@@ -1157,8 +1252,21 @@
     else { document.querySelector('.tab-btn:nth-child(1)').classList.add('active'); document.getElementById('tab-academy').classList.add('active'); }
   }
 
+  // ============ 9. GENERATEUR DE CODES POUR L'ADMIN ============
+  function generateAdminFormationCode() {
+    const select = document.getElementById('adminFormationSelect');
+    const id = select.value;
+    document.getElementById('generatedFormationCode').textContent = generateFormationCode(id);
+  }
+
   // INITIALISATION
   renderInvoiceItems(); renderInvoice(); renderPackages(); renderAcademy(); renderCatalogue();
+  
+  if (isAdminMode) {
+      isAcademyUnlocked = true;
+      document.getElementById('academyLockSection').classList.add('hidden');
+      document.getElementById('academyContent').classList.remove('hidden');
+  }
 </script>
 </body>
 </html>
