@@ -12,7 +12,8 @@
   .container { max-width: 1200px; margin: 0 auto; padding: 24px 16px; }
   
   /* HERO & BANNIERES */
-  .hero { position: relative; text-align: center; padding: 60px 20px; background: linear-gradient(rgba(79, 70, 229, 0.85), rgba(16, 185, 129, 0.85)), url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1200&auto=format&fit=crop') center/cover; border-radius: 24px; color: white; margin-bottom: 30px; overflow: hidden; }
+  .hero { position: relative; text-align: center; padding: 40px 20px; background: linear-gradient(rgba(79, 70, 229, 0.85), rgba(16, 185, 129, 0.85)), url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1200&auto=format&fit=crop') center/cover; border-radius: 24px; color: white; margin-bottom: 30px; overflow: hidden; }
+  .hero img.logo-main { width: 110px; height: 110px; margin-bottom: 15px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3)); }
   .hero h1 { font-size: 2.5rem; margin-bottom: 10px; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
   .hero p { font-size: 1.1rem; max-width: 700px; margin: 0 auto 20px; opacity: 0.95; }
   .btn-audio { display: inline-flex; align-items: center; gap: 10px; background: white; color: var(--primary); padding: 12px 25px; border-radius: 30px; font-weight: 700; border: none; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: 0.3s; margin: 0 auto; width: auto; }
@@ -89,6 +90,17 @@
   .fne-preview-container { background: #fff; border: 2px solid var(--fne); border-radius: 12px; padding: 30px; position: relative; }
   .fne-watermark { position: absolute; top: 20px; right: 20px; border: 2px solid var(--fne); padding: 5px 15px; font-weight: 900; color: var(--fne); font-size: 1.2rem; text-transform: uppercase; transform: rotate(-10deg); opacity: 0.5; }
   .fne-qr-placeholder { width: 80px; height: 80px; background: #e2e8f0; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; text-align: center; color: #666; margin-top: 15px; border: 1px dashed #999; }
+  
+  /* FNE LOCK SPECIFIC */
+  .fne-lock-screen { background: linear-gradient(135deg, #0f766e, #14b8a6); color: white; border-radius: 20px; padding: 40px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 400px; margin-bottom: 25px; }
+  .fne-lock-screen h2 { color: white; font-size: 2rem; margin-bottom: 15px; }
+  .fne-lock-screen p { font-size: 1.1rem; max-width: 600px; margin-bottom: 25px; opacity: 0.9; }
+  .fne-lock-input-group { display: flex; gap: 10px; max-width: 400px; width: 100%; margin-top: 20px; }
+  .fne-lock-input-group input { text-align: center; text-transform: uppercase; font-weight: bold; letter-spacing: 2px; font-size: 1.2rem; border: none; }
+  .fne-lock-input-group button { width: auto; margin: 0; padding: 0 30px; background: var(--gold); color: #1f2937; }
+  
+  /* LEGAL DISCLAIMER */
+  .legal-disclaimer { background: #fffbeb; border-left: 5px solid var(--gold); padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; color: #92400e; }
 
   /* LAUNCH & TIMELINE */
   .timeline { position: relative; padding-left: 30px; margin-top: 20px; }
@@ -182,6 +194,14 @@
   .acad-stat b { display: block; font-size: 1.7rem; font-weight: 900; line-height: 1.15; }
   .acad-stat span { font-size: .82rem; opacity: .88; }
   @media (max-width: 700px) { .acad-stats { grid-template-columns: repeat(2, minmax(0,1fr)); } .acad-hero-inner { padding: 30px 20px 24px; } .acad-hero { min-height: 560px; } }
+
+  .acad-marquee { position: relative; overflow: hidden; margin: 0 0 26px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+  .acad-track { display: flex; width: max-content; animation: acadMarq 80s linear infinite; }
+  .acad-marquee:hover .acad-track { animation-play-state: paused; }
+  @keyframes acadMarq { to { transform: translateX(-50%); } }
+  .acad-photo { position: relative; flex: none; width: 240px; height: 140px; margin-right: 14px; border-radius: 18px; background-color: #334155; background-size: cover; background-position: center; overflow: hidden; box-shadow: 0 10px 24px rgba(15,23,42,.2); }
+  .acad-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(15,23,42,.88)); }
+  .acad-photo span { position: absolute; left: 14px; bottom: 10px; z-index: 1; color: #fff; font-weight: 800; font-size: .95rem; }
 
   .acad-lock { position: relative; overflow: hidden; border-radius: 24px; padding: 32px; margin-bottom: 26px; color: #fff; background: linear-gradient(135deg, #1e1b4b, #312e81 55%, #065f46); box-shadow: 0 24px 50px -18px rgba(49,46,129,.6); display: grid; grid-template-columns: 1.2fr 1fr; gap: 28px; align-items: center; }
   .acad-lock::before { content: ""; position: absolute; width: 320px; height: 320px; border-radius: 50%; right: -90px; top: -120px; background: radial-gradient(circle, rgba(251,191,36,.45), transparent 65%); animation: acadFloat 12s ease-in-out infinite; }
@@ -353,6 +373,8 @@
   </div>
 
   <div class="hero">
+    <!-- LOGO INTEGRE ICI -->
+    <img class="logo-main" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%234f46e5'/><stop offset='100%25' stop-color='%23312e81'/></linearGradient><linearGradient id='g2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%2310b981'/><stop offset='100%25' stop-color='%23047857'/></linearGradient><linearGradient id='g3' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%23f59e0b'/><stop offset='100%25' stop-color='%23b45309'/></linearGradient></defs><circle cx='50' cy='50' r='48' fill='url(%23g1)' stroke='%23fff' stroke-width='4'/><path d='M25 25 h50 v55 l-25 -12 l-25 12 z' fill='%23fff' opacity='0.95'/><path d='M38 35 h24 v8 h-16 v8 h12 v8 h-12 v14 h-8 z' fill='%234f46e5'/><path d='M25 75 l15 15 l30 -30' fill='none' stroke='url(%23g2)' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'/><circle cx='75' cy='25' r='10' fill='url(%23g3)'/></svg>" alt="Logo FacturePro">
     <h1>Facturez, Formalisez, Formez-vous.</h1>
     <p>L'écosystème tout-en-un qui propulse les artisans et entrepreneurs africains vers le succès.</p>
     <button class="btn-audio" onclick="playAppExplanation()">🎧 Écouter la présentation de l'application</button>
@@ -362,7 +384,8 @@
     <button class="tab-btn active" onclick="switchTab('academy')"><span id="tabAcadLabel">🎓 Académie (39 Formations)</span></button>
     <button class="tab-btn" onclick="switchTab('invoicing')">📄 Facture / Devis</button>
     <button class="tab-btn fne-tab" onclick="switchTab('fne')">🇨🇮 Conformité FNE</button>
-    <button class="tab-btn launch-tab" onclick="switchTab('launch')">🚀 Lancement & Partenaires</button>
+    <!-- ONGLET LANCEMENT : Caché par défaut, affiché uniquement en mode Admin -->
+    <button id="tabLaunchBtn" class="tab-btn launch-tab hidden" onclick="switchTab('launch')">🚀 Lancement & Partenaires</button>
     <button class="tab-btn" onclick="switchTab('formalization')">🏢 Formalisation (RCCM)</button>
   </div>
 
@@ -505,13 +528,22 @@
           </div>
         </div>
         
+        <!-- ADMIN PANEL -->
         <div class="card" style="border: 1px dashed var(--border);">
-          <h2 style="font-size:0.9rem; cursor:pointer;" onclick="toggleAdmin()">🛠️ Espace Admin (Générer le code)</h2>
+          <h2 style="font-size:0.9rem; cursor:pointer;" onclick="toggleAdmin()">🛠️ Espace Admin (Générer les codes)</h2>
           <div id="adminPanel" class="hidden" style="margin-top:10px;">
             <p style="font-size:0.85rem; color:var(--text-muted);">Code Facture :</p>
             <div style="font-size: 2rem; font-weight: bold; color: var(--accent); letter-spacing: 4px; text-align: center; margin: 10px 0; background:#f8fafc; padding:10px; border-radius:8px; border:1px solid var(--border);" id="generatedCode">----</div>
             <button class="btn-outline" onclick="copyCode()">📋 Copier</button>
+            
             <hr style="margin:15px 0; border:1px solid var(--border);">
+            
+            <p style="font-size:0.85rem; color:var(--text-muted);">Code Accès FNE (DGI) :</p>
+            <div style="font-size: 1.2rem; font-weight: bold; color: var(--fne); text-align: center; margin: 5px 0;" id="generatedFneCode">----</div>
+            <button class="btn-outline" onclick="generateAdminFneCode()">Générer le code FNE</button>
+
+            <hr style="margin:15px 0; border:1px solid var(--border);">
+            
             <p style="font-size:0.85rem; color:var(--text-muted);">Code Formation :</p>
             <select id="adminFormationSelect" style="padding:8px; font-size:0.85rem; margin-bottom:5px;">
                 <option value="p1">P1 - Chef de Chantier</option>
@@ -575,79 +607,92 @@
       </div>
     </div>
 
-    <div class="grid">
-      <div>
-        <div class="card fne-card">
-          <h2>📝 Saisie Rapide</h2>
-          <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:15px;">Pas besoin d'être comptable. Remplissez juste ce que vous avez vendu.</p>
-          <label>Votre NCC (Numéro de Compte Contribuable)</label>
-          <input id="fneNcc" placeholder="Ex: 1234567A" oninput="renderFNE()">
-          <label>Votre Régime d'Imposition</label>
-          <select id="fneRegime" onchange="renderFNE()">
-            <option value="Réel Normal">Réel Normal (RNI)</option>
-            <option value="Réel Simplifié">Réel Simplifié (RSI)</option>
-            <option value="Micro-entreprise">Micro-entreprise (RME)</option>
-            <option value="Entreprenant">Entreprenant</option>
-          </select>
-          
-          <hr style="margin:20px 0; border:1px solid var(--border);">
-          
-          <label>Client (Nom / Entreprise)</label>
-          <input id="fneClient" placeholder="Ex: Boutique Fatou" oninput="renderFNE()">
-          <label>Désignation (Ce que vous avez vendu)</label>
-          <input id="fneDesc" placeholder="Ex: Sac de riz 25kg" oninput="renderFNE()">
-          <label>Montant Total (FCFA TTC)</label>
-          <input type="number" id="fneAmount" placeholder="Ex: 15000" oninput="renderFNE()">
-          
-          <button class="btn-fne" onclick="generateFNEInvoice()" style="margin-top:25px;">📄 Générer ma Facture Conforme</button>
-          <div id="fneStatus" style="margin-top:15px; font-size:0.9rem; font-weight:bold; color:var(--fne);"></div>
-        </div>
+    <!-- LOCK SCREEN FNE -->
+    <div id="fneLockSection" class="fne-lock-screen">
+        <h2>🔒 Accès Restreint</h2>
+        <p>L'accès à la génération de factures FNE nécessite un code d'autorisation spécial. Veuillez contacter notre service client sur WhatsApp pour obtenir votre accès après validation de votre dossier.</p>
+        <button class="btn-gold" onclick="window.open('https://wa.me/2250708858816?text=Bonjour, je souhaite avoir accès à la Conformité FNE. Voici mon identifiant : ' + document.getElementById('displayUsername').textContent, '_blank')" style="width: auto; padding: 15px 30px; font-size: 1.1rem;">💬 Contacter le Service Client</button>
         
-        <div class="card" style="background:#f0fdfa; border-color:var(--fne);">
-            <h2>🆘 Besoin d'aide pour la DGI ?</h2>
-            <p style="font-size:0.9rem; margin-bottom:15px;">Vous n'avez pas encore votre NCC ou votre NTD ? Nos conseillers peuvent vous guider pas à pas pour votre inscription sur le portail e-impots.</p>
-            <button class="btn-outline" style="border-color:var(--fne); color:var(--fne);" onclick="window.open('https://wa.me/2250708858816?text=Bonjour, j\'ai besoin d\'aide pour mon inscription DGI.', '_blank')">💬 Parler à un conseiller</button>
+        <div class="fne-lock-input-group">
+            <input type="text" id="fneUnlockCode" placeholder="Code d'accès FNE">
+            <button onclick="verifyFneCode()">Valider</button>
         </div>
-      </div>
+    </div>
 
-      <div>
-        <div class="card fne-card">
-          <h2>👁️ Aperçu de votre Facture FNE</h2>
-          <div id="fne-preview-area" class="fne-preview-container">
-             <div class="fne-watermark">FNE</div>
-             <div style="text-align:center; margin-bottom:20px;">
-                <h3 style="color:var(--fne);">FACTURE NORMALISÉE ÉLECTRONIQUE</h3>
-                <p style="font-size:0.8rem; color:#666;">République de Côte d'Ivoire</p>
-             </div>
-             <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:15px;">
-                <div><strong>Émetteur:</strong><br>NCC: <span id="prevNcc">----</span><br>Régime: <span id="prevRegime">----</span></div>
-                <div style="text-align:right;"><strong>Client:</strong><br><span id="prevClient">----</span></div>
-             </div>
-             <table style="font-size:0.85rem;">
-                <thead><tr><th>Désignation</th><th>Montant TTC</th></tr></thead>
-                <tbody><tr><td id="prevDesc">----</td><td id="prevAmount">0 FCFA</td></tr></tbody>
-             </table>
-             <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:30px;">
-                <div class="fne-qr-placeholder">QR Code FNE (Simulé)</div>
-                <div style="text-align:right; font-size:0.8rem; color:#666;">
-                    <p>Signature Électronique DGI</p>
-                    <p>Date: <span id="prevDate">----</span></p>
-                    <p>N° Facture: <span id="prevNum">----</span></p>
-                </div>
-             </div>
-          </div>
-          
-          <div style="margin-top:20px; background:#fffbeb; padding:15px; border-radius:10px; border:1px solid var(--gold);">
-             <h3 style="font-size:1rem; color:#b45309; margin-bottom:5px;">🔒 Débloquer la version finale</h3>
-             <p style="font-size:0.85rem; margin-bottom:10px;">Abonnez-vous à 3 000 FCFA/mois pour générer des factures illimitées.</p>
-             <button class="btn-gold" onclick="subscribeFNE()">💬 S'abonner via WhatsApp</button>
-          </div>
+    <!-- CONTENU FNE (Caché par défaut) -->
+    <div id="fneContent" class="hidden">
+        <div class="legal-disclaimer">
+            ⚠️ <b>Nota Bene :</b> La conformité FNE dépend uniquement de la DGI. FacturePro vous fournit un modèle d'exemplaire ressemblant à une facture conforme. C'est à vous (le client) de soumettre cette facture au niveau de la DGI pour validation et signature électronique. FacturePro décline toute responsabilité quant à la validation finale par l'administration fiscale.
         </div>
-      </div>
+
+        <div class="grid">
+        <div>
+            <div class="card fne-card">
+            <h2>📝 Saisie Rapide</h2>
+            <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:15px;">Pas besoin d'être comptable. Remplissez juste ce que vous avez vendu.</p>
+            <label>Votre NCC (Numéro de Compte Contribuable)</label>
+            <input id="fneNcc" placeholder="Ex: 1234567A" oninput="renderFNE()">
+            <label>Votre Régime d'Imposition</label>
+            <select id="fneRegime" onchange="renderFNE()">
+                <option value="Réel Normal">Réel Normal (RNI)</option>
+                <option value="Réel Simplifié">Réel Simplifié (RSI)</option>
+                <option value="Micro-entreprise">Micro-entreprise (RME)</option>
+                <option value="Entreprenant">Entreprenant</option>
+            </select>
+            
+            <hr style="margin:20px 0; border:1px solid var(--border);">
+            
+            <label>Client (Nom / Entreprise)</label>
+            <input id="fneClient" placeholder="Ex: Boutique Fatou" oninput="renderFNE()">
+            <label>Désignation (Ce que vous avez vendu)</label>
+            <input id="fneDesc" placeholder="Ex: Sac de riz 25kg" oninput="renderFNE()">
+            <label>Montant Total (FCFA TTC)</label>
+            <input type="number" id="fneAmount" placeholder="Ex: 15000" oninput="renderFNE()">
+            
+            <button class="btn-fne" onclick="generateFNEInvoice()" style="margin-top:25px;">📄 Générer ma Facture Conforme</button>
+            <div id="fneStatus" style="margin-top:15px; font-size:0.9rem; font-weight:bold; color:var(--fne);"></div>
+            </div>
+            
+            <div class="card" style="background:#f0fdfa; border-color:var(--fne);">
+                <h2>🆘 Besoin d'aide pour la DGI ?</h2>
+                <p style="font-size:0.9rem; margin-bottom:15px;">Vous n'avez pas encore votre NCC ou votre NTD ? Nos conseillers peuvent vous guider pas à pas pour votre inscription sur le portail e-impots.</p>
+                <button class="btn-outline" style="border-color:var(--fne); color:var(--fne);" onclick="window.open('https://wa.me/2250708858816?text=Bonjour, j\'ai besoin d\'aide pour mon inscription DGI.', '_blank')">💬 Parler à un conseiller</button>
+            </div>
+        </div>
+
+        <div>
+            <div class="card fne-card">
+            <h2>👁️ Aperçu de votre Facture FNE</h2>
+            <div id="fne-preview-area" class="fne-preview-container">
+                <div class="fne-watermark">FNE</div>
+                <div style="text-align:center; margin-bottom:20px;">
+                    <h3 style="color:var(--fne);">FACTURE NORMALISÉE ÉLECTRONIQUE</h3>
+                    <p style="font-size:0.8rem; color:#666;">République de Côte d'Ivoire</p>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:15px;">
+                    <div><strong>Émetteur:</strong><br>NCC: <span id="prevNcc">----</span><br>Régime: <span id="prevRegime">----</span></div>
+                    <div style="text-align:right;"><strong>Client:</strong><br><span id="prevClient">----</span></div>
+                </div>
+                <table style="font-size:0.85rem;">
+                    <thead><tr><th>Désignation</th><th>Montant TTC</th></tr></thead>
+                    <tbody><tr><td id="prevDesc">----</td><td id="prevAmount">0 FCFA</td></tr></tbody>
+                </table>
+                <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:30px;">
+                    <div class="fne-qr-placeholder">QR Code FNE (Simulé)</div>
+                    <div style="text-align:right; font-size:0.8rem; color:#666;">
+                        <p>Signature Électronique DGI</p>
+                        <p>Date: <span id="prevDate">----</span></p>
+                        <p>N° Facture: <span id="prevNum">----</span></p>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
     </div>
   </div>
 
-  <!-- ONGLET 4 : LANCEMENT & PARTENAIRES -->
+  <!-- ONGLET 4 : LANCEMENT & PARTENAIRES (ADMIN UNIQUEMENT) -->
   <div id="tab-launch" class="section-content">
     <div class="page-banner banner-launch">
       <div>
@@ -818,7 +863,19 @@
     else if (prefix === '+229') phoneInput.placeholder = "97000000 (8 chiffres)";
     else phoneInput.placeholder = "Votre numéro";
   }
-  function playAppExplanation() { if ('speechSynthesis' in window) { window.speechSynthesis.cancel(); const text = "Bienvenue sur FacturePro Expert, l'écosystème tout-en-un des artisans et entrepreneurs africains. Notre mission est simple : vous aider à gagner plus d'argent et à professionnaliser votre activité. Avec nous, vous pouvez créer des factures et devis professionnels en quelques secondes grâce à l'assistant vocal. Vous pouvez également formaliser votre entreprise et générer vos factures conformes à la nouvelle réforme FNE de la DGI. Et surtout, notre Académie vous propose des formations avec certificat pour vous aider à devenir un expert de votre métier. FacturePro, votre partenaire de réussite."; const u = new SpeechSynthesisUtterance(text); u.lang = 'fr-FR'; u.rate = 1; window.speechSynthesis.speak(u); } }
+  
+  // PRESENTATION VOCALE (MISE A JOUR STRATEGIQUE)
+  function playAppExplanation() { 
+    if ('speechSynthesis' in window) { 
+      window.speechSynthesis.cancel(); 
+      const text = "Bienvenue sur FacturePro Expert, la plateforme révolutionnaire qui propulse les artisans et entrepreneurs africains vers le succès ! Découvrez un écosystème complet : créez vos factures en un clin d'œil avec notre assistant vocal intelligent. Anticipez l'avenir avec notre module de conformité FNE pour la DGI. Formalisez votre entreprise sans stress. Et surtout, transformez votre carrière grâce à notre Académie et ses trente-neuf formations certifiantes, allant de l'artisanat à l'immobilier ! FacturePro, c'est plus qu'une application, c'est votre levier de croissance. Passez à l'action dès maintenant !"; 
+      const u = new SpeechSynthesisUtterance(text); 
+      u.lang = 'fr-FR'; 
+      u.rate = 1.05; // Plus dynamique
+      u.pitch = 1.1;  // Plus énergique
+      window.speechSynthesis.speak(u); 
+    } 
+  }
   function playAcademyExplanation() { if ('speechSynthesis' in window) { window.speechSynthesis.cancel(); const text = "L'Académie FacturePro est conçue pour transformer votre carrière. Que vous soyez artisan, commercial, agent immobilier ou gestionnaire de caisse, nous avons la formation qu'il vous faut. Apprenez à devenir chef de chantier, à négocier des contrats, à vendre des maisons ou à gérer une microfinance. Nos formations sont interactives, avec un tuteur qui vous guide pas à pas. À la fin, vous recevrez un certificat FacturePro. Investissez en vous, débloquez votre potentiel."; const u = new SpeechSynthesisUtterance(text); u.lang = 'fr-FR'; u.rate = 1; window.speechSynthesis.speak(u); } }
   function playInvoiceExplanation() { if ('speechSynthesis' in window) { window.speechSynthesis.cancel(); const text = "Créer une facture professionnelle n'a jamais été aussi simple. Remplissez vos informations, ajoutez vos prestations, ou dictez-les directement à notre assistant vocal. L'application calcule la TVA automatiquement. Ensuite, partagez votre facture avec votre client par WhatsApp. Votre client vous paiera directement sur votre numéro Wave ou Orange Money. C'est rapide, c'est pro, et ça vous fait gagner du temps."; const u = new SpeechSynthesisUtterance(text); u.lang = 'fr-FR'; u.rate = 1; window.speechSynthesis.speak(u); } }
 
@@ -844,7 +901,7 @@
   function generateDynamicCode(invoiceNum) { let str = invoiceNum + "SECRET_SALT_2026"; let hash = 0; for (let i = 0; i < str.length; i++) { let char = str.charCodeAt(i); hash = ((hash << 5) - hash) + char; hash = hash & hash; } let code = Math.abs(hash).toString(36).substring(0, 4).toUpperCase(); while(code.length < 4) { code += "X"; } return code; }
   function getCurrentInvoiceNum() { const docType = document.getElementById('docType').value; const prefix = docType === 'FACTURE' ? 'FAC' : (docType === 'DEVIS' ? 'DEV' : 'PRO'); return `${prefix}-${new Date().getFullYear()}-001`; }
   function verifyUnlockCode() { const entered = document.getElementById('unlockCode').value.trim().toUpperCase(); const currentId = getCurrentInvoiceNum(); const expectedCode = generateDynamicCode(currentId); if (entered === expectedCode) { isInvoiceUnlocked = true; unlockedInvoiceId = currentId; document.getElementById('invoice-lock').style.display = 'none'; alert('✅ Document débloqué !'); } else { alert('❌ Code incorrect.'); } }
-  function toggleAdmin() { document.getElementById('adminPanel').classList.toggle('hidden'); updateAdminCode(); generateAdminFormationCode(); }
+  function toggleAdmin() { document.getElementById('adminPanel').classList.toggle('hidden'); updateAdminCode(); generateAdminFneCode(); generateAdminFormationCode(); }
   function updateAdminCode() { document.getElementById('generatedCode').textContent = generateDynamicCode(getCurrentInvoiceNum()); }
   function copyCode() { const code = document.getElementById('generatedCode').textContent; navigator.clipboard.writeText(code).then(() => alert('📋 Code copié !')); }
 
@@ -867,10 +924,88 @@
   function stopAllVocal() { if (window.speechSynthesis.speaking) window.speechSynthesis.cancel(); if (recognition) { try { recognition.stop(); } catch(e){} } isListening = false; currentStep = 0; isConfirming = false; isAskingForMoreItems = false; document.getElementById('micBtnInv').classList.remove('listening'); document.getElementById('vocalControlsInv').style.display = 'none'; }
   function speak(text) { if ('speechSynthesis' in window) { window.speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = 'fr-FR'; u.rate = 0.9; u.onend = function() { if (isListening) { document.getElementById('vocalTranscriptInv').innerText = "Je vous écoute..."; try { recognition.start(); setTimeout(() => { if (isListening && !isConfirming) { document.getElementById('forceMicInv').style.display = 'block'; } }, 4000); } catch(e){} } }; window.speechSynthesis.speak(u); } }
 
+  // FNE SECURITY
+  let isFneUnlocked = localStorage.getItem('fneUnlocked') === 'true' || isAdminMode;
+  const FNE_GLOBAL_CODE = "FNE-DGI2026"; // Code maître
+  function generateFneCode() { return FNE_GLOBAL_CODE; } 
+  function generateAdminFneCode() { document.getElementById('generatedFneCode').textContent = generateFneCode(); }
+  function verifyFneCode() {
+      const entered = document.getElementById('fneUnlockCode').value.trim().toUpperCase();
+      if (entered === FNE_GLOBAL_CODE || isAdminMode) {
+          isFneUnlocked = true;
+          localStorage.setItem('fneUnlocked', 'true');
+          document.getElementById('fneLockSection').classList.add('hidden');
+          document.getElementById('fneContent').classList.remove('hidden');
+          alert("✅ Accès FNE débloqué !");
+      } else {
+          alert("❌ Code incorrect.");
+      }
+  }
+
   // FNE
   let isFneSubscribed = false;
   function renderFNE() { document.getElementById('prevNcc').textContent = document.getElementById('fneNcc').value || '----'; document.getElementById('prevRegime').textContent = document.getElementById('fneRegime').value; document.getElementById('prevClient').textContent = document.getElementById('fneClient').value || '----'; document.getElementById('prevDesc').textContent = document.getElementById('fneDesc').value || '----'; const amount = parseFloat(document.getElementById('fneAmount').value) || 0; document.getElementById('prevAmount').textContent = amount.toLocaleString('fr-FR') + ' FCFA'; document.getElementById('prevDate').textContent = new Date().toLocaleDateString('fr-FR'); document.getElementById('prevNum').textContent = 'FNE-' + new Date().getFullYear() + '-001'; }
-  function generateFNEInvoice() { const ncc = document.getElementById('fneNcc').value; const amount = document.getElementById('fneAmount').value; if (!ncc || !amount) { document.getElementById('fneStatus').innerHTML = '<span style="color:var(--danger);">Veuillez remplir le NCC et le montant.</span>'; return; } if (!isFneSubscribed) { document.getElementById('fneStatus').innerHTML = '<span style="color:var(--danger);">🔒 Abonnez-vous pour générer la facture finale.</span>'; return; } const pdfContainer = document.createElement('div'); pdfContainer.style.padding = '30px'; pdfContainer.style.fontFamily = 'Arial, sans-serif'; pdfContainer.innerHTML = `<h1 style="color:#0f766e; text-align:center;">FACTURE NORMALISÉE ÉLECTRONIQUE</h1><p style="text-align:center;">République de Côte d'Ivoire - DGI</p><hr><p><strong>NCC Émetteur :</strong> ${ncc}</p><p><strong>Régime :</strong> ${document.getElementById('fneRegime').value}</p><p><strong>Client :</strong> ${document.getElementById('fneClient').value}</p><p><strong>Désignation :</strong> ${document.getElementById('fneDesc').value}</p><p><strong>Montant TTC :</strong> ${parseFloat(amount).toLocaleString('fr-FR')} FCFA</p><div style="margin-top:50px; text-align:center; border:2px solid #0f766e; padding:10px; width:150px; margin-left:auto;">QR Code FNE</div>`; const opt = { margin: 10, filename: 'Facture_FNE.pdf', html2canvas: { scale: 2 }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } }; html2pdf().set(opt).from(pdfContainer).save(); document.getElementById('fneStatus').innerHTML = '<span style="color:var(--accent);">✅ Facture générée avec succès !</span>'; }
+  
+  // GENERATION PDF FNE AVEC FOND D'ECRAN + LOGO
+  function generateFNEInvoice() {
+    const ncc = document.getElementById('fneNcc').value;
+    const amount = document.getElementById('fneAmount').value;
+    if (!ncc || !amount) {
+        document.getElementById('fneStatus').innerHTML = '<span style="color:var(--danger);">Veuillez remplir le NCC et le montant.</span>';
+        return;
+    }
+    if (!isFneSubscribed) {
+        document.getElementById('fneStatus').innerHTML = '<span style="color:var(--danger);">🔒 Abonnez-vous pour générer la facture finale.</span>';
+        return;
+    }
+    
+    const pdfContainer = document.createElement('div');
+    pdfContainer.style.position = 'absolute';
+    pdfContainer.style.left = '-9999px';
+    pdfContainer.style.top = '0';
+    pdfContainer.style.width = '800px';
+    pdfContainer.style.padding = '40px'; 
+    // AJOUT DU FOND D'ECRAN AVEC VOILE BLANC ET LOGO
+    pdfContainer.style.background = "linear-gradient(rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.94)), url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1000&auto=format&fit=crop') center/cover no-repeat";
+    pdfContainer.style.fontFamily = 'Arial, sans-serif';
+    pdfContainer.style.color = '#333'; 
+    pdfContainer.style.border = '2px solid #0f766e';
+    
+    pdfContainer.innerHTML = `
+        <!-- LOGO DANS LE PDF -->
+        <div style="text-align: center; margin-bottom: 20px;">
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%234f46e5'/><stop offset='100%25' stop-color='%23312e81'/></linearGradient><linearGradient id='g2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%2310b981'/><stop offset='100%25' stop-color='%23047857'/></linearGradient><linearGradient id='g3' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%23f59e0b'/><stop offset='100%25' stop-color='%23b45309'/></linearGradient></defs><circle cx='50' cy='50' r='48' fill='url(%23g1)' stroke='%23fff' stroke-width='4'/><path d='M25 25 h50 v55 l-25 -12 l-25 12 z' fill='%23fff' opacity='0.95'/><path d='M38 35 h24 v8 h-16 v8 h12 v8 h-12 v14 h-8 z' fill='%234f46e5'/><path d='M25 75 l15 15 l30 -30' fill='none' stroke='url(%23g2)' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'/><circle cx='75' cy='25' r='10' fill='url(%23g3)'/></svg>" style="width: 80px; height: 80px;" alt="Logo">
+        </div>
+        <h1 style="color:#0f766e; text-align:center; text-transform: uppercase; font-size: 22px;">FACTURE NORMALISÉE ÉLECTRONIQUE</h1>
+        <p style="text-align:center; font-weight:bold; font-size:14px;">République de Côte d'Ivoire - DGI</p>
+        <hr style="border-color: #0f766e; margin: 20px 0;">
+        <p style="font-size: 15px;"><strong>NCC Émetteur :</strong> ${ncc}</p>
+        <p style="font-size: 15px;"><strong>Régime :</strong> ${document.getElementById('fneRegime').value}</p>
+        <p style="font-size: 15px;"><strong>Client :</strong> ${document.getElementById('fneClient').value}</p>
+        <p style="font-size: 15px;"><strong>Désignation :</strong> ${document.getElementById('fneDesc').value}</p>
+        <p style="font-size: 17px; margin-top: 20px;"><strong>Montant TTC :</strong> <span style="color:#0f766e; font-weight:bold;">${parseFloat(amount).toLocaleString('fr-FR')} FCFA</span></p>
+        
+        <div style="margin-top:50px; display: flex; justify-content: space-between; align-items: flex-end;">
+            <div style="text-align:center; border:2px solid #0f766e; padding:15px; width:100px; height:100px; display: flex; align-items: center; justify-content: center; font-size:12px; background:white;">
+                QR Code<br>FNE
+            </div>
+            <div style="text-align:right;">
+                <p style="font-size: 14px;">Signature Électronique DGI</p>
+                <p style="font-size: 14px; margin-top: 10px;">Date : ${new Date().toLocaleDateString('fr-FR')}</p>
+            </div>
+        </div>
+        
+        <div style="margin-top: 40px; padding: 15px; background: rgba(255,255,255,0.9); border-left: 4px solid #f59e0b; font-size: 11px; color: #555; text-align: justify;">
+            <b>Nota Bene :</b> Ce document est un modèle généré par FacturePro. La conformité FNE dépend uniquement de la DGI. C'est au client de soumettre cette facture sur le portail de la DGI pour validation et signature électronique officielle. FacturePro décline toute responsabilité quant à la validation finale.
+        </div>
+    `;
+    
+    document.body.appendChild(pdfContainer);
+    const opt = { margin: 10, filename: 'Facture_FNE.pdf', html2canvas: { scale: 2, useCORS: true, logging: false }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } };
+    html2pdf().set(opt).from(pdfContainer).save().then(() => { document.body.removeChild(pdfContainer); });
+    document.getElementById('fneStatus').innerHTML = '<span style="color:var(--accent);">✅ Facture générée avec succès !</span>';
+  }
+
   function subscribeFNE() { window.open('https://wa.me/2250708858816?text=Bonjour, je souhaite m\'abonner à la Conformité FNE pour 3 000 FCFA/mois.', '_blank'); setTimeout(() => { isFneSubscribed = true; document.getElementById('fneStatus').innerHTML = '<span style="color:var(--accent);">✅ Abonnement activé (Simulation).</span>'; }, 5000); }
 
   // FORMALISATION
@@ -964,7 +1099,58 @@
   function selectOption(el, qIndex, optIndex) { const parent = el.parentElement; parent.querySelectorAll('.quiz-option').forEach(opt => opt.style.background = ''); el.style.background = '#d1fae5'; el.style.borderColor = 'var(--accent)'; userAnswers[qIndex] = optIndex; }
   function submitQuiz() { if (isDemoMode) { alert("🔒 Passez à la version complète pour valider le quiz."); return; } let score = 0; currentCourse.quiz.forEach((q, i) => { if (userAnswers[i] === q.a) score++; }); if (score === currentCourse.quiz.length) generateDiploma(); else alert(`Score : ${score}/${currentCourse.quiz.length}. Il faut un sans-faute.`); }
   function generateDiploma() { if (isDemoMode) { alert("🔒 Le certificat est réservé aux membres ayant payé."); return; } saveProg(currentCourse.id, currentCourse.days.length, true); closeCourse(); const name = document.getElementById('displayUsername').textContent; const date = new Date().toLocaleDateString('fr-FR'); document.getElementById('diplomaContent').innerHTML = `<div class="diploma-title">Certificat de Réussite</div><p style="font-size:1.2rem; color:#666;">Décerné à</p><div class="diploma-name">${name}</div><p style="font-size:1.2rem; color:#666;">pour la formation :</p><h3 style="font-size:1.8rem; color:var(--primary); margin:20px 0;">${currentCourse.title}</h3><div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:50px;"><div style="text-align:center;"><div class="diploma-seal">FACTUREPRO</div><div style="font-size:0.8rem; color:#666;">Sceau</div></div><div style="text-align:center;"><div style="font-weight:800; font-size:1.6rem;">Amadou Coulibaly</div><div style="border-top:1px solid #ccc; width:220px; font-size:0.85rem; color:#666; padding-top:8px;">Directeur</div></div><div style="text-align:center;"><div style="font-size:0.9rem; color:#666;">Délivré le</div><div style="font-weight:800; font-size:1.1rem;">${date}</div></div></div>`; document.getElementById('diplomaModal').classList.remove('hidden'); }
-  function downloadPDF() { if (!isAcademyUnlocked && !unlockedFormations.includes(currentCourse.id) && !isDemoMode) { alert("🔒 Débloquez l'Académie."); return; } const pdfContainer = document.createElement('div'); pdfContainer.style.padding = '40px'; pdfContainer.style.background = 'white'; pdfContainer.style.fontFamily = 'Arial, sans-serif'; pdfContainer.style.color = '#333'; pdfContainer.style.lineHeight = '1.6'; let contentHTML = `<h1 style="color: #4f46e5; text-align: center; border-bottom: 2px solid #4f46e5; padding-bottom: 10px; margin-bottom: 20px;">${currentCourse.title} ${isDemoMode ? '(Aperçu)' : ''}</h1>`; let daysToPrint = isDemoMode ? [currentCourse.days[0]] : currentCourse.days; let quizToPrint = isDemoMode ? [] : currentCourse.quiz; daysToPrint.forEach((day, index) => { let cleanDay = day.replace(/<br><br>/g, '<br>'); contentHTML += `<h2 style="color: #f59e0b; margin-top: 25px;">Jour ${index + 1}</h2><div style="text-align: justify;">${cleanDay}</div>`; }); if (quizToPrint.length > 0) { contentHTML += `<h2 style="color: #f59e0b; margin-top: 25px;">Évaluation Finale</h2>`; quizToPrint.forEach((q, i) => { contentHTML += `<p style="font-weight: bold; margin-bottom: 5px;">${i+1}. ${q.q}</p>`; q.opts.forEach((opt, j) => { contentHTML += `<p style="margin: 2px 0 2px 15px;">- ${String.fromCharCode(65+j)}) ${opt}</p>`; }); contentHTML += `<p style="color: #10b981; font-size: 0.9em; margin-bottom: 15px;">Réponse : ${String.fromCharCode(65+q.a)}</p>`; }); } else { contentHTML += `<p style="color:#ef4444; font-weight:bold; text-align:center; margin-top:30px;">🔒 Débloquez la formation complète sur FacturePro Expert.</p>`; } contentHTML += `<div style="margin-top: 50px; text-align: center; font-size: 0.8rem; color: #888; border-top: 1px solid #ccc; padding-top: 20px;">Document généré par l'Académie FacturePro Expert CI.</div>`; pdfContainer.innerHTML = contentHTML; const opt = { margin: 10, filename: `FacturePro_${currentCourse.title.replace(/\s+/g, '_')}.pdf`, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, useCORS: true }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } }; html2pdf().set(opt).from(pdfContainer).save(); }
+  
+  // DOWNLOAD PDF ACADEMY (AVEC FOND ET LOGO)
+  function downloadPDF() { 
+    if (!isAcademyUnlocked && !unlockedFormations.includes(currentCourse.id) && !isDemoMode) { alert("🔒 Débloquez l'Académie."); return; } 
+    
+    const pdfContainer = document.createElement('div'); 
+    pdfContainer.style.position = 'absolute'; 
+    pdfContainer.style.left = '-9999px'; 
+    pdfContainer.style.top = '0'; 
+    pdfContainer.style.width = '800px'; 
+    pdfContainer.style.padding = '40px'; 
+    // FOND D'ECRAN AVEC VOILE BLANC
+    pdfContainer.style.background = "linear-gradient(rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.94)), url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1000&auto=format&fit=crop') center/cover no-repeat"; 
+    pdfContainer.style.fontFamily = 'Arial, sans-serif'; 
+    pdfContainer.style.color = '#333'; 
+    pdfContainer.style.lineHeight = '1.6'; 
+    
+    let contentHTML = `
+        <!-- LOGO DANS LE PDF -->
+        <div style="text-align: center; margin-bottom: 20px;">
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%234f46e5'/><stop offset='100%25' stop-color='%23312e81'/></linearGradient><linearGradient id='g2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%2310b981'/><stop offset='100%25' stop-color='%23047857'/></linearGradient><linearGradient id='g3' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%23f59e0b'/><stop offset='100%25' stop-color='%23b45309'/></linearGradient></defs><circle cx='50' cy='50' r='48' fill='url(%23g1)' stroke='%23fff' stroke-width='4'/><path d='M25 25 h50 v55 l-25 -12 l-25 12 z' fill='%23fff' opacity='0.95'/><path d='M38 35 h24 v8 h-16 v8 h12 v8 h-12 v14 h-8 z' fill='%234f46e5'/><path d='M25 75 l15 15 l30 -30' fill='none' stroke='url(%23g2)' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'/><circle cx='75' cy='25' r='10' fill='url(%23g3)'/></svg>" style="width: 80px; height: 80px;" alt="Logo">
+        </div>
+        <h1 style="color: #4f46e5; text-align: center; border-bottom: 2px solid #4f46e5; padding-bottom: 10px; margin-bottom: 20px;">${currentCourse.title} ${isDemoMode ? '(Aperçu)' : ''}</h1>
+    `; 
+    
+    let daysToPrint = isDemoMode ? [currentCourse.days[0]] : currentCourse.days; 
+    let quizToPrint = isDemoMode ? [] : currentCourse.quiz; 
+    
+    daysToPrint.forEach((day, index) => { 
+        let cleanDay = day.replace(/<br><br>/g, '<br>'); 
+        contentHTML += `<h2 style="color: #f59e0b; margin-top: 25px;">Jour ${index + 1}</h2><div style="text-align: justify;">${cleanDay}</div>`; 
+    }); 
+    
+    if (quizToPrint.length > 0) { 
+        contentHTML += `<h2 style="color: #f59e0b; margin-top: 25px;">Évaluation Finale</h2>`; 
+        quizToPrint.forEach((q, i) => { 
+            contentHTML += `<p style="font-weight: bold; margin-bottom: 5px;">${i+1}. ${q.q}</p>`; 
+            q.opts.forEach((opt, j) => { contentHTML += `<p style="margin: 2px 0 2px 15px;">- ${String.fromCharCode(65+j)}) ${opt}</p>`; }); 
+            contentHTML += `<p style="color: #10b981; font-size: 0.9em; margin-bottom: 15px;">Réponse : ${String.fromCharCode(65+q.a)}</p>`; 
+        }); 
+    } else { 
+        contentHTML += `<p style="color:#ef4444; font-weight:bold; text-align:center; margin-top:30px;">🔒 Débloquez la formation complète sur FacturePro Expert.</p>`; 
+    } 
+    
+    contentHTML += `<div style="margin-top: 50px; text-align: center; font-size: 0.8rem; color: #888; border-top: 1px solid #ccc; padding-top: 20px;">Document généré par l'Académie FacturePro Expert CI.</div>`; 
+    
+    pdfContainer.innerHTML = contentHTML; 
+    document.body.appendChild(pdfContainer);
+    
+    const opt = { margin: 10, filename: `FacturePro_${currentCourse.title.replace(/\s+/g, '_')}.pdf`, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, useCORS: true, logging: false }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } }; 
+    html2pdf().set(opt).from(pdfContainer).save().then(() => { document.body.removeChild(pdfContainer); });
+  }
 
   // BASE FUNCTIONS & SWITCH
   function showLogin() { document.getElementById('authChoice').classList.add('hidden'); document.getElementById('loginForm').classList.remove('hidden'); }
@@ -972,7 +1158,7 @@
   function backToAuthChoice() { document.getElementById('loginForm').classList.add('hidden'); document.getElementById('registerForm').classList.add('hidden'); document.getElementById('authChoice').classList.remove('hidden'); }
   function doRegister() { const name = document.getElementById('regName').value.trim(); const prefix = document.getElementById('regCountry').value; const rawPhone = document.getElementById('regContact').value.trim(); const contact = prefix + " " + rawPhone; const username = document.getElementById('regUsername').value.trim(); const password = document.getElementById('regPassword').value.trim(); if (!name || !rawPhone || !username || !password) { alert("Remplissez tous les champs."); return; } const user = { name, contact, username, password }; localStorage.setItem('fp_user_' + username, JSON.stringify(user)); fetch("https://formspree.io/f/xjygnqyq", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ nom: name, contact: contact, username: username }) }).catch(() => {}); loginSuccess(user); }
   function doLogin() { const username = document.getElementById('loginUsername').value.trim(); const password = document.getElementById('loginPassword').value.trim(); const storedUser = localStorage.getItem('fp_user_' + username); if (!storedUser) { alert("Identifiant introuvable."); return; } const user = JSON.parse(storedUser); if (user.password !== password) { alert("Mot de passe incorrect."); return; } loginSuccess(user); }
-  function loginSuccess(user) { document.getElementById('authModal').classList.add('hidden'); document.getElementById('userContainer').classList.remove('hidden'); document.getElementById('displayUsername').textContent = user.username; document.getElementById('fromName').value = user.name; document.getElementById('userPayNumber').value = user.contact; renderInvoiceItems(); renderInvoice(); renderPackages(); renderAcademy(); renderCatalogue(); }
+  function loginSuccess(user) { document.getElementById('authModal').classList.add('hidden'); document.getElementById('userContainer').classList.remove('hidden'); document.getElementById('displayUsername').textContent = user.username; document.getElementById('fromName').value = user.name; document.getElementById('userPayNumber').value = user.contact; renderInvoiceItems(); renderInvoice(); renderPackages(); renderAcademy(); renderCatalogue(); if(isFneUnlocked) { document.getElementById('fneLockSection').classList.add('hidden'); document.getElementById('fneContent').classList.remove('hidden'); } }
   function doLogout() { document.getElementById('userContainer').classList.add('hidden'); document.getElementById('authModal').classList.remove('hidden'); backToAuthChoice(); }
   function switchTab(tabId) { document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active')); document.querySelectorAll('.section-content').forEach(sec => sec.classList.remove('active')); if (tabId === 'invoicing') { document.querySelector('.tab-btn:nth-child(2)').classList.add('active'); document.getElementById('tab-invoicing').classList.add('active'); } else if (tabId === 'fne') { document.querySelector('.tab-btn:nth-child(3)').classList.add('active'); document.getElementById('tab-fne').classList.add('active'); } else if (tabId === 'launch') { document.querySelector('.tab-btn:nth-child(4)').classList.add('active'); document.getElementById('tab-launch').classList.add('active'); } else if (tabId === 'formalization') { document.querySelector('.tab-btn:nth-child(5)').classList.add('active'); document.getElementById('tab-formalization').classList.add('active'); } else { document.querySelector('.tab-btn:nth-child(1)').classList.add('active'); document.getElementById('tab-academy').classList.add('active'); } }
   function generateAdminFormationCode() { const select = document.getElementById('adminFormationSelect'); const id = select.value; document.getElementById('generatedFormationCode').textContent = generateFormationCode(id); }
@@ -980,7 +1166,19 @@
   // START
   initAcademyV2();
   renderInvoiceItems(); renderInvoice(); renderPackages(); renderAcademy(); renderCatalogue(); renderFNE();
-  if (isAdminMode) { isAcademyUnlocked = true; document.getElementById('academyLockSection').classList.add('hidden'); document.getElementById('academyContent').classList.remove('hidden'); }
+  
+  if (isAdminMode) {
+      isAcademyUnlocked = true;
+      isFneUnlocked = true;
+      document.getElementById('academyLockSection').classList.add('hidden');
+      document.getElementById('academyContent').classList.remove('hidden');
+      document.getElementById('fneLockSection').classList.add('hidden');
+      document.getElementById('fneContent').classList.remove('hidden');
+      document.getElementById('tabLaunchBtn').classList.remove('hidden'); // Afficher l'onglet Lancement pour l'admin
+  } else if (isFneUnlocked) {
+      document.getElementById('fneLockSection').classList.add('hidden');
+      document.getElementById('fneContent').classList.remove('hidden');
+  }
 </script>
 </body>
 </html>
