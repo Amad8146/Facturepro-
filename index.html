@@ -9,11 +9,11 @@
   :root { --primary: #4f46e5; --primary-hover: #4338ca; --accent: #10b981; --gold: #f59e0b; --danger: #ef4444; --bg: #f8fafc; --card: #ffffff; --text: #1e293b; --text-muted: #64748b; --border: #e2e8f0; --fne: #0f766e; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-  .container { max-width: 1200px; margin: 0 auto; padding: 24px 16px; padding-bottom: 60px; /* Espace pour le footer */ }
+  .container { max-width: 1200px; margin: 0 auto; padding: 24px 16px; padding-bottom: 70px; /* Espace pour le footer */ }
   
   /* HERO & BANNIERES */
   .hero { position: relative; text-align: center; padding: 40px 20px; background: linear-gradient(rgba(79, 70, 229, 0.85), rgba(16, 185, 129, 0.85)), url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1200&auto=format&fit=crop') center/cover; border-radius: 24px; color: white; margin-bottom: 30px; overflow: hidden; }
-  .hero img.logo-main { width: 110px; height: 110px; margin-bottom: 15px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3)); }
+  .hero img.logo-main { width: 100px; height: 100px; margin-bottom: 15px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3)); }
   .hero h1 { font-size: 2.5rem; margin-bottom: 10px; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
   .hero p { font-size: 1.1rem; max-width: 700px; margin: 0 auto 20px; opacity: 0.95; }
   .btn-audio { display: inline-flex; align-items: center; gap: 10px; background: white; color: var(--primary); padding: 12px 25px; border-radius: 30px; font-weight: 700; border: none; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: 0.3s; margin: 0 auto; width: auto; }
@@ -135,7 +135,7 @@
   .modal-content { background: white; padding: 40px; border-radius: 20px; max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0,0,0,0.25); }
 
   /* CHATBOT & AVATARS */
-  .chat-widget { position: fixed; bottom: 25px; right: 25px; z-index: 1500; }
+  .chat-widget { position: fixed; bottom: 80px; right: 25px; z-index: 1500; }
   .chat-button { width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--primary-hover)); color: white; border: 4px solid white; font-size: 2rem; cursor: pointer; box-shadow: 0 10px 25px rgba(79, 70, 229, 0.5); display: flex; align-items: center; justify-content: center; margin: 0; transition: transform 0.3s; }
   .chat-button:hover { transform: scale(1.1) rotate(5deg); }
   .chat-box { position: absolute; bottom: 90px; right: 0; width: 360px; background: white; border: none; border-radius: 20px; padding: 0; box-shadow: 0 20px 50px rgba(0,0,0,0.2); display: flex; flex-direction: column; max-height: 550px; overflow: hidden; }
@@ -379,8 +379,8 @@
   </div>
 
   <div class="hero">
-    <!-- LOGO INTEGRE ICI -->
-    <img class="logo-main" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%234f46e5'/><stop offset='100%25' stop-color='%23312e81'/></linearGradient><linearGradient id='g2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%2310b981'/><stop offset='100%25' stop-color='%23047857'/></linearGradient><linearGradient id='g3' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%23f59e0b'/><stop offset='100%25' stop-color='%23b45309'/></linearGradient></defs><circle cx='50' cy='50' r='48' fill='url(%23g1)' stroke='%23fff' stroke-width='4'/><path d='M25 25 h50 v55 l-25 -12 l-25 12 z' fill='%23fff' opacity='0.95'/><path d='M38 35 h24 v8 h-16 v8 h12 v8 h-12 v14 h-8 z' fill='%234f46e5'/><path d='M25 75 l15 15 l30 -30' fill='none' stroke='url(%23g2)' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'/><circle cx='75' cy='25' r='10' fill='url(%23g3)'/></svg>" alt="Logo FacturePro">
+    <!-- LOGO INTEGRE ICI (En Base64 pour éviter les bugs de rendu) -->
+    <img class="logo-main" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImcxIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjNGY0NmU1Ii8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMzEyZTgxIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImcyIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMTBiOTgxIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMDQ3ODU3Ii8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImczIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZjU5ZTBiIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjYjQ1MzA5Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNDgiIGZpbGw9InVybCgjZzEpIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNCIvPjxwYXRoIGQ9Ik0yNSAyNSBoNTAgdjU1IGwtMjUgLTEyIGwtMjUgMTIgeiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC45NSIvPjxwYXRoIGQ9Ik0zOCAzNSBoMjQgdjggaC0xNiB2OCBoMTIgdjggaC0xMiB2MTQgaC04IHoiIGZpbGw9IiM0ZjQ2ZTUiLz48cGF0aCBkPSJNMjUgNzUgbDE1IDE1IGwzMCAtMzAiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNnMikiIHN0cm9rZS13aWR0aD0iOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGNpcmNsZSBjeD0iNzUiIGN5PSIyNSIgcj0iMTAiIGZpbGw9InVybCgjZzMpIi8+PC9zdmc+" alt="Logo FacturePro">
     <h1>Facturez, Formalisez, Formez-vous.</h1>
     <p>L'écosystème tout-en-un qui propulse les artisans et entrepreneurs africains vers le succès.</p>
     <button class="btn-audio" onclick="playAppExplanation()">🎧 Écouter la présentation de l'application</button>
@@ -871,14 +871,12 @@
   // MISE A JOUR
   function checkForUpdates() {
       if (confirm("Voulez-vous vérifier et appliquer les dernières mises à jour ? L'application va se recharger.")) {
-          // On nettoie le cache de session pour forcer le rechargement des ressources
           if ('caches' in window) {
               caches.keys().then((names) => {
                   names.forEach(name => { caches.delete(name); });
               });
           }
-          // On recharge en vidant le cache (true)
-          window.location.reload(true);
+          window.location.reload();
       }
   }
 
@@ -975,7 +973,7 @@
   let isFneSubscribed = false;
   function renderFNE() { document.getElementById('prevNcc').textContent = document.getElementById('fneNcc').value || '----'; document.getElementById('prevRegime').textContent = document.getElementById('fneRegime').value; document.getElementById('prevClient').textContent = document.getElementById('fneClient').value || '----'; document.getElementById('prevDesc').textContent = document.getElementById('fneDesc').value || '----'; const amount = parseFloat(document.getElementById('fneAmount').value) || 0; document.getElementById('prevAmount').textContent = amount.toLocaleString('fr-FR') + ' FCFA'; document.getElementById('prevDate').textContent = new Date().toLocaleDateString('fr-FR'); document.getElementById('prevNum').textContent = 'FNE-' + new Date().getFullYear() + '-001'; }
   
-  // GENERATION PDF FNE AVEC FOND D'ECRAN + LOGO
+  // GENERATION PDF FNE (FIX DEFINITIF PAGE BLANCHE)
   function generateFNEInvoice() {
     const ncc = document.getElementById('fneNcc').value;
     const amount = document.getElementById('fneAmount').value;
@@ -989,26 +987,36 @@
     }
     
     const pdfContainer = document.createElement('div');
-    // FIX PAGE BLANCHE : On utilise opacity 0 au lieu de left: -9999px
-    pdfContainer.style.position = 'absolute';
-    pdfContainer.style.left = '0';
+    // FIX : On place le conteneur à droite de l'écran (invisible pour l'utilisateur) mais rendu par le navigateur
+    pdfContainer.style.position = 'fixed';
     pdfContainer.style.top = '0';
+    pdfContainer.style.left = '100vw'; 
     pdfContainer.style.width = '800px';
     pdfContainer.style.padding = '40px'; 
-    pdfContainer.style.opacity = '0';
-    pdfContainer.style.pointerEvents = 'none';
-    pdfContainer.style.zIndex = '-9999';
-    
-    // AJOUT DU FOND D'ECRAN AVEC VOILE BLANC ET LOGO
-    pdfContainer.style.background = "linear-gradient(rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.94)), url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1000&auto=format&fit=crop') center/cover no-repeat";
+    pdfContainer.style.background = '#ffffff';
     pdfContainer.style.fontFamily = 'Arial, sans-serif';
     pdfContainer.style.color = '#333'; 
-    pdfContainer.style.border = '2px solid #0f766e';
+    pdfContainer.style.zIndex = '-9999';
     
-    pdfContainer.innerHTML = `
-        <!-- LOGO DANS LE PDF -->
+    // On utilise une balise <img> pour le fond pour éviter les bugs CSS de html2canvas
+    const bgImg = document.createElement('img');
+    bgImg.src = 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1000&auto=format&fit=crop';
+    bgImg.style.position = 'absolute';
+    bgImg.style.top = '0';
+    bgImg.style.left = '0';
+    bgImg.style.width = '100%';
+    bgImg.style.height = '100%';
+    bgImg.style.opacity = '0.1';
+    bgImg.style.zIndex = '-1';
+    bgImg.crossOrigin = "anonymous"; // Important pour html2canvas
+    
+    const contentDiv = document.createElement('div');
+    contentDiv.style.position = 'relative';
+    contentDiv.style.zIndex = '1';
+    
+    contentDiv.innerHTML = `
         <div style="text-align: center; margin-bottom: 20px;">
-            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%234f46e5'/><stop offset='100%25' stop-color='%23312e81'/></linearGradient><linearGradient id='g2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%2310b981'/><stop offset='100%25' stop-color='%23047857'/></linearGradient><linearGradient id='g3' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%23f59e0b'/><stop offset='100%25' stop-color='%23b45309'/></linearGradient></defs><circle cx='50' cy='50' r='48' fill='url(%23g1)' stroke='%23fff' stroke-width='4'/><path d='M25 25 h50 v55 l-25 -12 l-25 12 z' fill='%23fff' opacity='0.95'/><path d='M38 35 h24 v8 h-16 v8 h12 v8 h-12 v14 h-8 z' fill='%234f46e5'/><path d='M25 75 l15 15 l30 -30' fill='none' stroke='url(%23g2)' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'/><circle cx='75' cy='25' r='10' fill='url(%23g3)'/></svg>" style="width: 80px; height: 80px;" alt="Logo">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImcxIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjNGY0NmU1Ii8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMzEyZTgxIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImcyIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMTBiOTgxIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMDQ3ODU3Ii8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImczIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZjU5ZTBiIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjYjQ1MzA5Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNDgiIGZpbGw9InVybCgjZzEpIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNCIvPjxwYXRoIGQ9Ik0yNSAyNSBoNTAgdjU1IGwtMjUgLTEyIGwtMjUgMTIgeiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC45NSIvPjxwYXRoIGQ9Ik0zOCAzNSBoMjQgdjggaC0xNiB2OCBoMTIgdjggaC0xMiB2MTQgaC04IHoiIGZpbGw9IiM0ZjQ2ZTUiLz48cGF0aCBkPSJNMjUgNzUgbDE1IDE1IGwzMCAtMzAiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNnMikiIHN0cm9rZS13aWR0aD0iOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGNpcmNsZSBjeD0iNzUiIGN5PSIyNSIgcj0iMTAiIGZpbGw9InVybCgjZzMpIi8+PC9zdmc+" style="width: 80px; height: 80px;" alt="Logo">
         </div>
         <h1 style="color:#0f766e; text-align:center; text-transform: uppercase; font-size: 22px;">FACTURE NORMALISÉE ÉLECTRONIQUE</h1>
         <p style="text-align:center; font-weight:bold; font-size:14px;">République de Côte d'Ivoire - DGI</p>
@@ -1034,14 +1042,25 @@
         </div>
     `;
     
+    pdfContainer.appendChild(bgImg);
+    pdfContainer.appendChild(contentDiv);
     document.body.appendChild(pdfContainer);
-    const opt = { margin: 10, filename: 'Facture_FNE.pdf', html2canvas: { scale: 2, useCORS: true, logging: false }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } };
     
-    // Attendre un peu que l'image de fond charge
-    setTimeout(() => {
-        html2pdf().set(opt).from(pdfContainer).save().then(() => { document.body.removeChild(pdfContainer); });
-        document.getElementById('fneStatus').innerHTML = '<span style="color:var(--accent);">✅ Facture générée avec succès !</span>';
-    }, 500);
+    const opt = { margin: 10, filename: 'Facture_FNE.pdf', image: { type: 'jpeg', quality: 1 }, html2canvas: { scale: 2, useCORS: true, allowTaint: true, logging: false }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } };
+    
+    // Attendre le chargement de l'image de fond avant de générer
+    bgImg.onload = function() {
+        html2pdf().set(opt).from(pdfContainer).save().then(() => { 
+            document.body.removeChild(pdfContainer); 
+            document.getElementById('fneStatus').innerHTML = '<span style="color:var(--accent);">✅ Facture générée !</span>';
+        }).catch(e => {
+            console.error(e);
+            document.body.removeChild(pdfContainer);
+            // En cas d'échec, on ouvre la fenêtre d'impression
+            alert("La génération automatique a échoué sur ce téléphone. La fenêtre d'impression va s'ouvrir, choisissez 'Enregistrer en PDF'.");
+            window.print();
+        });
+    };
   }
 
   function subscribeFNE() { window.open('https://wa.me/2250708858816?text=Bonjour, je souhaite m\'abonner à la Conformité FNE pour 3 000 FCFA/mois.', '_blank'); setTimeout(() => { isFneSubscribed = true; document.getElementById('fneStatus').innerHTML = '<span style="color:var(--accent);">✅ Abonnement activé (Simulation).</span>'; }, 5000); }
@@ -1059,7 +1078,7 @@
   function generateFormationCode(formationId) { let str = formationId + "SECRET_SALT_ACADEMY"; let hash = 0; for (let i = 0; i < str.length; i++) { let char = str.charCodeAt(i); hash = ((hash << 5) - hash) + char; hash = hash & hash; } let code = Math.abs(hash).toString(36).substring(0, 4).toUpperCase(); while(code.length < 4) { code += "X"; } return "FORM-" + code; }
   function verifyAcademyCode() { const entered = document.getElementById('academyUnlockCode').value.trim().toUpperCase(); if (entered === ACADEMY_GLOBAL_CODE || isAdminMode) { isAcademyUnlocked = true; localStorage.setItem('academyUnlocked', 'true'); document.getElementById('academyLockSection').classList.add('hidden'); document.getElementById('academyContent').classList.remove('hidden'); alert("✅ Pack Premium Débloqué ! Vous avez accès à toutes les formations."); renderAcademy(); return; } let foundFormation = null; FORMATIONS.premium.forEach(f => { if (generateFormationCode(f.id) === entered) foundFormation = f; }); FORMATIONS.basic.forEach(f => { if (generateFormationCode(f.id) === entered) foundFormation = f; }); if (foundFormation) { if (!unlockedFormations.includes(foundFormation.id)) { unlockedFormations.push(foundFormation.id); localStorage.setItem('unlockedFormations', JSON.stringify(unlockedFormations)); } document.getElementById('academyLockSection').classList.add('hidden'); document.getElementById('academyContent').classList.remove('hidden'); alert(`✅ Formation débloquée : ${foundFormation.title} !`); renderAcademy(); } else { alert("❌ Code incorrect."); } }
 
-  // CONTENU DES FORMATIONS (REFONTE TOTALE - 39 FORMATIONS DETAILLEES)
+  // CONTENU DES FORMATIONS (REFONTE TOTALE - DONNEES DU DOCX)
   const FORMATIONS = {
     premium: [
       { id: 'p1', title: "Devenir Chef de Chantier", price: 10000, desc: "Piloter un chantier : planning, équipes, qualité, sécurité et rentabilité.", img: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=600&auto=format&fit=crop", 
@@ -1501,30 +1520,41 @@
   function submitQuiz() { if (isDemoMode) { alert("🔒 Passez à la version complète pour valider le quiz."); return; } let score = 0; currentCourse.quiz.forEach((q, i) => { if (userAnswers[i] === q.a) score++; }); if (score === currentCourse.quiz.length) generateDiploma(); else alert(`Score : ${score}/${currentCourse.quiz.length}. Il faut un sans-faute.`); }
   function generateDiploma() { if (isDemoMode) { alert("🔒 Le certificat est réservé aux membres ayant payé."); return; } saveProg(currentCourse.id, currentCourse.days.length, true); closeCourse(); const name = document.getElementById('displayUsername').textContent; const date = new Date().toLocaleDateString('fr-FR'); document.getElementById('diplomaContent').innerHTML = `<div class="diploma-title">Certificat de Réussite</div><p style="font-size:1.2rem; color:#666;">Décerné à</p><div class="diploma-name">${name}</div><p style="font-size:1.2rem; color:#666;">pour la formation :</p><h3 style="font-size:1.8rem; color:var(--primary); margin:20px 0;">${currentCourse.title}</h3><div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:50px;"><div style="text-align:center;"><div class="diploma-seal">FACTUREPRO</div><div style="font-size:0.8rem; color:#666;">Sceau</div></div><div style="text-align:center;"><div style="font-weight:800; font-size:1.6rem;">Amadou Coulibaly</div><div style="border-top:1px solid #ccc; width:220px; font-size:0.85rem; color:#666; padding-top:8px;">Directeur</div></div><div style="text-align:center;"><div style="font-size:0.9rem; color:#666;">Délivré le</div><div style="font-weight:800; font-size:1.1rem;">${date}</div></div></div>`; document.getElementById('diplomaModal').classList.remove('hidden'); }
   
-  // DOWNLOAD PDF ACADEMY (FIX PAGE BLANCHE + FOND + LOGO)
+  // DOWNLOAD PDF ACADEMY (FIX DEFINITIF PAGE BLANCHE)
   function downloadPDF() { 
     if (!isAcademyUnlocked && !unlockedFormations.includes(currentCourse.id) && !isDemoMode) { alert("🔒 Débloquez l'Académie."); return; } 
     
     const pdfContainer = document.createElement('div'); 
-    // FIX PAGE BLANCHE
-    pdfContainer.style.position = 'absolute'; 
-    pdfContainer.style.left = '0'; 
-    pdfContainer.style.top = '0'; 
+    // FIX : On place le conteneur à droite de l'écran (invisible pour l'utilisateur) mais rendu par le navigateur
+    pdfContainer.style.position = 'fixed';
+    pdfContainer.style.top = '0';
+    pdfContainer.style.left = '100vw'; 
     pdfContainer.style.width = '800px'; 
     pdfContainer.style.padding = '40px'; 
-    pdfContainer.style.opacity = '0';
-    pdfContainer.style.pointerEvents = 'none';
+    pdfContainer.style.background = '#ffffff';
+    pdfContainer.style.fontFamily = 'Arial, sans-serif';
+    pdfContainer.style.color = '#333'; 
     pdfContainer.style.zIndex = '-9999';
     
-    // FOND D'ECRAN AVEC VOILE BLANC
-    pdfContainer.style.background = "linear-gradient(rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.94)), url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1000&auto=format&fit=crop') center/cover no-repeat"; 
-    pdfContainer.style.fontFamily = 'Arial, sans-serif'; 
-    pdfContainer.style.color = '#333'; 
-    pdfContainer.style.lineHeight = '1.6'; 
+    // On utilise une balise <img> pour le fond pour éviter les bugs CSS de html2canvas
+    const bgImg = document.createElement('img');
+    bgImg.src = 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1000&auto=format&fit=crop';
+    bgImg.style.position = 'absolute';
+    bgImg.style.top = '0';
+    bgImg.style.left = '0';
+    bgImg.style.width = '100%';
+    bgImg.style.height = '100%';
+    bgImg.style.opacity = '0.1';
+    bgImg.style.zIndex = '-1';
+    bgImg.crossOrigin = "anonymous"; // Important pour html2canvas
+    
+    const contentDiv = document.createElement('div');
+    contentDiv.style.position = 'relative';
+    contentDiv.style.zIndex = '1';
     
     let contentHTML = `
         <div style="text-align: center; margin-bottom: 20px;">
-            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%234f46e5'/><stop offset='100%25' stop-color='%23312e81'/></linearGradient><linearGradient id='g2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%2310b981'/><stop offset='100%25' stop-color='%23047857'/></linearGradient><linearGradient id='g3' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%23f59e0b'/><stop offset='100%25' stop-color='%23b45309'/></linearGradient></defs><circle cx='50' cy='50' r='48' fill='url(%23g1)' stroke='%23fff' stroke-width='4'/><path d='M25 25 h50 v55 l-25 -12 l-25 12 z' fill='%23fff' opacity='0.95'/><path d='M38 35 h24 v8 h-16 v8 h12 v8 h-12 v14 h-8 z' fill='%234f46e5'/><path d='M25 75 l15 15 l30 -30' fill='none' stroke='url(%23g2)' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'/><circle cx='75' cy='25' r='10' fill='url(%23g3)'/></svg>" style="width: 80px; height: 80px;" alt="Logo">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImcxIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjNGY0NmU1Ii8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMzEyZTgxIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImcyIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMTBiOTgxIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMDQ3ODU3Ii8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImczIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZjU5ZTBiIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjYjQ1MzA5Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNDgiIGZpbGw9InVybCgjZzEpIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNCIvPjxwYXRoIGQ9Ik0yNSAyNSBoNTAgdjU1IGwtMjUgLTEyIGwtMjUgMTIgeiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC45NSIvPjxwYXRoIGQ9Ik0zOCAzNSBoMjQgdjggaC0xNiB2OCBoMTIgdjggaC0xMiB2MTQgaC04IHoiIGZpbGw9IiM0ZjQ2ZTUiLz48cGF0aCBkPSJNMjUgNzUgbDE1IDE1IGwzMCAtMzAiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNnMikiIHN0cm9rZS13aWR0aD0iOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGNpcmNsZSBjeD0iNzUiIGN5PSIyNSIgcj0iMTAiIGZpbGw9InVybCgjZzMpIi8+PC9zdmc+" style="width: 80px; height: 80px;" alt="Logo">
         </div>
         <h1 style="color: #4f46e5; text-align: center; border-bottom: 2px solid #4f46e5; padding-bottom: 10px; margin-bottom: 20px;">${currentCourse.title} ${isDemoMode ? '(Aperçu)' : ''}</h1>
         
@@ -1557,15 +1587,25 @@
     
     contentHTML += `<div style="margin-top: 50px; text-align: center; font-size: 0.8rem; color: #888; border-top: 1px solid #ccc; padding-top: 20px;">Document généré par l'Académie FacturePro Expert CI.</div>`; 
     
-    pdfContainer.innerHTML = contentHTML; 
+    contentDiv.innerHTML = contentHTML; 
+    pdfContainer.appendChild(bgImg);
+    pdfContainer.appendChild(contentDiv);
     document.body.appendChild(pdfContainer);
     
-    const opt = { margin: 10, filename: `FacturePro_${currentCourse.title.replace(/\s+/g, '_')}.pdf`, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, useCORS: true, logging: false }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } }; 
+    const opt = { margin: 10, filename: `FacturePro_${currentCourse.title.replace(/\s+/g, '_')}.pdf`, image: { type: 'jpeg', quality: 1 }, html2canvas: { scale: 2, useCORS: true, allowTaint: true, logging: false }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } }; 
     
-    // Attendre un peu que l'image de fond charge
-    setTimeout(() => {
-        html2pdf().set(opt).from(pdfContainer).save().then(() => { document.body.removeChild(pdfContainer); });
-    }, 500);
+    // Attendre le chargement de l'image de fond avant de générer
+    bgImg.onload = function() {
+        html2pdf().set(opt).from(pdfContainer).save().then(() => { 
+            document.body.removeChild(pdfContainer); 
+        }).catch(e => {
+            console.error(e);
+            document.body.removeChild(pdfContainer);
+            // En cas d'échec, on ouvre la fenêtre d'impression
+            alert("La génération automatique a échoué sur ce téléphone. La fenêtre d'impression va s'ouvrir, choisissez 'Enregistrer en PDF'.");
+            window.print();
+        });
+    };
   }
 
   // BASE FUNCTIONS & SWITCH
