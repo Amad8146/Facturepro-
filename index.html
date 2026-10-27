@@ -985,35 +985,36 @@
         return;
     }
     
-    const content = `
-        <div style="text-align: center; margin-bottom: 20px;">
-            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImcxIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjNGY0NmU1Ii8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMzEyZTgxIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImcyIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMTBiOTgxIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMDQ3ODU3Ii8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImczIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZjU5ZTBiIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjYjQ1MzA5Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNDgiIGZpbGw9InVybCgjZzEpIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNCIvPjxwYXRoIGQ9Ik0yNSAyNSBoNTAgdjU1IGwtMjUgLTEyIGwtMjUgMTIgeiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC45NSIvPjxwYXRoIGQ9Ik0zOCAzNSBoMjQgdjggaC0xNiB2OCBoMTIgdjggaC0xMiB2MTQgaC04IHoiIGZpbGw9IiM0ZjQ2ZTUiLz48cGF0aCBkPSJNMjUgNzUgbDE1IDE1IGwzMCAtMzAiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNnMikiIHN0cm9rZS13aWR0aD0iOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGNpcmNsZSBjeD0iNzUiIGN5PSIyNSIgcj0iMTAiIGZpbGw9InVybCgjZzMpIi8+PC9zdmc+" style="width: 80px; height: 80px;" alt="Logo">
+    let contentHTML = `
+        <div class="header">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImcxIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjNGY0NmU1Ii8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMzEyZTgxIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImcyIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMTBiOTgxIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMDQ3ODU3Ii8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImczIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZjU5ZTBiIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjYjQ1MzA5Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNDgiIGZpbGw9InVybCgjZzEpIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNCIvPjxwYXRoIGQ9Ik0yNSAyNSBoNTAgdjU1IGwtMjUgLTEyIGwtMjUgMTIgeiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC45NSIvPjxwYXRoIGQ9Ik0zOCAzNSBoMjQgdjggaC0xNiB2OCBoMTIgdjggaC0xMiB2MTQgaC04IHoiIGZpbGw9IiM0ZjQ2ZTUiLz48cGF0aCBkPSJNMjUgNzUgbDE1IDE1IGwzMCAtMzAiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNnMikiIHN0cm9rZS13aWR0aD0iOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGNpcmNsZSBjeD0iNzUiIGN5PSIyNSIgcj0iMTAiIGZpbGw9InVybCgjZzMpIi8+PC9zdmc+" alt="Logo">
+            <h1>FACTURE NORMALISÉE ÉLECTRONIQUE</h1>
         </div>
-        <h1 style="color:#0f766e; text-align:center; text-transform: uppercase; font-size: 22px;">FACTURE NORMALISÉE ÉLECTRONIQUE</h1>
-        <p style="text-align:center; font-weight:bold; font-size:14px;">République de Côte d'Ivoire - DGI</p>
-        <hr style="border-color: #0f766e; margin: 20px 0;">
-        <p style="font-size: 15px;"><strong>NCC Émetteur :</strong> ${ncc}</p>
-        <p style="font-size: 15px;"><strong>Régime :</strong> ${document.getElementById('fneRegime').value}</p>
-        <p style="font-size: 15px;"><strong>Client :</strong> ${document.getElementById('fneClient').value}</p>
-        <p style="font-size: 15px;"><strong>Désignation :</strong> ${document.getElementById('fneDesc').value}</p>
-        <p style="font-size: 17px; margin-top: 20px;"><strong>Montant TTC :</strong> <span style="color:#0f766e; font-weight:bold;">${parseFloat(amount).toLocaleString('fr-FR')} FCFA</span></p>
         
-        <div style="margin-top:50px; display: flex; justify-content: space-between; align-items: flex-end;">
-            <div style="text-align:center; border:2px solid #0f766e; padding:15px; width:100px; height:100px; display: flex; align-items: center; justify-content: center; font-size:12px; background:white;">
+        <div class="meta-info">
+            <p><b>NCC Émetteur :</b> ${ncc}</p>
+            <p><b>Régime :</b> ${document.getElementById('fneRegime').value}</p>
+            <p><b>Client :</b> ${document.getElementById('fneClient').value}</p>
+            <p><b>Désignation :</b> ${document.getElementById('fneDesc').value}</p>
+            <p style="font-size: 18px; margin-top: 15px;"><b>Montant TTC :</b> <span style="color:#0f766e; font-weight:bold;">${parseFloat(amount).toLocaleString('fr-FR')} FCFA</span></p>
+        </div>
+        
+        <div style="margin-top:60px; display: flex; justify-content: space-between; align-items: flex-end;">
+            <div style="text-align:center; border:2px solid #0f766e; padding:20px; width:120px; height:120px; display: flex; align-items: center; justify-content: center; font-size:14px; background:white; font-weight:bold;">
                 QR Code<br>FNE
             </div>
-            <div style="text-align:right;">
-                <p style="font-size: 14px;">Signature Électronique DGI</p>
-                <p style="font-size: 14px; margin-top: 10px;">Date : ${new Date().toLocaleDateString('fr-FR')}</p>
+            <div style="text-align:right; font-size: 14px;">
+                <p>Signature Électronique DGI</p>
+                <p style="margin-top: 10px;">Date : ${new Date().toLocaleDateString('fr-FR')}</p>
             </div>
         </div>
         
-        <div style="margin-top: 40px; padding: 15px; background: rgba(255,255,255,0.9); border-left: 4px solid #f59e0b; font-size: 11px; color: #555; text-align: justify;">
+        <div class="nota-bene">
             <b>Nota Bene :</b> Ce document est un modèle généré par FacturePro. La conformité FNE dépend uniquement de la DGI. C'est au client de soumettre cette facture sur le portail de la DGI pour validation et signature électronique officielle. FacturePro décline toute responsabilité quant à la validation finale.
         </div>
     `;
     
-    printCustomContent(content, 'Facture_FNE');
+    printCustomContent(contentHTML, 'Facture_FNE');
     document.getElementById('fneStatus').innerHTML = '<span style="color:var(--accent);">✅ Facture prête pour l\'impression !</span>';
   }
 
@@ -1493,26 +1494,58 @@
             <head>
                 <title>${title}</title>
                 <style>
-                    body { font-family: 'Arial', sans-serif; padding: 40px; color: #333; line-height: 1.6; background: white; }
+                    /* CSS SPÉCIFIQUE POUR L'IMPRESSION (A4) */
+                    body { 
+                        font-family: 'Arial', sans-serif; 
+                        padding: 0; 
+                        margin: 0;
+                        color: #1e293b; 
+                        line-height: 1.6; 
+                        background-color: #ffffff;
+                        /* IMAGE DE FOND SUR TOUTE LA PAGE */
+                        background-image: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1000&auto=format&fit=crop');
+                        background-size: cover;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                        background-attachment: fixed;
+                    }
+                    
+                    /* CONTENEUR BLANC SEMI-TRANSPARENT POUR LA LISIBILITÉ */
+                    .page-content {
+                        background-color: rgba(255, 255, 255, 0.94);
+                        padding: 40px;
+                        min-height: 100vh;
+                        box-sizing: border-box;
+                    }
+
                     .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #4f46e5; padding-bottom: 20px; }
-                    .header img { width: 80px; height: 80px; margin-bottom: 10px; }
-                    h1 { color: #4f46e5; font-size: 22px; margin: 0; }
-                    .meta-info { background: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; border: 1px solid #e2e8f0; }
-                    .meta-info p { margin: 5px 0; }
-                    .day-title { color: #f59e0b; font-size: 18px; margin-top: 25px; margin-bottom: 10px; border-bottom: 1px solid #fcd34d; display: inline-block; }
-                    .content { text-align: justify; margin-bottom: 15px; }
-                    .quiz-q { font-weight: bold; margin-top: 15px; }
-                    .quiz-opt { margin-left: 15px; }
-                    .quiz-ans { color: #10b981; font-size: 13px; margin-bottom: 15px; font-weight: bold; }
-                    .footer { margin-top: 50px; text-align: center; font-size: 12px; color: #888; border-top: 1px solid #ccc; padding-top: 20px; }
-                    .nota-bene { margin-top: 40px; padding: 15px; background: #fffbeb; border-left: 4px solid #f59e0b; font-size: 12px; color: #92400e; text-align: justify; }
+                    .header img { width: 100px; height: 100px; margin-bottom: 10px; }
+                    h1 { color: #4f46e5; font-size: 26px; margin: 0; }
+                    
+                    .meta-info { background: #f8fafc; padding: 20px; border-radius: 8px; margin-bottom: 25px; font-size: 16px; border: 1px solid #e2e8f0; }
+                    .meta-info p { margin: 8px 0; }
+                    
+                    .day-title { color: #f59e0b; font-size: 22px; margin-top: 30px; margin-bottom: 15px; border-bottom: 2px solid #fcd34d; display: inline-block; font-weight: bold; }
+                    .content { text-align: justify; margin-bottom: 20px; font-size: 16px; }
+                    
+                    .quiz-q { font-weight: bold; margin-top: 20px; font-size: 17px; }
+                    .quiz-opt { margin-left: 20px; font-size: 16px; margin-bottom: 5px; }
+                    .quiz-ans { color: #10b981; font-size: 15px; margin-bottom: 20px; font-weight: bold; }
+                    
+                    .footer { margin-top: 50px; text-align: center; font-size: 13px; color: #888; border-top: 1px solid #ccc; padding-top: 20px; }
+                    
+                    .nota-bene { margin-top: 40px; padding: 20px; background: #fffbeb; border-left: 5px solid #f59e0b; font-size: 14px; color: #92400e; text-align: justify; border-radius: 4px; }
+                    
                     @media print {
-                        body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+                        body { -webkit-print-color-adjust: exact; print-color-adjust: exact; background-image: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1000&auto=format&fit=crop'); }
+                        .page-content { background-color: rgba(255, 255, 255, 0.94); }
                     }
                 </style>
             </head>
             <body>
-                ${htmlContent}
+                <div class="page-content">
+                    ${htmlContent}
+                </div>
                 <script>
                     window.onload = function() {
                         setTimeout(function() {
