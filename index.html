@@ -4,12 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FacturePro Expert CI - L'Écosystème des Artisans</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <style>
   :root { --primary: #4f46e5; --primary-hover: #4338ca; --accent: #10b981; --gold: #f59e0b; --danger: #ef4444; --bg: #f8fafc; --card: #ffffff; --text: #1e293b; --text-muted: #64748b; --border: #e2e8f0; --fne: #0f766e; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-  .container { max-width: 1200px; margin: 0 auto; padding: 24px 16px; padding-bottom: 70px; /* Espace pour le footer */ }
+  .container { max-width: 1200px; margin: 0 auto; padding: 24px 16px; padding-bottom: 70px; }
   
   /* HERO & BANNIERES */
   .hero { position: relative; text-align: center; padding: 40px 20px; background: linear-gradient(rgba(79, 70, 229, 0.85), rgba(16, 185, 129, 0.85)), url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1200&auto=format&fit=crop') center/cover; border-radius: 24px; color: white; margin-bottom: 30px; overflow: hidden; }
@@ -973,7 +972,7 @@
   let isFneSubscribed = false;
   function renderFNE() { document.getElementById('prevNcc').textContent = document.getElementById('fneNcc').value || '----'; document.getElementById('prevRegime').textContent = document.getElementById('fneRegime').value; document.getElementById('prevClient').textContent = document.getElementById('fneClient').value || '----'; document.getElementById('prevDesc').textContent = document.getElementById('fneDesc').value || '----'; const amount = parseFloat(document.getElementById('fneAmount').value) || 0; document.getElementById('prevAmount').textContent = amount.toLocaleString('fr-FR') + ' FCFA'; document.getElementById('prevDate').textContent = new Date().toLocaleDateString('fr-FR'); document.getElementById('prevNum').textContent = 'FNE-' + new Date().getFullYear() + '-001'; }
   
-  // GENERATION PDF FNE (FIX DEFINITIF PAGE BLANCHE)
+  // GENERATION PDF FNE (IMPRESSION NATIVE)
   function generateFNEInvoice() {
     const ncc = document.getElementById('fneNcc').value;
     const amount = document.getElementById('fneAmount').value;
@@ -986,35 +985,7 @@
         return;
     }
     
-    const pdfContainer = document.createElement('div');
-    // FIX : On place le conteneur à droite de l'écran (invisible pour l'utilisateur) mais rendu par le navigateur
-    pdfContainer.style.position = 'fixed';
-    pdfContainer.style.top = '0';
-    pdfContainer.style.left = '100vw'; 
-    pdfContainer.style.width = '800px';
-    pdfContainer.style.padding = '40px'; 
-    pdfContainer.style.background = '#ffffff';
-    pdfContainer.style.fontFamily = 'Arial, sans-serif';
-    pdfContainer.style.color = '#333'; 
-    pdfContainer.style.zIndex = '-9999';
-    
-    // On utilise une balise <img> pour le fond pour éviter les bugs CSS de html2canvas
-    const bgImg = document.createElement('img');
-    bgImg.src = 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1000&auto=format&fit=crop';
-    bgImg.style.position = 'absolute';
-    bgImg.style.top = '0';
-    bgImg.style.left = '0';
-    bgImg.style.width = '100%';
-    bgImg.style.height = '100%';
-    bgImg.style.opacity = '0.1';
-    bgImg.style.zIndex = '-1';
-    bgImg.crossOrigin = "anonymous"; // Important pour html2canvas
-    
-    const contentDiv = document.createElement('div');
-    contentDiv.style.position = 'relative';
-    contentDiv.style.zIndex = '1';
-    
-    contentDiv.innerHTML = `
+    const content = `
         <div style="text-align: center; margin-bottom: 20px;">
             <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImcxIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjNGY0NmU1Ii8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMzEyZTgxIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImcyIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMTBiOTgxIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMDQ3ODU3Ii8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImczIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZjU5ZTBiIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjYjQ1MzA5Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNDgiIGZpbGw9InVybCgjZzEpIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNCIvPjxwYXRoIGQ9Ik0yNSAyNSBoNTAgdjU1IGwtMjUgLTEyIGwtMjUgMTIgeiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC45NSIvPjxwYXRoIGQ9Ik0zOCAzNSBoMjQgdjggaC0xNiB2OCBoMTIgdjggaC0xMiB2MTQgaC04IHoiIGZpbGw9IiM0ZjQ2ZTUiLz48cGF0aCBkPSJNMjUgNzUgbDE1IDE1IGwzMCAtMzAiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNnMikiIHN0cm9rZS13aWR0aD0iOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGNpcmNsZSBjeD0iNzUiIGN5PSIyNSIgcj0iMTAiIGZpbGw9InVybCgjZzMpIi8+PC9zdmc+" style="width: 80px; height: 80px;" alt="Logo">
         </div>
@@ -1042,25 +1013,8 @@
         </div>
     `;
     
-    pdfContainer.appendChild(bgImg);
-    pdfContainer.appendChild(contentDiv);
-    document.body.appendChild(pdfContainer);
-    
-    const opt = { margin: 10, filename: 'Facture_FNE.pdf', image: { type: 'jpeg', quality: 1 }, html2canvas: { scale: 2, useCORS: true, allowTaint: true, logging: false }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } };
-    
-    // Attendre le chargement de l'image de fond avant de générer
-    bgImg.onload = function() {
-        html2pdf().set(opt).from(pdfContainer).save().then(() => { 
-            document.body.removeChild(pdfContainer); 
-            document.getElementById('fneStatus').innerHTML = '<span style="color:var(--accent);">✅ Facture générée !</span>';
-        }).catch(e => {
-            console.error(e);
-            document.body.removeChild(pdfContainer);
-            // En cas d'échec, on ouvre la fenêtre d'impression
-            alert("La génération automatique a échoué sur ce téléphone. La fenêtre d'impression va s'ouvrir, choisissez 'Enregistrer en PDF'.");
-            window.print();
-        });
-    };
+    printCustomContent(content, 'Facture_FNE');
+    document.getElementById('fneStatus').innerHTML = '<span style="color:var(--accent);">✅ Facture prête pour l\'impression !</span>';
   }
 
   function subscribeFNE() { window.open('https://wa.me/2250708858816?text=Bonjour, je souhaite m\'abonner à la Conformité FNE pour 3 000 FCFA/mois.', '_blank'); setTimeout(() => { isFneSubscribed = true; document.getElementById('fneStatus').innerHTML = '<span style="color:var(--accent);">✅ Abonnement activé (Simulation).</span>'; }, 5000); }
@@ -1166,7 +1120,7 @@
       { id: 'b2', title: "Maçonnerie : Finitions", price: 5000, desc: "Maîtriser les finitions de maçonnerie.", img: "https://images.unsplash.com/photo-1517581177682-a085bb7ffb15?q=80&w=600&auto=format&fit=crop",
         public: "Maçons ayant les bases", prereq: "Niveau bases maçonnerie", duration: "3 jours (21 heures)", deliverable: "Échantillon de finitions", skills: "Enduits, finitions décoratives, contrôle qualité.",
         days: [
-          "<b>🎯 Objectif :</b> Préparation des supports ; enduits ; choix des matériaux.<br><br><b>📖 Leçon :</b> Nettoyer et mouiller le mur avant d'enduire. Choisir le bon sable (tamisé) et le bon dosage pour l'enduit.",
+          "<b>🎯 Objectif :</b> Préparation des supports ; enduits ; choix des matériaux.<br><br><b>📖 Leçon :</b> Nettoyer et mouiller le mur avant d'enduire. Choisir le bon sable (tamis��) et le bon dosage pour l'enduit.",
           "<b>🎯 Objectif :</b> Enduit traditionnel ; taloché ; gratté ; application.<br><br><b>📖 Leçon :</b> Appliquer l'enduit en couches successives. La finition talochée est lisse, la finition grattée crée une texture.",
           "<b>🎯 Objectif :</b> Finitions décoratives ; contrôle ; défauts et corrections.<br><br><b>📖 Leçon :</b> Réparer les fissures et les imperfections. Vérifier la planéité du mur avec une règle."
         ], quiz: [ { q: "Que faire avant d'enduire un mur ?", opts: ["Le peindre", "Le mouiller", "Le casser"], a: 1 }, { q: "Qu'est-ce qu'une finition talochée ?", opts: ["Une finition lisse", "Une finition rugueuse", "Un trou"], a: 0 } ]
@@ -1520,45 +1474,70 @@
   function submitQuiz() { if (isDemoMode) { alert("🔒 Passez à la version complète pour valider le quiz."); return; } let score = 0; currentCourse.quiz.forEach((q, i) => { if (userAnswers[i] === q.a) score++; }); if (score === currentCourse.quiz.length) generateDiploma(); else alert(`Score : ${score}/${currentCourse.quiz.length}. Il faut un sans-faute.`); }
   function generateDiploma() { if (isDemoMode) { alert("🔒 Le certificat est réservé aux membres ayant payé."); return; } saveProg(currentCourse.id, currentCourse.days.length, true); closeCourse(); const name = document.getElementById('displayUsername').textContent; const date = new Date().toLocaleDateString('fr-FR'); document.getElementById('diplomaContent').innerHTML = `<div class="diploma-title">Certificat de Réussite</div><p style="font-size:1.2rem; color:#666;">Décerné à</p><div class="diploma-name">${name}</div><p style="font-size:1.2rem; color:#666;">pour la formation :</p><h3 style="font-size:1.8rem; color:var(--primary); margin:20px 0;">${currentCourse.title}</h3><div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:50px;"><div style="text-align:center;"><div class="diploma-seal">FACTUREPRO</div><div style="font-size:0.8rem; color:#666;">Sceau</div></div><div style="text-align:center;"><div style="font-weight:800; font-size:1.6rem;">Amadou Coulibaly</div><div style="border-top:1px solid #ccc; width:220px; font-size:0.85rem; color:#666; padding-top:8px;">Directeur</div></div><div style="text-align:center;"><div style="font-size:0.9rem; color:#666;">Délivré le</div><div style="font-weight:800; font-size:1.1rem;">${date}</div></div></div>`; document.getElementById('diplomaModal').classList.remove('hidden'); }
   
-  // DOWNLOAD PDF ACADEMY (FIX DEFINITIF PAGE BLANCHE)
+  // FONCTION DE GÉNÉRATION PDF VIA IMPRESSION NATIVE (IFRAME)
+  function printCustomContent(htmlContent, title) {
+    // On crée une iframe cachée
+    const iframe = document.createElement('iframe');
+    iframe.style.position = 'fixed';
+    iframe.style.right = '0';
+    iframe.style.bottom = '0';
+    iframe.style.width = '0';
+    iframe.style.height = '0';
+    iframe.style.border = '0';
+    document.body.appendChild(iframe);
+    
+    const doc = iframe.contentWindow.document;
+    doc.open();
+    doc.write(`
+        <html>
+            <head>
+                <title>${title}</title>
+                <style>
+                    body { font-family: 'Arial', sans-serif; padding: 40px; color: #333; line-height: 1.6; background: white; }
+                    .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #4f46e5; padding-bottom: 20px; }
+                    .header img { width: 80px; height: 80px; margin-bottom: 10px; }
+                    h1 { color: #4f46e5; font-size: 22px; margin: 0; }
+                    .meta-info { background: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; border: 1px solid #e2e8f0; }
+                    .meta-info p { margin: 5px 0; }
+                    .day-title { color: #f59e0b; font-size: 18px; margin-top: 25px; margin-bottom: 10px; border-bottom: 1px solid #fcd34d; display: inline-block; }
+                    .content { text-align: justify; margin-bottom: 15px; }
+                    .quiz-q { font-weight: bold; margin-top: 15px; }
+                    .quiz-opt { margin-left: 15px; }
+                    .quiz-ans { color: #10b981; font-size: 13px; margin-bottom: 15px; font-weight: bold; }
+                    .footer { margin-top: 50px; text-align: center; font-size: 12px; color: #888; border-top: 1px solid #ccc; padding-top: 20px; }
+                    .nota-bene { margin-top: 40px; padding: 15px; background: #fffbeb; border-left: 4px solid #f59e0b; font-size: 12px; color: #92400e; text-align: justify; }
+                    @media print {
+                        body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+                    }
+                </style>
+            </head>
+            <body>
+                ${htmlContent}
+                <script>
+                    window.onload = function() {
+                        setTimeout(function() {
+                            window.print();
+                            setTimeout(function() { window.frameElement.remove(); }, 1000);
+                        }, 500);
+                    }
+                <\/script>
+            </body>
+        </html>
+    `);
+    doc.close();
+  }
+
+  // DOWNLOAD PDF ACADEMY (IMPRESSION NATIVE)
   function downloadPDF() { 
     if (!isAcademyUnlocked && !unlockedFormations.includes(currentCourse.id) && !isDemoMode) { alert("🔒 Débloquez l'Académie."); return; } 
     
-    const pdfContainer = document.createElement('div'); 
-    // FIX : On place le conteneur à droite de l'écran (invisible pour l'utilisateur) mais rendu par le navigateur
-    pdfContainer.style.position = 'fixed';
-    pdfContainer.style.top = '0';
-    pdfContainer.style.left = '100vw'; 
-    pdfContainer.style.width = '800px'; 
-    pdfContainer.style.padding = '40px'; 
-    pdfContainer.style.background = '#ffffff';
-    pdfContainer.style.fontFamily = 'Arial, sans-serif';
-    pdfContainer.style.color = '#333'; 
-    pdfContainer.style.zIndex = '-9999';
-    
-    // On utilise une balise <img> pour le fond pour éviter les bugs CSS de html2canvas
-    const bgImg = document.createElement('img');
-    bgImg.src = 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1000&auto=format&fit=crop';
-    bgImg.style.position = 'absolute';
-    bgImg.style.top = '0';
-    bgImg.style.left = '0';
-    bgImg.style.width = '100%';
-    bgImg.style.height = '100%';
-    bgImg.style.opacity = '0.1';
-    bgImg.style.zIndex = '-1';
-    bgImg.crossOrigin = "anonymous"; // Important pour html2canvas
-    
-    const contentDiv = document.createElement('div');
-    contentDiv.style.position = 'relative';
-    contentDiv.style.zIndex = '1';
-    
     let contentHTML = `
-        <div style="text-align: center; margin-bottom: 20px;">
-            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImcxIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjNGY0NmU1Ii8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMzEyZTgxIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImcyIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMTBiOTgxIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMDQ3ODU3Ii8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImczIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZjU5ZTBiIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjYjQ1MzA5Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNDgiIGZpbGw9InVybCgjZzEpIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNCIvPjxwYXRoIGQ9Ik0yNSAyNSBoNTAgdjU1IGwtMjUgLTEyIGwtMjUgMTIgeiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC45NSIvPjxwYXRoIGQ9Ik0zOCAzNSBoMjQgdjggaC0xNiB2OCBoMTIgdjggaC0xMiB2MTQgaC04IHoiIGZpbGw9IiM0ZjQ2ZTUiLz48cGF0aCBkPSJNMjUgNzUgbDE1IDE1IGwzMCAtMzAiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNnMikiIHN0cm9rZS13aWR0aD0iOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGNpcmNsZSBjeD0iNzUiIGN5PSIyNSIgcj0iMTAiIGZpbGw9InVybCgjZzMpIi8+PC9zdmc+" style="width: 80px; height: 80px;" alt="Logo">
+        <div class="header">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImcxIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjNGY0NmU1Ii8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMzEyZTgxIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImcyIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMTBiOTgxIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMDQ3ODU3Ii8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImczIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZjU5ZTBiIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjYjQ1MzA5Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNDgiIGZpbGw9InVybCgjZzEpIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNCIvPjxwYXRoIGQ9Ik0yNSAyNSBoNTAgdjU1IGwtMjUgLTEyIGwtMjUgMTIgeiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC45NSIvPjxwYXRoIGQ9Ik0zOCAzNSBoMjQgdjggaC0xNiB2OCBoMTIgdjggaC0xMiB2MTQgaC04IHoiIGZpbGw9IiM0ZjQ2ZTUiLz48cGF0aCBkPSJNMjUgNzUgbDE1IDE1IGwzMCAtMzAiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNnMikiIHN0cm9rZS13aWR0aD0iOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGNpcmNsZSBjeD0iNzUiIGN5PSIyNSIgcj0iMTAiIGZpbGw9InVybCgjZzMpIi8+PC9zdmc+" alt="Logo">
+            <h1>${currentCourse.title} ${isDemoMode ? '(Aperçu)' : ''}</h1>
         </div>
-        <h1 style="color: #4f46e5; text-align: center; border-bottom: 2px solid #4f46e5; padding-bottom: 10px; margin-bottom: 20px;">${currentCourse.title} ${isDemoMode ? '(Aperçu)' : ''}</h1>
         
-        <div style="background: rgba(255,255,255,0.8); padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 13px;">
+        <div class="meta-info">
             <p><b>Public :</b> ${currentCourse.public} | <b>Prérequis :</b> ${currentCourse.prereq}</p>
             <p><b>Durée :</b> ${currentCourse.duration} | <b>Livrable :</b> ${currentCourse.deliverable}</p>
             <p><b>Objectif :</b> ${currentCourse.desc}</p>
@@ -1571,41 +1550,23 @@
     
     daysToPrint.forEach((day, index) => { 
         let cleanDay = day.replace(/<br><br>/g, '<br>'); 
-        contentHTML += `<h2 style="color: #f59e0b; margin-top: 25px;">Jour ${index + 1}</h2><div style="text-align: justify; background: rgba(255,255,255,0.7); padding: 10px; border-radius: 8px;">${cleanDay}</div>`; 
+        contentHTML += `<div class="day-title">Jour ${index + 1}</div><div class="content">${cleanDay}</div>`; 
     }); 
     
     if (quizToPrint.length > 0) { 
-        contentHTML += `<h2 style="color: #f59e0b; margin-top: 25px;">Évaluation Finale</h2>`; 
+        contentHTML += `<div class="day-title" style="margin-top:40px;">Évaluation Finale</div>`; 
         quizToPrint.forEach((q, i) => { 
-            contentHTML += `<p style="font-weight: bold; margin-bottom: 5px;">${i+1}. ${q.q}</p>`; 
-            q.opts.forEach((opt, j) => { contentHTML += `<p style="margin: 2px 0 2px 15px;">- ${String.fromCharCode(65+j)}) ${opt}</p>`; }); 
-            contentHTML += `<p style="color: #10b981; font-size: 0.9em; margin-bottom: 15px;">Réponse : ${String.fromCharCode(65+q.a)}</p>`; 
+            contentHTML += `<p class="quiz-q">${i+1}. ${q.q}</p>`; 
+            q.opts.forEach((opt, j) => { contentHTML += `<p class="quiz-opt">- ${String.fromCharCode(65+j)}) ${opt}</p>`; }); 
+            contentHTML += `<p class="quiz-ans">Réponse : ${String.fromCharCode(65+q.a)}</p>`; 
         }); 
     } else { 
         contentHTML += `<p style="color:#ef4444; font-weight:bold; text-align:center; margin-top:30px;">🔒 Débloquez la formation complète sur FacturePro Expert.</p>`; 
     } 
     
-    contentHTML += `<div style="margin-top: 50px; text-align: center; font-size: 0.8rem; color: #888; border-top: 1px solid #ccc; padding-top: 20px;">Document généré par l'Académie FacturePro Expert CI.</div>`; 
+    contentHTML += `<div class="footer">Document généré par l'Académie FacturePro Expert CI.</div>`; 
     
-    contentDiv.innerHTML = contentHTML; 
-    pdfContainer.appendChild(bgImg);
-    pdfContainer.appendChild(contentDiv);
-    document.body.appendChild(pdfContainer);
-    
-    const opt = { margin: 10, filename: `FacturePro_${currentCourse.title.replace(/\s+/g, '_')}.pdf`, image: { type: 'jpeg', quality: 1 }, html2canvas: { scale: 2, useCORS: true, allowTaint: true, logging: false }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } }; 
-    
-    // Attendre le chargement de l'image de fond avant de générer
-    bgImg.onload = function() {
-        html2pdf().set(opt).from(pdfContainer).save().then(() => { 
-            document.body.removeChild(pdfContainer); 
-        }).catch(e => {
-            console.error(e);
-            document.body.removeChild(pdfContainer);
-            // En cas d'échec, on ouvre la fenêtre d'impression
-            alert("La génération automatique a échoué sur ce téléphone. La fenêtre d'impression va s'ouvrir, choisissez 'Enregistrer en PDF'.");
-            window.print();
-        });
-    };
+    printCustomContent(contentHTML, currentCourse.title);
   }
 
   // BASE FUNCTIONS & SWITCH
